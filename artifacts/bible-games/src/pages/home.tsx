@@ -196,27 +196,63 @@ export default function Home() {
       </section>
 
       {/* SEO CONTENT SECTION */}
-      <section className="py-20 bg-background">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 prose prose-lg prose-slate dark:prose-invert prose-headings:font-display prose-headings:text-foreground prose-p:text-muted-foreground prose-a:text-primary">
-          <h2 className="text-3xl font-bold text-foreground mb-6">Discover Interactive Ways to Learn and Enjoy the Bible</h2>
-          <p>Welcome to Bible Games Online, your premier destination for completely free, engaging, and faith-inspired Christian games. Whether you are looking for a fun Sunday school activity, a way to test your own biblical knowledge, or simply seeking wholesome online entertainment, our platform offers something meaningful for every visitor. Playing online Bible activities is an excellent method for committing scripture to memory and deepening your understanding of the rich history, stories, and teachings within the text.</p>
-          <p>We designed this platform with one goal in mind: making the Bible accessible, enjoyable, and memorable for people of all ages. Unlike passive reading, interactive games challenge you to actively recall and apply what you know. This kind of active engagement is proven to strengthen memory retention. Whether you are a lifelong believer wanting to sharpen your knowledge or a newcomer curious about the Christian faith, our collection of online Bible activities provides the perfect starting point. Best of all, every game is completely browser-based — no downloads, no registrations, no fees.</p>
+      <section className="py-16 bg-background">
+        <div className="max-w-3xl mx-auto px-4 sm:px-6 space-y-12">
 
-          <h2 className="text-2xl font-bold text-foreground mt-12 mb-4">Challenge Yourself with Engaging Bible Quiz Games</h2>
-          <p>Our Bible quiz section is meticulously designed to cater to all levels of biblical literacy. From easy questions ideal for beginners and young learners to hard-level challenges that will test even the most dedicated Bible scholars, our Bible trivia experience covers the full spectrum. You can choose to focus exclusively on Old Testament stories, New Testament teachings, or pick a general category that mixes questions from across the entire scripture.</p>
-          <p>A good Bible quiz is more than just trivia — it is a tool for spiritual reflection. When you answer a question about Moses parting the Red Sea or recall which disciple denied Jesus three times, you are reinforcing the stories that shape the Christian faith. Our quiz format lets you play solo at your own pace or challenge friends and family to beat your score. It is an ideal activity for church youth groups, homeschool sessions, and family game nights alike. With our categorized question bank and multiple difficulty levels, every session feels fresh and rewarding.</p>
+          <div>
+            <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-3">Discover Interactive Ways to Learn and Enjoy the Bible</h2>
+            <p className="text-muted-foreground leading-relaxed mb-4">
+              Bible Games Online is your free destination for faith-based games you can play anywhere — no downloads, no sign-up, no cost.
+            </p>
+            <ul className="space-y-2 text-muted-foreground">
+              <li className="flex gap-2"><span className="text-primary font-bold">✓</span> Trivia quizzes covering Old Testament, New Testament, and general scripture</li>
+              <li className="flex gap-2"><span className="text-primary font-bold">✓</span> Bible word search puzzles that generate a fresh grid every time</li>
+              <li className="flex gap-2"><span className="text-primary font-bold">✓</span> Kid-friendly matching games built around Noah's Ark animals</li>
+            </ul>
+          </div>
 
-          <h2 className="text-2xl font-bold text-foreground mt-12 mb-4">Explore Word Search and Puzzle-Based Bible Challenges</h2>
-          <p>If you prefer a more relaxing pace, our Bible word search puzzles are the perfect fit. Hidden within grids of letters are profound biblical words — the names of prophets, the fruits of the Spirit, sacred locations, and the heroes of faith. Word games not only improve vocabulary and boost cognitive function, but they also keep your mind focused on uplifting and scriptural themes. It is a wonderfully peaceful retreat in the middle of a busy day.</p>
-          <p>Our dynamically generated word search grid ensures you will never play the same puzzle twice. Each time you start a new game, a fresh set of Bible words is placed into the grid in multiple directions. The challenge of scanning each row, column, and diagonal keeps your mind sharp while the theme keeps your heart anchored in faith. These puzzle-based Bible challenges are suitable for everyone — from seniors looking for a calm daily mental exercise to teenagers wanting to explore the scriptures in a modern, interactive way.</p>
+          <div>
+            <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-3">Challenge Yourself with Engaging Bible Quiz Games</h2>
+            <p className="text-muted-foreground leading-relaxed mb-4">
+              Our Bible quiz covers every level — from easy warm-ups to hard questions that stump even lifelong churchgoers. Pick a category, set your difficulty, and see how much you really know.
+            </p>
+            <p className="text-muted-foreground leading-relaxed">
+              It's a great option for Sunday school, youth groups, family game nights, or just a quiet personal study break. Each game gives you 10 questions with instant right/wrong feedback.
+            </p>
+          </div>
 
-          <h2 className="text-2xl font-bold text-foreground mt-12 mb-4">Fun and Educational Bible Games Designed for Kids</h2>
-          <p>We firmly believe that nurturing faith should start early and that the process should be joyful. Our dedicated kids' games section features bright, colorful, and animated activities designed to capture a child's imagination while planting seeds of biblical knowledge. Our popular memory matching game, featuring beloved animals from Noah's Ark, teaches children to associate familiar creatures with the great flood narrative while developing cognitive memory skills.</p>
-          <p>All of our games for kids are designed to be completely safe, ad-free, and free from external links. Parents can feel confident letting their children play independently, knowing the content is wholesome and age-appropriate. These educational Bible games for kids make excellent additions to children's ministry programs, vacation Bible school, or even a quiet afternoon at home. When children engage with faith through play, the lessons they learn become a natural and lasting part of how they see the world.</p>
+          <div>
+            <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-3">Explore Word Search and Puzzle-Based Bible Challenges</h2>
+            <p className="text-muted-foreground leading-relaxed mb-4">
+              Prefer something calmer? Our Bible word search hides names, places, and key terms from scripture inside a 12×12 letter grid.
+            </p>
+            <p className="text-muted-foreground leading-relaxed">
+              Every new game generates a completely unique puzzle. It's a peaceful way to stay focused on the Word — perfect for a daily quiet-time warm-up or a relaxing wind-down.
+            </p>
+          </div>
 
-          <h2 className="text-2xl font-bold text-foreground mt-12 mb-4">Why Playing Bible Games Online Can Be Both Fun and Meaningful</h2>
-          <p>In today's digital age, finding quality online entertainment that truly aligns with Christian values can be a real challenge. Bible Games Online bridges that gap by offering high-quality, beautifully designed web games that require no downloads, no subscriptions, and absolutely no fees. Learning the Word of God does not have to feel like a chore — it can be an exciting journey of discovery, laughter, and growth for the whole family.</p>
-          <p>Playing Bible games online also creates community. Share your trivia score with your small group, race through the word search with your kids, or use the mini quiz to spark a Bible study conversation. Our platform is built to be a tool that enriches your faith journey, not just a pastime. Whether you visit daily for a quick Bible quiz or spend a longer session exploring every game category, we hope you leave with a deeper love for scripture and a smile on your face. Come back often — we are always adding new content to keep your experience fresh and engaging.</p>
+          <div>
+            <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-3">Fun and Educational Bible Games Designed for Kids</h2>
+            <p className="text-muted-foreground leading-relaxed mb-4">
+              The Kids Games section uses bright colors, large cards, and playful animations to keep children engaged while they learn.
+            </p>
+            <ul className="space-y-2 text-muted-foreground">
+              <li className="flex gap-2"><span className="text-primary font-bold">✓</span> Flip-card matching with Bible animals from Noah's Ark</li>
+              <li className="flex gap-2"><span className="text-primary font-bold">✓</span> No ads, no external links — completely safe for kids</li>
+              <li className="flex gap-2"><span className="text-primary font-bold">✓</span> Works great on tablets and phones</li>
+            </ul>
+          </div>
+
+          <div>
+            <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-3">Why Playing Bible Games Online Can Be Both Fun and Meaningful</h2>
+            <p className="text-muted-foreground leading-relaxed mb-4">
+              Good Christian games are hard to find online. Bible Games Online fills that gap with well-designed, wholesome games the whole family can enjoy together.
+            </p>
+            <p className="text-muted-foreground leading-relaxed">
+              Share your trivia score, race through a word search together, or let the kids play independently while you relax. Learning scripture doesn't have to feel like a chore — it can be genuinely fun.
+            </p>
+          </div>
+
         </div>
       </section>
 

@@ -178,19 +178,28 @@ export default function KidsMatching() {
         </div>
       </div>
 
-      <div className="max-w-4xl mx-auto px-4 py-16">
-        <div className="prose prose-lg prose-slate dark:prose-invert max-w-none mb-16">
-          <h2>Engaging Children with Christian Games</h2>
-          <p>
-            It is essential to introduce children to biblical themes in a way that is engaging, colorful, and fun. Our matching games are tailored specifically for younger audiences. The intuitive drag-and-drop or flip mechanics help develop hand-eye coordination and short-term memory, while the subject matter introduces them to classic Bible stories like Noah's Ark.
+      <div className="max-w-3xl mx-auto px-4 py-16 space-y-10">
+
+        <div>
+          <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-3">Engaging Children with Christian Games</h2>
+          <p className="text-muted-foreground leading-relaxed mb-4">
+            Kids learn best when they're having fun. Our matching game uses colorful animal cards and simple flip mechanics to introduce children to the story of Noah's Ark.
           </p>
-          <p>
-            Because our website contains no ads or external pop-ups, parents can feel completely confident letting their children explore and play on Bible Games Online.
+          <p className="text-muted-foreground leading-relaxed mb-4">
+            It's designed to be intuitive enough for young children to pick up instantly — no instructions needed.
           </p>
+          <ul className="space-y-2 text-muted-foreground">
+            <li className="flex gap-2"><span className="text-primary font-bold">✓</span> Builds memory and concentration skills</li>
+            <li className="flex gap-2"><span className="text-primary font-bold">✓</span> No ads, no external links — 100% safe for children</li>
+            <li className="flex gap-2"><span className="text-primary font-bold">✓</span> Works great on phones and tablets</li>
+          </ul>
         </div>
 
-        <h2 className="text-3xl font-bold mb-8 text-center">Frequently Asked Questions</h2>
-        <FAQAccordion items={homeFAQs} />
+        <div>
+          <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-8 text-center">Frequently Asked Questions</h2>
+          <FAQAccordion items={homeFAQs} />
+        </div>
+
       </div>
     </div>
   );

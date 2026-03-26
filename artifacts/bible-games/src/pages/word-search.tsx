@@ -252,19 +252,28 @@ export default function WordSearch() {
         </div>
       </div>
 
-      <div className="max-w-4xl mx-auto px-4 py-16">
-        <div className="prose prose-lg prose-slate dark:prose-invert max-w-none mb-16">
-          <h2>The Benefits of Bible Word Search Puzzles</h2>
-          <p>
-            Engaging with Bible word search games is a calm, contemplative way to interact with scripture. As you scan the grid for names, places, and significant words from the Bible, you are subtly reinforcing your familiarity with these terms. It’s an excellent activity for winding down at the end of the day or keeping your mind sharp.
+      <div className="max-w-3xl mx-auto px-4 py-16 space-y-10">
+
+        <div>
+          <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-3">The Benefits of Bible Word Search Puzzles</h2>
+          <p className="text-muted-foreground leading-relaxed mb-4">
+            Word search is a calm, focused way to engage with scripture. As you scan the grid, you naturally reinforce your familiarity with biblical names, places, and key terms.
           </p>
-          <p>
-            Our dynamic puzzle generator creates a unique grid every time you click "New Game", ensuring that you never play the exact same puzzle twice. This endless variety makes it a perfect daily exercise for believers of all ages.
+          <p className="text-muted-foreground leading-relaxed mb-4">
+            Every new game generates a completely fresh puzzle. No two grids are ever the same.
           </p>
+          <ul className="space-y-2 text-muted-foreground">
+            <li className="flex gap-2"><span className="text-primary font-bold">✓</span> Words hidden horizontally, vertically, and diagonally</li>
+            <li className="flex gap-2"><span className="text-primary font-bold">✓</span> Click the first letter, then the last to mark a word</li>
+            <li className="flex gap-2"><span className="text-primary font-bold">✓</span> Found words stay highlighted in gold so you can track progress</li>
+          </ul>
         </div>
 
-        <h2 className="text-3xl font-bold mb-8 text-center">Frequently Asked Questions</h2>
-        <FAQAccordion items={homeFAQs} />
+        <div>
+          <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-8 text-center">Frequently Asked Questions</h2>
+          <FAQAccordion items={homeFAQs} />
+        </div>
+
       </div>
     </div>
   );

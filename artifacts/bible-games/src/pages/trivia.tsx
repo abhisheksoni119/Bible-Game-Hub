@@ -217,19 +217,28 @@ export default function Trivia() {
       </div>
 
       {/* Content & FAQ */}
-      <div className="max-w-4xl mx-auto px-4 py-16">
-        <div className="prose prose-lg prose-slate dark:prose-invert max-w-none mb-16">
-          <h2>About Our Bible Trivia Game</h2>
-          <p>
-            Playing Bible trivia is one of the most effective and enjoyable ways to reinforce your knowledge of the scriptures. Whether you are preparing for a Sunday school competition, looking for an engaging youth group activity, or simply wanting to refresh your own memory, our interactive quiz provides endless entertainment. 
+      <div className="max-w-3xl mx-auto px-4 py-16 space-y-10">
+
+        <div>
+          <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-3">About Our Bible Trivia Game</h2>
+          <p className="text-muted-foreground leading-relaxed mb-4">
+            Bible trivia is one of the best ways to reinforce what you know about scripture — and discover what you don't. Our quiz covers everything from Genesis to Revelation.
           </p>
-          <p>
-            We've carefully curated questions spanning from Genesis to Revelation. By selecting different categories and difficulty levels, you can tailor the experience to your current level of understanding. Challenge your friends and family to see who can achieve the highest score!
+          <p className="text-muted-foreground leading-relaxed mb-4">
+            You pick the category and difficulty, we do the rest. Each round gives you 10 questions with clear feedback after every answer.
           </p>
+          <ul className="space-y-2 text-muted-foreground">
+            <li className="flex gap-2"><span className="text-primary font-bold">✓</span> 3 categories: General, Old Testament, New Testament</li>
+            <li className="flex gap-2"><span className="text-primary font-bold">✓</span> 3 difficulty levels: Easy, Medium, Hard</li>
+            <li className="flex gap-2"><span className="text-primary font-bold">✓</span> Great for solo play, youth groups, or family nights</li>
+          </ul>
         </div>
 
-        <h2 className="text-3xl font-bold mb-8 text-center">Frequently Asked Questions</h2>
-        <FAQAccordion items={homeFAQs} />
+        <div>
+          <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-8 text-center">Frequently Asked Questions</h2>
+          <FAQAccordion items={homeFAQs} />
+        </div>
+
       </div>
     </div>
   );
