@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import { Search, RotateCcw } from "lucide-react";
 import confetti from "canvas-confetti";
 import { wordSearchWords, homeFAQs } from "@/lib/data";
-import { FAQAccordion } from "@/components/ui/Accordion";
+import { FAQAccordion } from "@/components/ui/faq-accordion";
 import { cn } from "@/lib/utils";
 
 const GRID_SIZE = 12;
@@ -26,6 +26,8 @@ export default function WordSearch() {
   const [grid, setGrid] = useState<Cell[][]>([]);
   const [wordsToFind, setWordsToFind] = useState<string[]>([]);
   const [foundWords, setFoundWords] = useState<string[]>([]);
+  // Set of "row,col" strings for cells belonging to found words (persistent highlight)
+  const [foundCells, setFoundCells] = useState<Set<string>>(new Set());
   const [startCell, setStartCell] = useState<{row: number, col: number} | null>(null);
   const [currentPath, setCurrentPath] = useState<{row: number, col: number}[]>([]);
   const [isWon, setIsWon] = useState(false);
@@ -91,6 +93,7 @@ export default function WordSearch() {
     setGrid(finalGrid);
     setWordsToFind(placedWords);
     setFoundWords([]);
+    setFoundCells(new Set());
     setIsWon(false);
     setStartCell(null);
     setCurrentPath([]);
@@ -118,7 +121,7 @@ export default function WordSearch() {
         const stepR = dr === 0 ? 0 : dr / steps;
         const stepC = dc === 0 ? 0 : dc / steps;
         
-        const path = [];
+        const path: {row: number, col: number}[] = [];
         let wordStr = "";
         
         for (let i = 0; i <= steps; i++) {
@@ -137,6 +140,12 @@ export default function WordSearch() {
         if (matchedWord) {
           const newFound = [...foundWords, matchedWord];
           setFoundWords(newFound);
+          // Add all cells in the matched path to the persistent foundCells set
+          setFoundCells(prev => {
+            const next = new Set(prev);
+            path.forEach(p => next.add(`${p.row},${p.col}`));
+            return next;
+          });
           if (newFound.length === wordsToFind.length) {
             setIsWon(true);
             confetti({ particleCount: 150, spread: 80 });
@@ -186,11 +195,8 @@ export default function WordSearch() {
             >
               {grid.map((row, rIdx) => 
                 row.map((cell, cIdx) => {
+                  const isFound = foundCells.has(`${rIdx},${cIdx}`);
                   const inCurrent = isCellInCurrentPath(rIdx, cIdx);
-                  // We would ideally track which cells belong to found words for permanent highlight.
-                  // For simplicity in this pure frontend implementation without complex path tracking state, 
-                  // we rely on the word list crossing out to show progress. 
-                  // But let's add a subtle generic highlight for start cell.
                   const isStart = startCell?.row === rIdx && startCell?.col === cIdx;
 
                   return (
@@ -199,8 +205,9 @@ export default function WordSearch() {
                       onClick={() => handleCellClick(rIdx, cIdx)}
                       className={cn(
                         "w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 flex items-center justify-center text-lg sm:text-xl font-bold rounded-md transition-colors",
-                        isStart ? "bg-primary text-primary-foreground" :
-                        inCurrent ? "bg-primary/50 text-foreground" :
+                        isFound ? "bg-primary text-primary-foreground ring-1 ring-primary/40" :
+                        isStart ? "bg-primary/80 text-primary-foreground" :
+                        inCurrent ? "bg-primary/40 text-foreground" :
                         "bg-secondary/20 hover:bg-secondary/40 text-foreground"
                       )}
                     >

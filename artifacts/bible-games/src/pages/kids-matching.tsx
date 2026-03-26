@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Smile, RotateCcw } from "lucide-react";
 import confetti from "canvas-confetti";
 import { kidsGameItems, homeFAQs } from "@/lib/data";
-import { FAQAccordion } from "@/components/ui/Accordion";
+import { FAQAccordion } from "@/components/ui/faq-accordion";
 import { cn } from "@/lib/utils";
 
 interface Card {

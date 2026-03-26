@@ -10,7 +10,7 @@ interface AccordionItemProps {
   onClick: () => void;
 }
 
-export function AccordionItem({ question, answer, isOpen, onClick }: AccordionItemProps) {
+export function FAQAccordionItem({ question, answer, isOpen, onClick }: AccordionItemProps) {
   return (
     <div className="border border-border rounded-2xl overflow-hidden mb-4 bg-card shadow-sm hover:shadow-md transition-shadow">
       <button
@@ -49,7 +49,7 @@ export function FAQAccordion({ items }: { items: { q: string, a: string }[] }) {
   return (
     <div className="w-full">
       {items.map((item, index) => (
-        <AccordionItem
+        <FAQAccordionItem
           key={index}
           question={item.q}
           answer={item.a}

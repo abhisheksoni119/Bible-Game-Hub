@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Brain, Trophy, RotateCcw, ArrowRight } from "lucide-react";
+import { Brain, Trophy, RotateCcw } from "lucide-react";
 import confetti from "canvas-confetti";
 import { triviaQuestions, homeFAQs, Category, Difficulty } from "@/lib/data";
-import { FAQAccordion } from "@/components/ui/Accordion";
+import { FAQAccordion } from "@/components/ui/faq-accordion";
 import { cn } from "@/lib/utils";
 
 type GameState = "setup" | "playing" | "results";
@@ -19,19 +19,22 @@ export default function Trivia() {
   const [selectedOpt, setSelectedOpt] = useState<number | null>(null);
 
   const startGame = () => {
-    // Filter questions based on selection and pick 10 random ones (or all if < 10)
-    let filtered = triviaQuestions.filter(q => q.category === category && q.difficulty === difficulty);
-    // Fallback if not enough specific questions: just grab from category
-    if (filtered.length < 5) {
-      filtered = triviaQuestions.filter(q => q.category === category);
-    }
-    if (filtered.length === 0) {
-      filtered = triviaQuestions; // ultimate fallback
-    }
-    
-    // Shuffle
-    const shuffled = [...filtered].sort(() => 0.5 - Math.random());
-    setActiveQuestions(shuffled.slice(0, 10));
+    // Primary: exact category + difficulty match
+    const exact = triviaQuestions.filter(q => q.category === category && q.difficulty === difficulty);
+    // Secondary: same category any difficulty
+    const sameCat = triviaQuestions.filter(q => q.category === category && !exact.includes(q));
+    // Tertiary: all remaining questions
+    const rest = triviaQuestions.filter(q => !exact.includes(q) && !sameCat.includes(q));
+
+    // Build a pool of at least 10 by filling from fallback tiers
+    const pool: typeof triviaQuestions = [];
+    const shuffleArr = <T,>(arr: T[]) => [...arr].sort(() => 0.5 - Math.random());
+
+    pool.push(...shuffleArr(exact));
+    if (pool.length < 10) pool.push(...shuffleArr(sameCat));
+    if (pool.length < 10) pool.push(...shuffleArr(rest));
+
+    setActiveQuestions(pool.slice(0, 10));
     
     setCurrentIndex(0);
     setScore(0);
