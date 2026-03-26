@@ -1,0 +1,26 @@
+packages:
+  "framer-motion": "For page transitions and interactive game animations"
+  "canvas-confetti": "For celebratory win states in games"
+  "@types/canvas-confetti": "Types for canvas-confetti"
+  "lucide-react": "For UI icons"
+  "clsx": "Utility for constructing className strings conditionally"
+  "tailwind-merge": "Utility to merge tailwind classes"
+
+images:
+  - path: "artifacts/bible-games/public/images/hero-bg.png"
+    description: "An elegant, subtle abstract background featuring warm light rays and subtle geometric golden outlines suggesting a stained glass window, very modern, dark navy blue and glowing gold colors"
+    aspect_ratio: "16:9"
+  - path: "artifacts/bible-games/public/images/trivia-card.png"
+    description: "A beautiful, stylized illustration of an open glowing book with question marks floating upwards, rich dark navy background with golden accents, modern flat design"
+    aspect_ratio: "16:9"
+  - path: "artifacts/bible-games/public/images/word-game-card.png"
+    description: "A modern abstract composition of floating letter tiles and a magnifying glass, deep blue background with bright gold highlights, elegant and engaging"
+    aspect_ratio: "16:9"
+  - path: "artifacts/bible-games/public/images/kids-game-card.png"
+    description: "A playful, vibrant illustration of cute, friendly animals like a lion and dove near an ark, bright welcoming colors but maintaining a cohesive look with dark blue and gold accents"
+    aspect_ratio: "16:9"
+
+notes:
+  - No backend integration required; all data is hardcoded in the frontend.
+  - Using wouter for routing.
+  - Relying on framer-motion for UI polish.
