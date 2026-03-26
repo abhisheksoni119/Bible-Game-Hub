@@ -1,0 +1,111 @@
+Create a modern, responsive Bible gaming website called "Bible Games Online".
+
+GENERAL REQUIREMENTS:
+
+* Use HTML, CSS, and JavaScript (no backend)
+* Mobile responsive design
+* Clean UI with mix of dark and light theme:
+
+  * Dark header and hero section
+  * Light content sections
+  * Gold accent color
+* Use modern font (Poppins or similar)
+* Smooth animations and hover effects
+
+HEADER:
+
+* Logo: "Bible Games Online" with a small icon (book or game controller style)
+* Navigation menu:
+
+  * Home
+  * Bible Trivia
+  * Word Games
+  * Kids Games
+
+HOMEPAGE:
+
+* Hero section:
+
+  * H1: "Play Free Bible Games Online and Test Your Knowledge in a Fun Way"
+  * CTA buttons: Play Trivia, Word Games, Kids Games
+
+* Section: Mini Bible Trivia Game (3–5 questions only)
+
+  * Multiple choice
+  * Show correct/wrong
+  * Button: "Play Full Game"
+
+* Section: Game Categories (cards with links)
+
+  * Bible Trivia
+  * Word Games
+  * Kids Games
+
+* Section: Featured Games
+
+* Section: SEO Content (700–800 words)
+
+  * Use natural language and semantic variations like:
+    "online Bible activities", "Christian games", "Bible quiz", "games for kids"
+  * Structure:
+    H2: Discover Interactive Ways to Learn and Enjoy the Bible
+    H2: Challenge Yourself with Engaging Bible Quiz Games
+    H2: Explore Word Search and Puzzle-Based Bible Challenges
+    H2: Fun and Educational Bible Games Designed for Kids
+    H2: Why Playing Bible Games Online Can Be Both Fun and Meaningful
+
+* FAQ section (5 questions with simple answers)
+
+BIBLE TRIVIA PAGE (/bible-trivia):
+
+* H1: Play Free Bible Trivia Games Online
+
+* Category selection (Old Testament, New Testament, General)
+
+* Difficulty selection (Easy, Medium, Hard)
+
+* Quiz system:
+
+  * 10 questions
+  * Multiple choice (4 options)
+  * Progress bar
+  * Score tracking
+  * Result screen with restart button
+
+* Include sample JSON-style questions in code (at least 20)
+
+* Add SEO content (300–500 words) + FAQ
+
+WORD GAMES PAGE (/bible-word-games):
+
+* H1: Bible Word Search and Puzzle Games
+* Create a Word Search game:
+
+  * Letter grid
+  * Word list
+  * Highlight found words
+* Add simple word dataset
+* Add SEO content + FAQ
+
+KIDS GAMES PAGE (/kids-bible-games):
+
+* H1: Fun Bible Games for Kids
+* Create a simple puzzle game:
+
+  * Drag and drop or matching game
+  * Use Bible-related items (animals, characters)
+* Add animations and fun colors
+* Add SEO content + FAQ
+
+GENERAL:
+
+* Add internal links between pages
+* Ensure fast loading
+* Keep code modular and clean
+* Add comments in code for easy editing later
+
+IMPORTANT:
+
+* Do not overcomplicate
+* Keep everything beginner-friendly
+* Make sure each page works independently
