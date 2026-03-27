@@ -232,7 +232,7 @@ export default function Home() {
               Great for Sunday school, youth groups, family game nights, or a quiet personal study break. Each round gives you 10 questions with instant right-or-wrong feedback so you learn as you go.
             </p>
             <p className="text-muted-foreground leading-relaxed mb-4">
-              What makes a great scripture quiz memorable is that moment when a question makes you pause and truly think. Our question bank spans familiar passages and lesser-known verses alike, so every session grows your scripture knowledge in a fresh direction. Whether you ace the easy level or get humbled by hard questions, you always leave a little sharper.
+              What makes a Bible quiz memorable is that moment when a question makes you pause and truly think. Our question bank spans familiar passages and lesser-known verses alike, so every session grows your scripture knowledge in a fresh direction. Whether you ace the easy level or get humbled by hard questions, you always leave a little sharper.
             </p>
             <Link href="/bible-trivia" className="inline-flex items-center gap-1 text-sm font-semibold text-primary hover:text-primary/80 transition-colors">
               Start the trivia challenge <Play className="w-3 h-3" />
@@ -261,7 +261,7 @@ export default function Home() {
               The <Link href="/kids-bible-games" className="text-primary hover:underline font-medium">children's Bible games</Link> section uses bright colors, large flip cards, and playful animations to keep young learners engaged and smiling.
             </p>
             <p className="text-muted-foreground leading-relaxed mb-4">
-              Well-designed faith-based games for kids do more than entertain — they plant early seeds of lasting faith. Each card flip builds short-term memory and pattern recognition, while the biblical theme opens natural conversations about the stories children encounter in Sunday school. These activities are self-directed, so kids can play happily on their own without needing adult guidance.
+              Well-designed Christian games for kids do more than entertain — they plant early seeds of faith. Each card flip builds short-term memory and pattern recognition, while the biblical theme opens natural conversations about the stories children encounter in Sunday school. These activities are self-directed, so kids can play happily on their own without needing adult guidance.
             </p>
             <ul className="space-y-2 text-muted-foreground">
               <li className="flex gap-2"><span className="text-primary font-bold">✓</span> Flip-card matching with animals from Noah's Ark</li>
