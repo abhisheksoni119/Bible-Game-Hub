@@ -223,6 +223,31 @@ export default function Home() {
             </ul>
           </div>
 
+          {/* CTA BUTTONS STRIP */}
+          <div className="flex flex-col sm:flex-row gap-3">
+            <Link
+              href="/bible-trivia"
+              className="flex-1 inline-flex items-center justify-center gap-2 rounded-xl bg-primary text-primary-foreground font-semibold px-5 py-3.5 text-sm hover:bg-primary/90 active:scale-95 transition-all duration-150 shadow-sm"
+            >
+              <Brain className="w-4 h-4 shrink-0" />
+              Play Bible Trivia
+            </Link>
+            <Link
+              href="/bible-word-games"
+              className="flex-1 inline-flex items-center justify-center gap-2 rounded-xl border-2 border-primary text-primary font-semibold px-5 py-3.5 text-sm hover:bg-primary hover:text-primary-foreground active:scale-95 transition-all duration-150"
+            >
+              <Search className="w-4 h-4 shrink-0" />
+              Try Word Games
+            </Link>
+            <Link
+              href="/kids-bible-games"
+              className="flex-1 inline-flex items-center justify-center gap-2 rounded-xl border-2 border-primary text-primary font-semibold px-5 py-3.5 text-sm hover:bg-primary hover:text-primary-foreground active:scale-95 transition-all duration-150"
+            >
+              <Smile className="w-4 h-4 shrink-0" />
+              Explore Kids Games
+            </Link>
+          </div>
+
           <div>
             <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-3">Challenge Yourself with Engaging Bible Quiz Games</h2>
             <p className="text-muted-foreground leading-relaxed mb-4">
