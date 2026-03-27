@@ -26,6 +26,35 @@ const RELATED: import("@/components/ui/related-games").RelatedGame[] = [
 
 type GameState = "setup" | "playing" | "results";
 
+// ─── localStorage helpers for session freshness ──────────────────────────────
+const SEEN_KEY = "bgo_seen_ids";
+
+function getSeenIds(): Set<number> {
+  try {
+    const raw = localStorage.getItem(SEEN_KEY);
+    return raw ? new Set<number>(JSON.parse(raw)) : new Set<number>();
+  } catch {
+    return new Set<number>();
+  }
+}
+
+function recordSeenIds(ids: number[]): void {
+  try {
+    const seen = getSeenIds();
+    ids.forEach(id => seen.add(id));
+    // Keep the set from growing without bound: cap at last 500 seen IDs
+    const arr = [...seen];
+    const capped = arr.slice(-500);
+    localStorage.setItem(SEEN_KEY, JSON.stringify(capped));
+  } catch {
+    // localStorage unavailable — degrade silently
+  }
+}
+
+function shuffleArr<T>(arr: T[]): T[] {
+  return [...arr].sort(() => Math.random() - 0.5);
+}
+
 export default function Trivia() {
   const [gameState, setGameState] = useState<GameState>("setup");
   const [category, setCategory] = useState<Category>("general");
@@ -35,25 +64,31 @@ export default function Trivia() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [score, setScore] = useState(0);
   const [selectedOpt, setSelectedOpt] = useState<number | null>(null);
+  const [newQuestionCount, setNewQuestionCount] = useState(0);
 
   const startGame = () => {
-    // Primary: exact category + difficulty match
-    const exact = triviaQuestions.filter(q => q.category === category && q.difficulty === difficulty);
-    // Secondary: same category any difficulty
+    const seen = getSeenIds();
+
+    // Build candidate pool: exact match first, then same-category, then all
+    const exact   = triviaQuestions.filter(q => q.category === category && q.difficulty === difficulty);
     const sameCat = triviaQuestions.filter(q => q.category === category && !exact.includes(q));
-    // Tertiary: all remaining questions
-    const rest = triviaQuestions.filter(q => !exact.includes(q) && !sameCat.includes(q));
+    const rest    = triviaQuestions.filter(q => !exact.includes(q) && !sameCat.includes(q));
 
-    // Build a pool of at least 10 by filling from fallback tiers
     const pool: typeof triviaQuestions = [];
-    const shuffleArr = <T,>(arr: T[]) => [...arr].sort(() => 0.5 - Math.random());
-
     pool.push(...shuffleArr(exact));
     if (pool.length < 10) pool.push(...shuffleArr(sameCat));
     if (pool.length < 10) pool.push(...shuffleArr(rest));
 
-    setActiveQuestions(pool.slice(0, 10));
-    
+    // Prioritise unseen questions — split pool and put unseen first
+    const unseen = pool.filter(q => !seen.has(q.id));
+    const seenQ  = pool.filter(q => seen.has(q.id));
+    const ordered = [...unseen, ...seenQ];
+
+    const session = ordered.slice(0, 10);
+    const freshCount = session.filter(q => !seen.has(q.id)).length;
+
+    setActiveQuestions(session);
+    setNewQuestionCount(freshCount);
     setCurrentIndex(0);
     setScore(0);
     setSelectedOpt(null);
@@ -72,9 +107,12 @@ export default function Trivia() {
         setCurrentIndex(i => i + 1);
         setSelectedOpt(null);
       } else {
-        if (score + (isCorrect ? 1 : 0) > activeQuestions.length * 0.7) {
+        const finalScore = score + (isCorrect ? 1 : 0);
+        if (finalScore > activeQuestions.length * 0.7) {
           confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
         }
+        // Save played question IDs so next session prioritises new ones
+        recordSeenIds(activeQuestions.map(q => q.id));
         setGameState("results");
       }
     }, 1500);
@@ -227,7 +265,13 @@ export default function Trivia() {
             >
               <Trophy className="w-20 h-20 mx-auto text-primary mb-6" />
               <h2 className="text-4xl font-bold mb-2">Quiz Complete!</h2>
-              <p className="text-xl text-muted-foreground mb-8">You scored {score} out of {activeQuestions.length}</p>
+              <p className="text-xl text-muted-foreground mb-4">You scored {score} out of {activeQuestions.length}</p>
+
+              {newQuestionCount > 0 && (
+                <p className="text-sm text-primary font-semibold mb-6">
+                  ✦ {newQuestionCount} new question{newQuestionCount !== 1 ? "s" : ""} this round
+                </p>
+              )}
               
               <div className="inline-flex items-center justify-center w-32 h-32 rounded-full border-8 border-primary/20 mb-8 relative">
                 <span className="text-3xl font-bold text-primary">{Math.round((score / activeQuestions.length) * 100)}%</span>
