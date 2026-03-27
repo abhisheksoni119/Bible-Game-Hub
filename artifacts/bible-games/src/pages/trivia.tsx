@@ -4,7 +4,25 @@ import { Brain, Trophy, RotateCcw } from "lucide-react";
 import confetti from "canvas-confetti";
 import { triviaQuestions, homeFAQs, Category, Difficulty } from "@/lib/data";
 import { FAQAccordion } from "@/components/ui/faq-accordion";
+import { RelatedGames } from "@/components/ui/related-games";
 import { cn } from "@/lib/utils";
+
+const RELATED: import("@/components/ui/related-games").RelatedGame[] = [
+  {
+    title: "Bible Word Search",
+    description: "Scan a 12×12 grid to find hidden scripture words. A fresh puzzle is generated every time.",
+    href: "/bible-word-games",
+    emoji: "🔍",
+    cta: "Try the word puzzle",
+  },
+  {
+    title: "Kids Bible Games",
+    description: "A colorful flip-card matching game featuring animals from Noah's Ark — perfect for young learners.",
+    href: "/kids-bible-games",
+    emoji: "🎮",
+    cta: "Play the matching game",
+  },
+];
 
 type GameState = "setup" | "playing" | "results";
 
@@ -218,6 +236,8 @@ export default function Trivia() {
 
       {/* Content & FAQ */}
       <div className="max-w-3xl mx-auto px-4 py-16 space-y-10">
+
+        <RelatedGames games={RELATED} />
 
         <div>
           <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-3">About Our Bible Trivia Game</h2>

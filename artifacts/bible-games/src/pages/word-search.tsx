@@ -4,7 +4,25 @@ import { Search, RotateCcw } from "lucide-react";
 import confetti from "canvas-confetti";
 import { wordSearchWords, homeFAQs } from "@/lib/data";
 import { FAQAccordion } from "@/components/ui/faq-accordion";
+import { RelatedGames } from "@/components/ui/related-games";
 import { cn } from "@/lib/utils";
+
+const RELATED: import("@/components/ui/related-games").RelatedGame[] = [
+  {
+    title: "Scripture Trivia Quiz",
+    description: "Think you know the Bible? Pick a category and difficulty, then answer 10 questions.",
+    href: "/bible-trivia",
+    emoji: "🧠",
+    cta: "Take the quiz",
+  },
+  {
+    title: "Children's Bible Activities",
+    description: "Safe, ad-free flip-card matching with Noah's Ark animals — great for kids of all ages.",
+    href: "/kids-bible-games",
+    emoji: "🎮",
+    cta: "Open kids games",
+  },
+];
 
 const GRID_SIZE = 12;
 
@@ -253,6 +271,8 @@ export default function WordSearch() {
       </div>
 
       <div className="max-w-3xl mx-auto px-4 py-16 space-y-10">
+
+        <RelatedGames games={RELATED} />
 
         <div>
           <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-3">The Benefits of Bible Word Search Puzzles</h2>

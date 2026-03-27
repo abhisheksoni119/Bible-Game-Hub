@@ -4,7 +4,25 @@ import { Smile, RotateCcw } from "lucide-react";
 import confetti from "canvas-confetti";
 import { kidsGameItems, homeFAQs } from "@/lib/data";
 import { FAQAccordion } from "@/components/ui/faq-accordion";
+import { RelatedGames } from "@/components/ui/related-games";
 import { cn } from "@/lib/utils";
+
+const RELATED: import("@/components/ui/related-games").RelatedGame[] = [
+  {
+    title: "Bible Trivia Challenge",
+    description: "Test your knowledge of scripture across three categories and three difficulty levels.",
+    href: "/bible-trivia",
+    emoji: "🧠",
+    cta: "Try the trivia",
+  },
+  {
+    title: "Bible Word Hunt",
+    description: "Find hidden biblical names and places in a freshly generated 12×12 letter grid.",
+    href: "/bible-word-games",
+    emoji: "🔍",
+    cta: "Start a word puzzle",
+  },
+];
 
 interface Card {
   id: string; // unique per card instance
@@ -179,6 +197,8 @@ export default function KidsMatching() {
       </div>
 
       <div className="max-w-3xl mx-auto px-4 py-16 space-y-10">
+
+        <RelatedGames games={RELATED} />
 
         <div>
           <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-3">Engaging Children with Christian Games</h2>
