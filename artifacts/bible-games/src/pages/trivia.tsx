@@ -203,6 +203,18 @@ export default function Trivia() {
                   )
                 })}
               </div>
+
+              {selectedOpt !== null && activeQuestions[currentIndex].explanation && (
+                <motion.div
+                  initial={{ opacity: 0, y: 8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.3, delay: 0.1 }}
+                  className="mt-6 p-4 rounded-xl bg-muted/60 border border-border"
+                >
+                  <p className="text-sm font-semibold text-muted-foreground uppercase tracking-wide mb-1">Did you know?</p>
+                  <p className="text-sm text-foreground leading-relaxed">{activeQuestions[currentIndex].explanation}</p>
+                </motion.div>
+              )}
             </motion.div>
           )}
 
