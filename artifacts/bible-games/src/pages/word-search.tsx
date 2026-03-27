@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useRef } from "react";
+import { useState, useEffect, useCallback, useMemo, useRef } from "react";
 import { motion } from "framer-motion";
 import { Search, RotateCcw } from "lucide-react";
 import confetti from "canvas-confetti";
@@ -44,11 +44,29 @@ export default function WordSearch() {
   const [grid, setGrid] = useState<Cell[][]>([]);
   const [wordsToFind, setWordsToFind] = useState<string[]>([]);
   const [foundWords, setFoundWords] = useState<string[]>([]);
-  // Set of "row,col" strings for cells belonging to found words (persistent highlight)
   const [foundCells, setFoundCells] = useState<Set<string>>(new Set());
   const [startCell, setStartCell] = useState<{row: number, col: number} | null>(null);
-  const [currentPath, setCurrentPath] = useState<{row: number, col: number}[]>([]);
+  const [hoverCell, setHoverCell] = useState<{row: number, col: number} | null>(null);
   const [isWon, setIsWon] = useState(false);
+  const isDragging = useRef(false);
+
+  // Compute the live preview path from startCell → hoverCell (straight lines only)
+  const previewPath = useMemo<{row: number, col: number}[]>(() => {
+    if (!startCell) return [];
+    const end = hoverCell ?? startCell;
+    const dr = end.row - startCell.row;
+    const dc = end.col - startCell.col;
+    if (dr === 0 && dc === 0) return [startCell];
+    if (dr !== 0 && dc !== 0 && Math.abs(dr) !== Math.abs(dc)) return [startCell];
+    const steps = Math.max(Math.abs(dr), Math.abs(dc));
+    const stepR = dr === 0 ? 0 : dr / steps;
+    const stepC = dc === 0 ? 0 : dc / steps;
+    const path: {row: number, col: number}[] = [];
+    for (let i = 0; i <= steps; i++) {
+      path.push({ row: startCell.row + stepR * i, col: startCell.col + stepC * i });
+    }
+    return path;
+  }, [startCell, hoverCell]);
 
   const generateGrid = useCallback(() => {
     // 1. Initialize empty grid
@@ -114,72 +132,98 @@ export default function WordSearch() {
     setFoundCells(new Set());
     setIsWon(false);
     setStartCell(null);
-    setCurrentPath([]);
+    setHoverCell(null);
+    isDragging.current = false;
   }, []);
 
   useEffect(() => {
     generateGrid();
   }, [generateGrid]);
 
+  // Commit the current previewPath as a word attempt
+  const commitSelection = useCallback((path: {row: number, col: number}[]) => {
+    if (path.length < 2) return;
+    const wordStr = path.map(p => grid[p.row][p.col].letter).join("");
+    const reverseStr = wordStr.split("").reverse().join("");
+    const matchedWord = wordsToFind.find(w =>
+      !foundWords.includes(w) && (w === wordStr || w === reverseStr)
+    );
+    if (matchedWord) {
+      const newFound = [...foundWords, matchedWord];
+      setFoundWords(newFound);
+      setFoundCells(prev => {
+        const next = new Set(prev);
+        path.forEach(p => next.add(`${p.row},${p.col}`));
+        return next;
+      });
+      if (newFound.length === wordsToFind.length) {
+        setIsWon(true);
+        confetti({ particleCount: 150, spread: 80 });
+      }
+    }
+    setStartCell(null);
+    setHoverCell(null);
+    isDragging.current = false;
+  }, [grid, wordsToFind, foundWords]);
+
+  // Click: first click sets start; second click commits; clicking start again cancels
   const handleCellClick = (r: number, c: number) => {
     if (isWon) return;
-
+    if (isDragging.current) return; // handled by mouseUp
     if (!startCell) {
-      // First click
-      setStartCell({row: r, col: c});
-      setCurrentPath([{row: r, col: c}]);
-    } else {
-      // Second click - calculate path if valid straight line
-      const dr = r - startCell.row;
-      const dc = c - startCell.col;
-      
-      // Check if it's a straight line (horizontal, vertical, or perfect diagonal)
-      if (dr === 0 || dc === 0 || Math.abs(dr) === Math.abs(dc)) {
-        const steps = Math.max(Math.abs(dr), Math.abs(dc));
-        const stepR = dr === 0 ? 0 : dr / steps;
-        const stepC = dc === 0 ? 0 : dc / steps;
-        
-        const path: {row: number, col: number}[] = [];
-        let wordStr = "";
-        
-        for (let i = 0; i <= steps; i++) {
-          const currR = startCell.row + stepR * i;
-          const currC = startCell.col + stepC * i;
-          path.push({row: currR, col: currC});
-          wordStr += grid[currR][currC].letter;
-        }
-        
-        // Check if wordStr or its reverse matches any unfound word
-        const reverseStr = wordStr.split('').reverse().join('');
-        const matchedWord = wordsToFind.find(w => 
-          !foundWords.includes(w) && (w === wordStr || w === reverseStr)
-        );
-
-        if (matchedWord) {
-          const newFound = [...foundWords, matchedWord];
-          setFoundWords(newFound);
-          // Add all cells in the matched path to the persistent foundCells set
-          setFoundCells(prev => {
-            const next = new Set(prev);
-            path.forEach(p => next.add(`${p.row},${p.col}`));
-            return next;
-          });
-          if (newFound.length === wordsToFind.length) {
-            setIsWon(true);
-            confetti({ particleCount: 150, spread: 80 });
-          }
-        }
-      }
-      
-      // Reset selection after second click regardless of match
+      setStartCell({ row: r, col: c });
+      setHoverCell({ row: r, col: c });
+    } else if (startCell.row === r && startCell.col === c) {
+      // Clicked the same cell — cancel selection
       setStartCell(null);
-      setCurrentPath([]);
+      setHoverCell(null);
+    } else {
+      commitSelection(previewPath);
     }
   };
 
-  // Helper to check if a cell is in the currently selected path
-  const isCellInCurrentPath = (r: number, c: number) => {
-    return currentPath.some(p => p.row === r && p.col === c);
+  // Hover: update hoverCell so previewPath recomputes continuously
+  const handleCellEnter = (r: number, c: number) => {
+    if (isWon) return;
+    if (startCell) setHoverCell({ row: r, col: c });
+  };
+
+  // Drag: mousedown starts selection, mouseup commits
+  const handleMouseDown = (r: number, c: number) => {
+    if (isWon) return;
+    isDragging.current = false; // will become true on first enter
+    setStartCell({ row: r, col: c });
+    setHoverCell({ row: r, col: c });
+  };
+
+  const handleMouseEnterDrag = (r: number, c: number) => {
+    if (isWon || !startCell) return;
+    // If the mouse has moved to a different cell, it's a drag
+    if (startCell.row !== r || startCell.col !== c) isDragging.current = true;
+    setHoverCell({ row: r, col: c });
+  };
+
+  const handleMouseUp = (r: number, c: number) => {
+    if (!startCell || !isDragging.current) return;
+    setHoverCell({ row: r, col: c });
+    // Use the path computed at the time of release
+    const end = { row: r, col: c };
+    const dr = end.row - startCell.row;
+    const dc = end.col - startCell.col;
+    const steps = Math.max(Math.abs(dr), Math.abs(dc));
+    if ((dr === 0 || dc === 0 || Math.abs(dr) === Math.abs(dc)) && steps > 0) {
+      const stepR = dr === 0 ? 0 : dr / steps;
+      const stepC = dc === 0 ? 0 : dc / steps;
+      const path: {row: number, col: number}[] = [];
+      for (let i = 0; i <= steps; i++) {
+        path.push({ row: startCell.row + stepR * i, col: startCell.col + stepC * i });
+      }
+      commitSelection(path);
+    } else {
+      setStartCell(null);
+      setHoverCell(null);
+      isDragging.current = false;
+    }
   };
 
   return (
@@ -207,26 +251,34 @@ export default function WordSearch() {
               </motion.div>
             )}
             
-            <div 
-              className="grid gap-1 mb-8" 
+            <div
+              className="grid gap-1 mb-8 select-none"
               style={{ gridTemplateColumns: `repeat(${GRID_SIZE}, minmax(0, 1fr))` }}
+              onMouseLeave={() => { if (startCell && !isDragging.current) setHoverCell(null); }}
             >
-              {grid.map((row, rIdx) => 
+              {grid.map((row, rIdx) =>
                 row.map((cell, cIdx) => {
                   const isFound = foundCells.has(`${rIdx},${cIdx}`);
-                  const inCurrent = isCellInCurrentPath(rIdx, cIdx);
+                  const inPreview = previewPath.some(p => p.row === rIdx && p.col === cIdx);
                   const isStart = startCell?.row === rIdx && startCell?.col === cIdx;
+                  const isEnd = hoverCell?.row === rIdx && hoverCell?.col === cIdx && inPreview;
 
                   return (
                     <button
                       key={`${rIdx}-${cIdx}`}
                       onClick={() => handleCellClick(rIdx, cIdx)}
+                      onMouseEnter={() => handleMouseEnterDrag(rIdx, cIdx)}
+                      onMouseDown={() => handleMouseDown(rIdx, cIdx)}
+                      onMouseUp={() => handleMouseUp(rIdx, cIdx)}
                       className={cn(
                         "w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 flex items-center justify-center text-lg sm:text-xl font-bold rounded-md transition-colors",
-                        isFound ? "bg-primary text-primary-foreground ring-1 ring-primary/40" :
-                        isStart ? "bg-primary/80 text-primary-foreground" :
-                        inCurrent ? "bg-primary/40 text-foreground" :
-                        "bg-secondary/20 hover:bg-secondary/40 text-foreground"
+                        isFound
+                          ? "bg-primary text-primary-foreground ring-1 ring-primary/40"
+                          : isStart || isEnd
+                          ? "bg-primary text-primary-foreground scale-110 ring-2 ring-primary"
+                          : inPreview
+                          ? "bg-primary/50 text-foreground"
+                          : "bg-secondary/20 hover:bg-secondary/40 text-foreground"
                       )}
                     >
                       {cell.letter}
