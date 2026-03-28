@@ -11,6 +11,9 @@ import Home from "@/pages/home";
 import Trivia from "@/pages/trivia";
 import WordSearch from "@/pages/word-search";
 import KidsMatching from "@/pages/kids-matching";
+import PrivacyPolicy from "@/pages/privacy-policy";
+import TermsOfService from "@/pages/terms-of-service";
+import Contact from "@/pages/contact";
 import NotFound from "@/pages/not-found";
 
 const queryClient = new QueryClient();
@@ -34,6 +37,9 @@ function Router() {
           <Route path="/bible-trivia" component={Trivia} />
           <Route path="/bible-word-games" component={WordSearch} />
           <Route path="/kids-bible-games" component={KidsMatching} />
+          <Route path="/privacy-policy" component={PrivacyPolicy} />
+          <Route path="/terms-of-service" component={TermsOfService} />
+          <Route path="/contact" component={Contact} />
           <Route component={NotFound} />
         </Switch>
       </main>
