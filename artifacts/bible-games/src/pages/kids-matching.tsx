@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Smile, RotateCcw } from "lucide-react";
+import { Smile, RotateCcw, Star } from "lucide-react";
 import confetti from "canvas-confetti";
 import { kidsGameItems, homeFAQs } from "@/lib/data";
 import { FAQAccordion } from "@/components/ui/faq-accordion";
@@ -25,12 +25,19 @@ const RELATED: import("@/components/ui/related-games").RelatedGame[] = [
 ];
 
 interface Card {
-  id: string; // unique per card instance
-  itemId: string; // matching pairs share this
+  id: string;
+  itemId: string;
   icon: string;
   name: string;
   isFlipped: boolean;
   isMatched: boolean;
+}
+
+function getStars(moves: number, pairs: number): number {
+  const ratio = moves / pairs;
+  if (ratio <= 1.4) return 3;
+  if (ratio <= 2.0) return 2;
+  return 1;
 }
 
 export default function KidsMatching() {
@@ -38,12 +45,11 @@ export default function KidsMatching() {
   const [flippedIndices, setFlippedIndices] = useState<number[]>([]);
   const [isLocked, setIsLocked] = useState(false);
   const [moves, setMoves] = useState(0);
+  const [matchedPairs, setMatchedPairs] = useState(0);
+  const [justMatched, setJustMatched] = useState<string | null>(null);
 
   const initGame = () => {
-    // Duplicate items to make pairs
     const duplicated = [...kidsGameItems, ...kidsGameItems];
-    
-    // Create distinct card objects and shuffle
     const newCards: Card[] = duplicated
       .map((item, index) => ({
         id: `${item.id}-${index}`,
@@ -51,14 +57,15 @@ export default function KidsMatching() {
         icon: item.icon,
         name: item.name,
         isFlipped: false,
-        isMatched: false
+        isMatched: false,
       }))
       .sort(() => 0.5 - Math.random());
-
     setCards(newCards);
     setFlippedIndices([]);
     setIsLocked(false);
     setMoves(0);
+    setMatchedPairs(0);
+    setJustMatched(null);
   };
 
   useEffect(() => {
@@ -70,44 +77,43 @@ export default function KidsMatching() {
 
     const newFlipped = [...flippedIndices, index];
     setFlippedIndices(newFlipped);
-    
-    // Optimistically flip the card
+
     setCards(prev => {
       const copy = [...prev];
-      copy[index].isFlipped = true;
+      copy[index] = { ...copy[index], isFlipped: true };
       return copy;
     });
 
     if (newFlipped.length === 2) {
       setIsLocked(true);
       setMoves(m => m + 1);
-      
+
       const [firstIdx, secondIdx] = newFlipped;
-      
+
       if (cards[firstIdx].itemId === cards[secondIdx].itemId) {
-        // Match!
         setTimeout(() => {
           setCards(prev => {
             const copy = [...prev];
-            copy[firstIdx].isMatched = true;
-            copy[secondIdx].isMatched = true;
+            copy[firstIdx] = { ...copy[firstIdx], isMatched: true };
+            copy[secondIdx] = { ...copy[secondIdx], isMatched: true };
             return copy;
           });
+          setMatchedPairs(p => p + 1);
+          setJustMatched(cards[firstIdx].name);
+          setTimeout(() => setJustMatched(null), 1800);
           setFlippedIndices([]);
           setIsLocked(false);
-          
-          // Check win
+
           if (cards.every((c, i) => c.isMatched || i === firstIdx || i === secondIdx)) {
-            confetti({ particleCount: 200, spread: 100, origin: { y: 0.5 } });
+            confetti({ particleCount: 220, spread: 110, origin: { y: 0.5 } });
           }
         }, 500);
       } else {
-        // No match, unflip after delay
         setTimeout(() => {
           setCards(prev => {
             const copy = [...prev];
-            copy[firstIdx].isFlipped = false;
-            copy[secondIdx].isFlipped = false;
+            copy[firstIdx] = { ...copy[firstIdx], isFlipped: false };
+            copy[secondIdx] = { ...copy[secondIdx], isFlipped: false };
             return copy;
           });
           setFlippedIndices([]);
@@ -118,15 +124,24 @@ export default function KidsMatching() {
   };
 
   const isWon = cards.length > 0 && cards.every(c => c.isMatched);
+  const totalPairs = kidsGameItems.length;
+  const stars = getStars(moves, totalPairs);
 
   return (
     <div className="w-full min-h-screen bg-background">
       <div className="bg-secondary text-secondary-foreground py-16 text-center px-4 relative overflow-hidden">
-        {/* Playful background elements */}
-        <div className="absolute top-10 left-10 text-4xl opacity-20 transform -rotate-12">🕊️</div>
-        <div className="absolute bottom-10 right-10 text-4xl opacity-20 transform rotate-12">🦁</div>
-        
-        <Smile className="w-12 h-12 mx-auto mb-4 text-primary relative z-10" />
+        <div className="absolute top-8 left-10 text-5xl opacity-15 transform -rotate-12 select-none">🕊️</div>
+        <div className="absolute top-6 right-12 text-4xl opacity-15 transform rotate-6 select-none">🌈</div>
+        <div className="absolute bottom-8 right-10 text-5xl opacity-15 transform rotate-12 select-none">🦁</div>
+        <div className="absolute bottom-6 left-12 text-4xl opacity-15 transform -rotate-6 select-none">🐘</div>
+
+        <motion.div
+          initial={{ scale: 0.8, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          transition={{ type: "spring", stiffness: 300, damping: 20 }}
+        >
+          <Smile className="w-14 h-14 mx-auto mb-4 text-primary relative z-10" />
+        </motion.div>
         <h1 className="text-4xl md:text-5xl font-display font-bold mb-4 relative z-10">Fun Kids Matching Game</h1>
         <p className="text-lg text-secondary-foreground/80 max-w-2xl mx-auto relative z-10">
           Find the matching Bible animals! Flip two cards at a time to discover pairs.
@@ -134,72 +149,158 @@ export default function KidsMatching() {
       </div>
 
       <div className="max-w-4xl mx-auto px-4 py-12">
-        <div className="flex justify-between items-center mb-8">
-          <div className="text-xl font-bold text-muted-foreground">Moves: <span className="text-primary">{moves}</span></div>
-          <button
+
+        {/* Stats bar */}
+        <div className="flex items-center justify-between mb-8 gap-4 flex-wrap">
+          <div className="flex items-center gap-6">
+            <div className="bg-card border border-border rounded-2xl px-5 py-3 text-center shadow-sm">
+              <span className="block text-2xl font-bold text-primary">{moves}</span>
+              <span className="block text-xs text-muted-foreground font-medium uppercase tracking-wide">Moves</span>
+            </div>
+            <div className="bg-card border border-border rounded-2xl px-5 py-3 text-center shadow-sm">
+              <span className="block text-2xl font-bold text-emerald-500">{matchedPairs}</span>
+              <span className="block text-xs text-muted-foreground font-medium uppercase tracking-wide">Pairs</span>
+            </div>
+          </div>
+          <motion.button
             onClick={initGame}
-            className="px-6 py-2 rounded-full font-bold bg-secondary text-secondary-foreground hover:bg-secondary/90 transition-all inline-flex items-center gap-2"
+            whileHover={{ scale: 1.04, y: -1 }}
+            whileTap={{ scale: 0.97 }}
+            className="px-6 py-3 rounded-2xl font-bold bg-secondary text-secondary-foreground hover:bg-secondary/80 transition-colors inline-flex items-center gap-2 shadow-sm"
           >
             <RotateCcw className="w-4 h-4" /> Restart
-          </button>
+          </motion.button>
         </div>
 
-        {isWon && (
-          <motion.div 
-            initial={{ scale: 0.8, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            className="mb-8 py-6 px-6 bg-primary/20 text-foreground rounded-2xl font-bold text-3xl border-2 border-primary text-center flex flex-col items-center justify-center gap-4 shadow-xl shadow-primary/10"
-          >
-            🎉 You Won in {moves} moves! 🎉
-            <button
-              onClick={initGame}
-              className="px-8 py-3 text-lg rounded-xl font-bold bg-primary text-primary-foreground hover:bg-primary/90 transition-all shadow-md mt-2"
+        {/* Match toast */}
+        <AnimatePresence>
+          {justMatched && (
+            <motion.div
+              initial={{ opacity: 0, y: -8 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -8 }}
+              className="mb-4 flex justify-center"
             >
-              Play Again
-            </button>
-          </motion.div>
-        )}
+              <span className="px-5 py-2 bg-emerald-500 text-white rounded-full font-bold text-sm shadow-md">
+                ✓ Match! {justMatched}
+              </span>
+            </motion.div>
+          )}
+        </AnimatePresence>
 
-        <div className="grid grid-cols-3 sm:grid-cols-4 gap-4 sm:gap-6 perspective-1000">
+        {/* Win screen */}
+        <AnimatePresence>
+          {isWon && (
+            <motion.div
+              initial={{ scale: 0.85, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.85, opacity: 0 }}
+              transition={{ type: "spring", stiffness: 260, damping: 18 }}
+              className="mb-10 py-8 px-8 bg-card rounded-3xl border-2 border-primary shadow-2xl shadow-primary/15 text-center"
+            >
+              <p className="text-5xl mb-4">🎉</p>
+              <h2 className="text-3xl font-bold mb-2">You Won!</h2>
+              <p className="text-muted-foreground mb-4">Finished in <span className="text-primary font-bold">{moves}</span> moves</p>
+
+              <div className="flex justify-center gap-1 mb-6">
+                {[1, 2, 3].map(s => (
+                  <motion.div
+                    key={s}
+                    initial={{ scale: 0, rotate: -20 }}
+                    animate={{ scale: 1, rotate: 0 }}
+                    transition={{ delay: s * 0.12, type: "spring", stiffness: 300 }}
+                  >
+                    <Star
+                      className={cn("w-10 h-10", s <= stars ? "text-primary fill-primary" : "text-muted-foreground/30")}
+                    />
+                  </motion.div>
+                ))}
+              </div>
+
+              <p className="text-sm text-muted-foreground mb-6">
+                {stars === 3 ? "Amazing memory! 🏆" : stars === 2 ? "Great job! Keep practicing." : "Well done! Try to beat your score."}
+              </p>
+
+              <motion.button
+                onClick={initGame}
+                whileHover={{ scale: 1.04, y: -1 }}
+                whileTap={{ scale: 0.97 }}
+                className="px-8 py-4 rounded-2xl font-bold bg-primary text-primary-foreground hover:bg-primary/90 transition-colors shadow-lg shadow-primary/25"
+              >
+                Play Again
+              </motion.button>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        {/* Card grid */}
+        <div className="grid grid-cols-3 sm:grid-cols-4 gap-3 sm:gap-4" style={{ perspective: "1000px" }}>
           {cards.map((card, index) => (
-            <div 
+            <motion.div
               key={card.id}
-              className="relative aspect-square cursor-pointer group"
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: index * 0.025, type: "spring", stiffness: 300, damping: 20 }}
+              className={cn("relative aspect-square", !card.isMatched && "cursor-pointer")}
               onClick={() => handleCardClick(index)}
             >
-              <div 
-                className={cn(
-                  "w-full h-full transition-transform duration-500 transform-style-3d relative",
-                  card.isFlipped ? "rotate-y-180" : ""
-                )}
+              {/* 3-D flip wrapper */}
+              <motion.div
+                animate={{ rotateY: card.isFlipped ? 180 : 0 }}
+                transition={{ duration: 0.45, ease: [0.23, 1, 0.32, 1] }}
+                style={{ transformStyle: "preserve-3d" }}
+                className="w-full h-full relative"
               >
-                {/* Front of card (Face down state) */}
-                <div className="absolute w-full h-full backface-hidden bg-primary/10 border-2 border-primary/30 rounded-2xl flex items-center justify-center shadow-sm group-hover:bg-primary/20 group-hover:-translate-y-1 transition-all">
-                  <div className="w-1/2 h-1/2 rounded-full bg-primary/20 flex items-center justify-center">
-                    <span className="text-primary font-bold text-xl">?</span>
+                {/* Back face (face down = question) */}
+                <motion.div
+                  style={{ backfaceVisibility: "hidden" }}
+                  whileHover={!card.isFlipped && !card.isMatched ? { scale: 1.05, y: -3 } : {}}
+                  whileTap={!card.isFlipped && !card.isMatched ? { scale: 0.95 } : {}}
+                  className={cn(
+                    "absolute inset-0 rounded-2xl flex items-center justify-center border-2 shadow-sm transition-colors",
+                    card.isMatched
+                      ? "border-primary/30 bg-primary/5"
+                      : "border-primary/25 bg-primary/8 hover:border-primary/50 hover:bg-primary/15"
+                  )}
+                >
+                  <div className="w-12 h-12 rounded-full bg-primary/20 flex items-center justify-center">
+                    <span className="text-primary font-bold text-2xl">?</span>
                   </div>
-                </div>
+                </motion.div>
 
-                {/* Back of card (Face up state) */}
-                <div className="absolute w-full h-full backface-hidden rotate-y-180 bg-card border-2 border-border rounded-2xl flex flex-col items-center justify-center shadow-md">
-                  <span className="text-4xl sm:text-5xl md:text-6xl mb-2">{card.icon}</span>
-                  <span className="text-xs sm:text-sm font-semibold text-muted-foreground hidden sm:block">{card.name}</span>
+                {/* Front face (face up = animal) */}
+                <div
+                  style={{ backfaceVisibility: "hidden", transform: "rotateY(180deg)" }}
+                  className={cn(
+                    "absolute inset-0 rounded-2xl flex flex-col items-center justify-center border-2 shadow-md transition-all",
+                    card.isMatched
+                      ? "bg-emerald-50 border-emerald-300 dark:bg-emerald-900/25 dark:border-emerald-700"
+                      : "bg-card border-border"
+                  )}
+                >
+                  <span className="text-4xl sm:text-5xl md:text-6xl mb-1.5">{card.icon}</span>
+                  <span className="text-xs sm:text-sm font-semibold text-muted-foreground hidden sm:block text-center px-2 leading-tight">
+                    {card.name}
+                  </span>
+                  {card.isMatched && (
+                    <motion.div
+                      initial={{ scale: 0 }}
+                      animate={{ scale: 1 }}
+                      transition={{ type: "spring", stiffness: 400 }}
+                      className="absolute top-2 right-2 w-5 h-5 rounded-full bg-emerald-500 flex items-center justify-center"
+                    >
+                      <span className="text-white text-xs font-bold">✓</span>
+                    </motion.div>
+                  )}
                 </div>
-              </div>
-              
-              {/* Matched overlay indicator */}
-              {card.isMatched && (
-                <div className="absolute inset-0 bg-green-500/20 rounded-2xl z-10 pointer-events-none border-2 border-green-400" />
-              )}
-            </div>
+              </motion.div>
+            </motion.div>
           ))}
         </div>
       </div>
 
       <div className="max-w-3xl mx-auto px-4 py-16 space-y-10">
-
         <RelatedGames games={RELATED} />
-
         <div>
           <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-3">Engaging Children with Christian Games</h2>
           <p className="text-muted-foreground leading-relaxed mb-4">
@@ -214,12 +315,10 @@ export default function KidsMatching() {
             <li className="flex gap-2"><span className="text-primary font-bold">✓</span> Works great on phones and tablets</li>
           </ul>
         </div>
-
         <div>
           <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-8 text-center">Frequently Asked Questions</h2>
           <FAQAccordion items={homeFAQs} />
         </div>
-
       </div>
     </div>
   );
