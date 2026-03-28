@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useMemo, useRef } from "react";
+import { useState, useEffect, useCallback, useMemo } from "react";
 import { motion } from "framer-motion";
 import { Search, RotateCcw } from "lucide-react";
 import confetti from "canvas-confetti";
@@ -48,7 +48,6 @@ export default function WordSearch() {
   const [startCell, setStartCell] = useState<{row: number, col: number} | null>(null);
   const [hoverCell, setHoverCell] = useState<{row: number, col: number} | null>(null);
   const [isWon, setIsWon] = useState(false);
-  const isDragging = useRef(false);
 
   // Compute the live preview path from startCell → hoverCell (straight lines only)
   const previewPath = useMemo<{row: number, col: number}[]>(() => {
@@ -133,23 +132,36 @@ export default function WordSearch() {
     setIsWon(false);
     setStartCell(null);
     setHoverCell(null);
-    isDragging.current = false;
   }, []);
 
   useEffect(() => {
     generateGrid();
   }, [generateGrid]);
 
-  // Commit the current previewPath as a word attempt
-  const commitSelection = useCallback((path: {row: number, col: number}[]) => {
+  // ── Helpers ────────────────────────────────────────────────────────────────
+
+  const buildPath = (from: {row: number, col: number}, to: {row: number, col: number}) => {
+    const dr = to.row - from.row;
+    const dc = to.col - from.col;
+    // Must be horizontal, vertical, or a perfect diagonal
+    if (dr !== 0 && dc !== 0 && Math.abs(dr) !== Math.abs(dc)) return null;
+    const steps = Math.max(Math.abs(dr), Math.abs(dc));
+    const stepR = steps === 0 ? 0 : dr / steps;
+    const stepC = steps === 0 ? 0 : dc / steps;
+    const path: {row: number, col: number}[] = [];
+    for (let i = 0; i <= steps; i++) {
+      path.push({ row: from.row + stepR * i, col: from.col + stepC * i });
+    }
+    return path;
+  };
+
+  const tryCommit = useCallback((path: {row: number, col: number}[]) => {
     if (path.length < 2) return;
     const wordStr = path.map(p => grid[p.row][p.col].letter).join("");
     const reverseStr = wordStr.split("").reverse().join("");
-    const matchedWord = wordsToFind.find(w =>
-      !foundWords.includes(w) && (w === wordStr || w === reverseStr)
-    );
-    if (matchedWord) {
-      const newFound = [...foundWords, matchedWord];
+    const match = wordsToFind.find(w => !foundWords.includes(w) && (w === wordStr || w === reverseStr));
+    if (match) {
+      const newFound = [...foundWords, match];
       setFoundWords(newFound);
       setFoundCells(prev => {
         const next = new Set(prev);
@@ -163,67 +175,32 @@ export default function WordSearch() {
     }
     setStartCell(null);
     setHoverCell(null);
-    isDragging.current = false;
   }, [grid, wordsToFind, foundWords]);
 
-  // Click: first click sets start; second click commits; clicking start again cancels
+  // ── Event handlers ──────────────────────────────────────────────────────────
+
   const handleCellClick = (r: number, c: number) => {
     if (isWon) return;
-    if (isDragging.current) return; // handled by mouseUp
+
     if (!startCell) {
+      // First click — begin selection
       setStartCell({ row: r, col: c });
       setHoverCell({ row: r, col: c });
     } else if (startCell.row === r && startCell.col === c) {
-      // Clicked the same cell — cancel selection
+      // Clicked the same start cell — cancel
       setStartCell(null);
       setHoverCell(null);
     } else {
-      commitSelection(previewPath);
+      // Second click — commit whatever the preview path is
+      const path = buildPath(startCell, { row: r, col: c });
+      if (path) tryCommit(path);
+      else { setStartCell(null); setHoverCell(null); }
     }
   };
 
-  // Hover: update hoverCell so previewPath recomputes continuously
+  // Mouse hover — live preview while a start is selected
   const handleCellEnter = (r: number, c: number) => {
-    if (isWon) return;
     if (startCell) setHoverCell({ row: r, col: c });
-  };
-
-  // Drag: mousedown starts selection, mouseup commits
-  const handleMouseDown = (r: number, c: number) => {
-    if (isWon) return;
-    isDragging.current = false; // will become true on first enter
-    setStartCell({ row: r, col: c });
-    setHoverCell({ row: r, col: c });
-  };
-
-  const handleMouseEnterDrag = (r: number, c: number) => {
-    if (isWon || !startCell) return;
-    // If the mouse has moved to a different cell, it's a drag
-    if (startCell.row !== r || startCell.col !== c) isDragging.current = true;
-    setHoverCell({ row: r, col: c });
-  };
-
-  const handleMouseUp = (r: number, c: number) => {
-    if (!startCell || !isDragging.current) return;
-    setHoverCell({ row: r, col: c });
-    // Use the path computed at the time of release
-    const end = { row: r, col: c };
-    const dr = end.row - startCell.row;
-    const dc = end.col - startCell.col;
-    const steps = Math.max(Math.abs(dr), Math.abs(dc));
-    if ((dr === 0 || dc === 0 || Math.abs(dr) === Math.abs(dc)) && steps > 0) {
-      const stepR = dr === 0 ? 0 : dr / steps;
-      const stepC = dc === 0 ? 0 : dc / steps;
-      const path: {row: number, col: number}[] = [];
-      for (let i = 0; i <= steps; i++) {
-        path.push({ row: startCell.row + stepR * i, col: startCell.col + stepC * i });
-      }
-      commitSelection(path);
-    } else {
-      setStartCell(null);
-      setHoverCell(null);
-      isDragging.current = false;
-    }
   };
 
   return (
@@ -254,28 +231,28 @@ export default function WordSearch() {
             <div
               className="grid gap-1 mb-8 select-none"
               style={{ gridTemplateColumns: `repeat(${GRID_SIZE}, minmax(0, 1fr))` }}
-              onMouseLeave={() => { if (startCell && !isDragging.current) setHoverCell(null); }}
+              onMouseLeave={() => setHoverCell(null)}
             >
               {grid.map((row, rIdx) =>
                 row.map((cell, cIdx) => {
-                  const isFound = foundCells.has(`${rIdx},${cIdx}`);
-                  const inPreview = previewPath.some(p => p.row === rIdx && p.col === cIdx);
-                  const isStart = startCell?.row === rIdx && startCell?.col === cIdx;
-                  const isEnd = hoverCell?.row === rIdx && hoverCell?.col === cIdx && inPreview;
+                  const isFound   = foundCells.has(`${rIdx},${cIdx}`);
+                  const isStart   = startCell?.row === rIdx && startCell?.col === cIdx;
+                  const isHover   = hoverCell?.row === rIdx && hoverCell?.col === cIdx && !isStart;
+                  const inPreview = !isFound && previewPath.some(p => p.row === rIdx && p.col === cIdx);
 
                   return (
                     <button
                       key={`${rIdx}-${cIdx}`}
                       onClick={() => handleCellClick(rIdx, cIdx)}
-                      onMouseEnter={() => handleMouseEnterDrag(rIdx, cIdx)}
-                      onMouseDown={() => handleMouseDown(rIdx, cIdx)}
-                      onMouseUp={() => handleMouseUp(rIdx, cIdx)}
+                      onMouseEnter={() => handleCellEnter(rIdx, cIdx)}
                       className={cn(
-                        "w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 flex items-center justify-center text-lg sm:text-xl font-bold rounded-md transition-colors",
+                        "w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 flex items-center justify-center text-lg sm:text-xl font-bold rounded-md transition-all duration-75",
                         isFound
-                          ? "bg-primary text-primary-foreground ring-1 ring-primary/40"
-                          : isStart || isEnd
-                          ? "bg-primary text-primary-foreground scale-110 ring-2 ring-primary"
+                          ? "bg-primary text-primary-foreground"
+                          : isStart
+                          ? "bg-primary text-primary-foreground ring-2 ring-offset-1 ring-primary scale-110"
+                          : isHover && inPreview
+                          ? "bg-primary text-primary-foreground scale-110"
                           : inPreview
                           ? "bg-primary/50 text-foreground"
                           : "bg-secondary/20 hover:bg-secondary/40 text-foreground"
