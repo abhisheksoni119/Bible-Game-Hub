@@ -6,3 +6,9 @@ id = "0gbr-QUWRkDsxdyrCtfBm"
 uri = "file://bible-games-netlify.zip"
 type = "unspecified"
 title = "Bible Games Online — Netlify Deploy (ZIP)"
+
+[[outputs]]
+id = "sf90Y9sUp865rPY3oWj7h"
+uri = "file://biblegamesonline-deploy.zip"
+type = "unspecified"
+title = "biblegamesonline-deploy.zip"
