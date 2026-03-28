@@ -2,6 +2,7 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Mail, MessageSquare, CheckCircle2, Send } from "lucide-react";
 import { Link } from "wouter";
+import { PageSEO } from "@/components/seo/PageSEO";
 
 type FormState = "idle" | "submitting" | "success" | "error";
 
@@ -51,6 +52,11 @@ export default function Contact() {
 
   return (
     <div className="w-full min-h-screen bg-background">
+      <PageSEO
+        title="Contact Us | Bible Games Online"
+        description="Get in touch with the Bible Games Online team. We'd love to hear your questions, feedback, or suggestions about our free Bible games."
+        canonicalPath="/contact"
+      />
 
       {/* Hero */}
       <div className="bg-secondary text-secondary-foreground py-10 sm:py-16 text-center px-4 relative overflow-hidden">

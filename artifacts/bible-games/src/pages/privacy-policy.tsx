@@ -1,12 +1,18 @@
 import { motion } from "framer-motion";
 import { Shield } from "lucide-react";
 import { Link } from "wouter";
+import { PageSEO } from "@/components/seo/PageSEO";
 
 const LAST_UPDATED = "March 28, 2026";
 
 export default function PrivacyPolicy() {
   return (
     <div className="w-full min-h-screen bg-background">
+      <PageSEO
+        title="Privacy Policy | Bible Games Online"
+        description="Read the Privacy Policy for Bible Games Online. We do not collect personal data — all games are free, safe, and require no sign-up."
+        canonicalPath="/privacy-policy"
+      />
 
       {/* Hero */}
       <div className="bg-secondary text-secondary-foreground py-10 sm:py-16 text-center px-4 relative overflow-hidden">

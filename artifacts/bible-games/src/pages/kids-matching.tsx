@@ -5,6 +5,7 @@ import confetti from "canvas-confetti";
 import { kidsGameItems, homeFAQs } from "@/lib/data";
 import { FAQAccordion } from "@/components/ui/faq-accordion";
 import { RelatedGames } from "@/components/ui/related-games";
+import { PageSEO } from "@/components/seo/PageSEO";
 import { cn } from "@/lib/utils";
 
 const RELATED: import("@/components/ui/related-games").RelatedGame[] = [
@@ -105,6 +106,11 @@ export default function KidsMatching() {
 
   return (
     <div className="w-full min-h-screen bg-background">
+      <PageSEO
+        title="Bible Games for Kids – Fun & Educational Christian Games"
+        description="Explore fun Bible games for kids including puzzles, matching games, and learning activities designed for children."
+        canonicalPath="/kids-bible-games"
+      />
 
       {/* Hero */}
       <div className="bg-secondary text-secondary-foreground py-10 sm:py-16 text-center px-4 relative overflow-hidden">

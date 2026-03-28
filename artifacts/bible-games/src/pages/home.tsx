@@ -4,6 +4,7 @@ import { Brain, Search, Smile, Play, CheckCircle2, XCircle, ArrowRight } from "l
 import { useState } from "react";
 import { homeFAQs, triviaQuestions } from "@/lib/data";
 import { FAQAccordion } from "@/components/ui/faq-accordion";
+import { PageSEO } from "@/components/seo/PageSEO";
 
 export default function Home() {
   const [, setLocation] = useLocation();
@@ -55,6 +56,11 @@ export default function Home() {
 
   return (
     <div className="w-full">
+      <PageSEO
+        title="Play Free Bible Games Online | Bible Trivia, Kids & Puzzle Games"
+        description="Play free Bible games online including trivia, word search, and fun kids Bible games. Test your knowledge and enjoy interactive Christian games."
+        canonicalPath="/"
+      />
 
       {/* ── HERO ── */}
       <section className="relative bg-secondary text-secondary-foreground overflow-hidden">

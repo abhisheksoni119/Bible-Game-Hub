@@ -5,6 +5,7 @@ import confetti from "canvas-confetti";
 import { triviaQuestions, homeFAQs, Category, Difficulty } from "@/lib/data";
 import { FAQAccordion } from "@/components/ui/faq-accordion";
 import { RelatedGames } from "@/components/ui/related-games";
+import { PageSEO } from "@/components/seo/PageSEO";
 import { cn } from "@/lib/utils";
 
 const RELATED: import("@/components/ui/related-games").RelatedGame[] = [
@@ -115,6 +116,11 @@ export default function Trivia() {
 
   return (
     <div className="w-full min-h-screen bg-background">
+      <PageSEO
+        title="Bible Trivia Games Online – Play Quiz & Test Your Knowledge"
+        description="Play Bible trivia games online with multiple categories and difficulty levels. Test your knowledge with fun and engaging quiz questions."
+        canonicalPath="/bible-trivia"
+      />
 
       {/* Hero */}
       <div className="bg-secondary text-secondary-foreground py-10 sm:py-16 text-center px-4 relative overflow-hidden">
