@@ -10,9 +10,9 @@ export function Navbar() {
 
   const links = [
     { href: "/",                 label: "Home" },
-    { href: "/bible-trivia",     label: "Bible Trivia" },
-    { href: "/bible-word-games", label: "Word Games" },
-    { href: "/kids-bible-games", label: "Kids Games" },
+    { href: "/bible-trivia/",     label: "Bible Trivia" },
+    { href: "/bible-word-games/", label: "Word Games" },
+    { href: "/kids-bible-games/", label: "Kids Games" },
   ];
 
   return (

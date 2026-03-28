@@ -1,1 +1,10 @@
-/* /index.html 200
+# Redirect non-trailing-slash URLs to canonical trailing-slash versions
+/bible-trivia        /bible-trivia/        301
+/bible-word-games    /bible-word-games/    301
+/kids-bible-games    /kids-bible-games/    301
+/privacy-policy      /privacy-policy/      301
+/terms-of-service    /terms-of-service/    301
+/contact             /contact/             301
+
+# SPA fallback — must be last
+/*    /index.html    200

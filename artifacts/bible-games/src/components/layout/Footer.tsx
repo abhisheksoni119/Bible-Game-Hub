@@ -29,9 +29,9 @@ export function Footer() {
           <div>
             <h3 className="font-bold text-secondary-foreground text-sm uppercase tracking-wider mb-4">Games</h3>
             <ul className="space-y-3 text-sm">
-              <li><Link href="/bible-trivia" className="hover:text-primary transition-colors flex items-center gap-1.5">🧠 Bible Trivia</Link></li>
-              <li><Link href="/bible-word-games" className="hover:text-primary transition-colors flex items-center gap-1.5">🔍 Word Search</Link></li>
-              <li><Link href="/kids-bible-games" className="hover:text-primary transition-colors flex items-center gap-1.5">🎮 Kids Matching</Link></li>
+              <li><Link href="/bible-trivia/" className="hover:text-primary transition-colors flex items-center gap-1.5">🧠 Bible Trivia</Link></li>
+              <li><Link href="/bible-word-games/" className="hover:text-primary transition-colors flex items-center gap-1.5">🔍 Word Search</Link></li>
+              <li><Link href="/kids-bible-games/" className="hover:text-primary transition-colors flex items-center gap-1.5">🎮 Kids Matching</Link></li>
             </ul>
           </div>
 
@@ -39,9 +39,9 @@ export function Footer() {
           <div>
             <h3 className="font-bold text-secondary-foreground text-sm uppercase tracking-wider mb-4">Info</h3>
             <ul className="space-y-3 text-sm">
-              <li><Link href="/privacy-policy" className="hover:text-primary transition-colors">Privacy Policy</Link></li>
-              <li><Link href="/terms-of-service" className="hover:text-primary transition-colors">Terms of Service</Link></li>
-              <li><Link href="/contact" className="hover:text-primary transition-colors">Contact Us</Link></li>
+              <li><Link href="/privacy-policy/" className="hover:text-primary transition-colors">Privacy Policy</Link></li>
+              <li><Link href="/terms-of-service/" className="hover:text-primary transition-colors">Terms of Service</Link></li>
+              <li><Link href="/contact/" className="hover:text-primary transition-colors">Contact Us</Link></li>
             </ul>
           </div>
         </div>

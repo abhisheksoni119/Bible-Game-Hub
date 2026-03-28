@@ -55,7 +55,7 @@ export default function Contact() {
       <PageSEO
         title="Contact Us | Bible Games Online"
         description="Get in touch with the Bible Games Online team. We'd love to hear your questions, feedback, or suggestions about our free Bible games."
-        canonicalPath="/contact"
+        canonicalPath="/contact/"
       />
 
       {/* Hero */}
@@ -242,9 +242,9 @@ export default function Contact() {
             </div>
 
             <div className="mt-6 text-center text-sm text-muted-foreground">
-              <Link href="/privacy-policy" className="text-primary hover:underline font-medium">Privacy Policy</Link>
+              <Link href="/privacy-policy/" className="text-primary hover:underline font-medium">Privacy Policy</Link>
               {" · "}
-              <Link href="/terms-of-service" className="text-primary hover:underline font-medium">Terms of Service</Link>
+              <Link href="/terms-of-service/" className="text-primary hover:underline font-medium">Terms of Service</Link>
             </div>
           </div>
         </div>

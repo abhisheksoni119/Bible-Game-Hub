@@ -11,7 +11,7 @@ export default function PrivacyPolicy() {
       <PageSEO
         title="Privacy Policy | Bible Games Online"
         description="Read the Privacy Policy for Bible Games Online. We do not collect personal data — all games are free, safe, and require no sign-up."
-        canonicalPath="/privacy-policy"
+        canonicalPath="/privacy-policy/"
       />
 
       {/* Hero */}
@@ -119,15 +119,15 @@ export default function PrivacyPolicy() {
           <Section title="8. Contact">
             <p>
               If you have any questions about this Privacy Policy, please reach out to us via our{" "}
-              <Link href="/contact" className="text-primary hover:underline font-medium">Contact page</Link>.
+              <Link href="/contact/" className="text-primary hover:underline font-medium">Contact page</Link>.
             </p>
           </Section>
         </div>
 
         <div className="mt-8 text-center text-sm text-muted-foreground">
-          <Link href="/terms-of-service" className="text-primary hover:underline font-medium">Terms of Service</Link>
+          <Link href="/terms-of-service/" className="text-primary hover:underline font-medium">Terms of Service</Link>
           {" · "}
-          <Link href="/contact" className="text-primary hover:underline font-medium">Contact Us</Link>
+          <Link href="/contact/" className="text-primary hover:underline font-medium">Contact Us</Link>
         </div>
       </div>
     </div>

@@ -109,7 +109,7 @@ export default function KidsMatching() {
       <PageSEO
         title="Bible Games for Kids – Fun & Educational Christian Games"
         description="Explore fun Bible games for kids including puzzles, matching games, and learning activities designed for children."
-        canonicalPath="/kids-bible-games"
+        canonicalPath="/kids-bible-games/"
       />
 
       {/* Hero */}

@@ -11,7 +11,7 @@ export default function TermsOfService() {
       <PageSEO
         title="Terms of Service | Bible Games Online"
         description="Read the Terms of Service for Bible Games Online — free, wholesome Bible games for all ages with no ads or sign-up required."
-        canonicalPath="/terms-of-service"
+        canonicalPath="/terms-of-service/"
       />
 
       {/* Hero */}
@@ -127,7 +127,7 @@ export default function TermsOfService() {
             <p>
               We actively welcome children to use the Kids Games section of the Site. Parents and
               guardians are encouraged to supervise their children's internet use. As described in our{" "}
-              <Link href="/privacy-policy" className="text-primary hover:underline font-medium">Privacy Policy</Link>,
+              <Link href="/privacy-policy/" className="text-primary hover:underline font-medium">Privacy Policy</Link>,
               we do not collect any personal data from any user, including children.
             </p>
           </Section>
@@ -143,15 +143,15 @@ export default function TermsOfService() {
           <Section title="11. Contact">
             <p>
               Questions about these Terms? Please contact us through our{" "}
-              <Link href="/contact" className="text-primary hover:underline font-medium">Contact page</Link>.
+              <Link href="/contact/" className="text-primary hover:underline font-medium">Contact page</Link>.
             </p>
           </Section>
         </div>
 
         <div className="mt-8 text-center text-sm text-muted-foreground">
-          <Link href="/privacy-policy" className="text-primary hover:underline font-medium">Privacy Policy</Link>
+          <Link href="/privacy-policy/" className="text-primary hover:underline font-medium">Privacy Policy</Link>
           {" · "}
-          <Link href="/contact" className="text-primary hover:underline font-medium">Contact Us</Link>
+          <Link href="/contact/" className="text-primary hover:underline font-medium">Contact Us</Link>
         </div>
       </div>
     </div>

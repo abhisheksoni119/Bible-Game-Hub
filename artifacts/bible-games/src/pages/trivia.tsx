@@ -119,7 +119,7 @@ export default function Trivia() {
       <PageSEO
         title="Bible Trivia Games Online – Play Quiz & Test Your Knowledge"
         description="Play Bible trivia games online with multiple categories and difficulty levels. Test your knowledge with fun and engaging quiz questions."
-        canonicalPath="/bible-trivia"
+        canonicalPath="/bible-trivia/"
       />
 
       {/* Hero */}

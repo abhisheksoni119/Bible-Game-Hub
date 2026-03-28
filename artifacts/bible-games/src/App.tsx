@@ -35,12 +35,12 @@ function Router() {
       <main className="flex-grow">
         <Switch>
           <Route path="/" component={Home} />
-          <Route path="/bible-trivia" component={Trivia} />
-          <Route path="/bible-word-games" component={WordSearch} />
-          <Route path="/kids-bible-games" component={KidsMatching} />
-          <Route path="/privacy-policy" component={PrivacyPolicy} />
-          <Route path="/terms-of-service" component={TermsOfService} />
-          <Route path="/contact" component={Contact} />
+          <Route path="/bible-trivia/" component={Trivia} />
+          <Route path="/bible-word-games/" component={WordSearch} />
+          <Route path="/kids-bible-games/" component={KidsMatching} />
+          <Route path="/privacy-policy/" component={PrivacyPolicy} />
+          <Route path="/terms-of-service/" component={TermsOfService} />
+          <Route path="/contact/" component={Contact} />
           <Route component={NotFound} />
         </Switch>
       </main>

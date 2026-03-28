@@ -98,19 +98,19 @@ export default function Home() {
             </p>
             <div className="flex flex-col sm:flex-row gap-3 justify-center w-full max-w-sm sm:max-w-none mx-auto">
               <button
-                onClick={() => setLocation('/bible-trivia')}
+                onClick={() => setLocation('/bible-trivia/')}
                 className="w-full sm:w-auto px-7 py-4 rounded-xl font-bold bg-primary text-primary-foreground shadow-gold hover:shadow-lg hover:-translate-y-0.5 hover:bg-primary/90 transition-all duration-200 flex items-center justify-center gap-2 min-h-[52px]"
               >
                 <Brain className="w-5 h-5" /> Play Trivia
               </button>
               <button
-                onClick={() => setLocation('/bible-word-games')}
+                onClick={() => setLocation('/bible-word-games/')}
                 className="w-full sm:w-auto px-7 py-4 rounded-xl font-bold bg-white/8 text-white hover:bg-white/15 border border-white/15 hover:border-white/25 shadow-lg hover:-translate-y-0.5 transition-all duration-200 flex items-center justify-center gap-2 backdrop-blur-sm min-h-[52px]"
               >
                 <Search className="w-5 h-5" /> Word Games
               </button>
               <button
-                onClick={() => setLocation('/kids-bible-games')}
+                onClick={() => setLocation('/kids-bible-games/')}
                 className="w-full sm:w-auto px-7 py-4 rounded-xl font-bold bg-white/8 text-white hover:bg-white/15 border border-white/15 hover:border-white/25 shadow-lg hover:-translate-y-0.5 transition-all duration-200 flex items-center justify-center gap-2 backdrop-blur-sm min-h-[52px]"
               >
                 <Smile className="w-5 h-5" /> Kids Games
@@ -184,7 +184,7 @@ export default function Home() {
                 <h3 className="text-2xl font-display font-bold mb-2">Great job!</h3>
                 <p className="text-muted-foreground mb-7">Ready for a real challenge?</p>
                 <button
-                  onClick={() => setLocation('/bible-trivia')}
+                  onClick={() => setLocation('/bible-trivia/')}
                   className="px-8 py-3.5 rounded-xl font-bold bg-primary text-primary-foreground hover:bg-primary/90 shadow-gold hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200 inline-flex items-center gap-2"
                 >
                   Play Full Game <ArrowRight className="w-4 h-4" />
@@ -252,28 +252,28 @@ export default function Home() {
             <ul className="space-y-2.5 text-muted-foreground">
               <li className="flex gap-3">
                 <span className="text-primary font-bold mt-0.5 shrink-0">✓</span>
-                <span><Link href="/bible-trivia" className="text-primary hover:underline font-medium">Scripture trivia quizzes</Link> covering Old Testament, New Testament, and general knowledge</span>
+                <span><Link href="/bible-trivia/" className="text-primary hover:underline font-medium">Scripture trivia quizzes</Link> covering Old Testament, New Testament, and general knowledge</span>
               </li>
               <li className="flex gap-3">
                 <span className="text-primary font-bold mt-0.5 shrink-0">✓</span>
-                <span><Link href="/bible-word-games" className="text-primary hover:underline font-medium">Bible word search puzzles</Link> that generate a fresh grid every time you play</span>
+                <span><Link href="/bible-word-games/" className="text-primary hover:underline font-medium">Bible word search puzzles</Link> that generate a fresh grid every time you play</span>
               </li>
               <li className="flex gap-3">
                 <span className="text-primary font-bold mt-0.5 shrink-0">✓</span>
-                <span><Link href="/kids-bible-games" className="text-primary hover:underline font-medium">Kid-friendly matching games</Link> built around Noah's Ark animals</span>
+                <span><Link href="/kids-bible-games/" className="text-primary hover:underline font-medium">Kid-friendly matching games</Link> built around Noah's Ark animals</span>
               </li>
             </ul>
           </div>
 
           {/* CTA strip */}
           <div className="flex flex-col sm:flex-row gap-3 p-5 sm:p-6 rounded-2xl bg-muted/60 border border-border">
-            <Link href="/bible-trivia" className="flex-1 inline-flex items-center justify-center gap-2 rounded-xl bg-primary text-primary-foreground font-semibold px-5 py-3.5 text-sm hover:bg-primary/90 active:scale-95 transition-all duration-150 shadow-sm">
+            <Link href="/bible-trivia/" className="flex-1 inline-flex items-center justify-center gap-2 rounded-xl bg-primary text-primary-foreground font-semibold px-5 py-3.5 text-sm hover:bg-primary/90 active:scale-95 transition-all duration-150 shadow-sm">
               <Brain className="w-4 h-4 shrink-0" /> Play Bible Trivia
             </Link>
-            <Link href="/bible-word-games" className="flex-1 inline-flex items-center justify-center gap-2 rounded-xl border-2 border-primary text-primary font-semibold px-5 py-3.5 text-sm hover:bg-primary hover:text-primary-foreground active:scale-95 transition-all duration-150">
+            <Link href="/bible-word-games/" className="flex-1 inline-flex items-center justify-center gap-2 rounded-xl border-2 border-primary text-primary font-semibold px-5 py-3.5 text-sm hover:bg-primary hover:text-primary-foreground active:scale-95 transition-all duration-150">
               <Search className="w-4 h-4 shrink-0" /> Try Word Games
             </Link>
-            <Link href="/kids-bible-games" className="flex-1 inline-flex items-center justify-center gap-2 rounded-xl border-2 border-primary text-primary font-semibold px-5 py-3.5 text-sm hover:bg-primary hover:text-primary-foreground active:scale-95 transition-all duration-150">
+            <Link href="/kids-bible-games/" className="flex-1 inline-flex items-center justify-center gap-2 rounded-xl border-2 border-primary text-primary font-semibold px-5 py-3.5 text-sm hover:bg-primary hover:text-primary-foreground active:scale-95 transition-all duration-150">
               <Smile className="w-4 h-4 shrink-0" /> Explore Kids Games
             </Link>
           </div>
@@ -289,7 +289,7 @@ export default function Home() {
             <p className="text-muted-foreground leading-relaxed mb-4">
               What makes a Bible quiz memorable is that moment when a question makes you pause and truly think. Our question bank spans familiar passages and lesser-known verses alike, so every session grows your scripture knowledge.
             </p>
-            <Link href="/bible-trivia" className="inline-flex items-center gap-1.5 text-sm font-semibold text-primary hover:text-primary/80 transition-colors">
+            <Link href="/bible-trivia/" className="inline-flex items-center gap-1.5 text-sm font-semibold text-primary hover:text-primary/80 transition-colors">
               Start the trivia challenge <ArrowRight className="w-3.5 h-3.5" />
             </Link>
           </div>
@@ -305,7 +305,7 @@ export default function Home() {
             <p className="text-muted-foreground leading-relaxed mb-4">
               There is a quiet, meditative quality to word search that sets it apart from faster-paced games. Slowing down to focus your eyes and mind on scripture terms is its own small act of reflection.
             </p>
-            <Link href="/bible-word-games" className="inline-flex items-center gap-1.5 text-sm font-semibold text-primary hover:text-primary/80 transition-colors">
+            <Link href="/bible-word-games/" className="inline-flex items-center gap-1.5 text-sm font-semibold text-primary hover:text-primary/80 transition-colors">
               Try today's word puzzle <ArrowRight className="w-3.5 h-3.5" />
             </Link>
           </div>
@@ -313,7 +313,7 @@ export default function Home() {
           <div>
             <h2 className="text-2xl md:text-3xl font-display font-bold text-foreground mb-4">Fun and Educational Bible Games Designed for Kids</h2>
             <p className="text-muted-foreground leading-relaxed mb-4">
-              The <Link href="/kids-bible-games" className="text-primary hover:underline font-medium">children's Bible games</Link> section uses bright colors, large flip cards, and playful animations to keep young learners engaged and smiling.
+              The <Link href="/kids-bible-games/" className="text-primary hover:underline font-medium">children's Bible games</Link> section uses bright colors, large flip cards, and playful animations to keep young learners engaged and smiling.
             </p>
             <p className="text-muted-foreground leading-relaxed mb-4">
               Well-designed Christian games for kids do more than entertain — they plant early seeds of faith. Each card flip builds short-term memory and pattern recognition, while the biblical theme opens natural conversations.
@@ -331,7 +331,7 @@ export default function Home() {
               Quality Christian games that genuinely align with faith values are surprisingly rare online. Bible Games Online fills that gap with wholesome, well-crafted activities the whole family can enjoy — without ads, paywalls, or inappropriate content.
             </p>
             <p className="text-muted-foreground leading-relaxed mb-4">
-              Share your <Link href="/bible-trivia" className="text-primary hover:underline font-medium">quiz score</Link> with your small group, race through a <Link href="/bible-word-games" className="text-primary hover:underline font-medium">word puzzle</Link>, or let the kids enjoy the <Link href="/kids-bible-games" className="text-primary hover:underline font-medium">Noah's Ark matching game</Link> on their own.
+              Share your <Link href="/bible-trivia/" className="text-primary hover:underline font-medium">quiz score</Link> with your small group, race through a <Link href="/bible-word-games/" className="text-primary hover:underline font-medium">word puzzle</Link>, or let the kids enjoy the <Link href="/kids-bible-games/" className="text-primary hover:underline font-medium">Noah's Ark matching game</Link> on their own.
             </p>
             <p className="text-muted-foreground leading-relaxed">
               We built this platform as a quiet corner of the internet where faith and play belong together. There is always a game ready and waiting for you here.

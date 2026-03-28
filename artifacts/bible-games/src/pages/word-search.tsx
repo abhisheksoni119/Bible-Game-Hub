@@ -163,7 +163,7 @@ export default function WordSearch() {
       <PageSEO
         title="Bible Word Search & Puzzle Games Online"
         description="Find hidden words in Bible word search games and solve puzzle challenges. Fun and educational Bible games for all ages."
-        canonicalPath="/bible-word-games"
+        canonicalPath="/bible-word-games/"
       />
 
       {/* Hero */}
