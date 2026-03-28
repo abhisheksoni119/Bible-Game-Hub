@@ -7,7 +7,7 @@ interface PageSEOProps {
 }
 
 const SITE_NAME = "Bible Games Online";
-const BASE_URL  = "https://www.biblegamesonline.com";
+const BASE_URL  = "https://biblegamesonline.net";
 
 export function PageSEO({ title, description, canonicalPath = "" }: PageSEOProps) {
   const canonical = `${BASE_URL}${canonicalPath}`;

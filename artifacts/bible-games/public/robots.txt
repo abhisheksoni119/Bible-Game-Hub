@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://www.biblegamesonline.com/sitemap.xml
+Sitemap: https://biblegamesonline.net/sitemap.xml

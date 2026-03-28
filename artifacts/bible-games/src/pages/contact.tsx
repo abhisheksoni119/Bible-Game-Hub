@@ -23,7 +23,7 @@ export default function Contact() {
       `Name: ${name}\nEmail: ${email}\n\n${message}`
     );
     const mailtoSubject = encodeURIComponent(subject || "Message from Bible Games Online");
-    window.location.href = `mailto:hello@biblegamesonline.com?subject=${mailtoSubject}&body=${mailtoBody}`;
+    window.location.href = `mailto:hello@biblegamesonline.net?subject=${mailtoSubject}&body=${mailtoBody}`;
 
     setTimeout(() => {
       setFormState("success");
@@ -100,8 +100,8 @@ export default function Contact() {
                 </div>
                 <div>
                   <p className="text-xs font-bold text-muted-foreground uppercase tracking-wider mb-0.5">Email</p>
-                  <a href="mailto:hello@biblegamesonline.com" className="text-sm font-medium text-foreground hover:text-primary transition-colors">
-                    hello@biblegamesonline.com
+                  <a href="mailto:hello@biblegamesonline.net" className="text-sm font-medium text-foreground hover:text-primary transition-colors">
+                    hello@biblegamesonline.net
                   </a>
                 </div>
               </div>

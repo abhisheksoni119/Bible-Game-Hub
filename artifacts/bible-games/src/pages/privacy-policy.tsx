@@ -42,7 +42,7 @@ export default function PrivacyPolicy() {
             <p>
               Welcome to Bible Games Online ("we," "us," or "our"). We are committed to protecting your
               privacy. This Privacy Policy explains how we handle information when you visit and use our
-              website at <strong>biblegamesonline.com</strong> (the "Site").
+              website at <strong>biblegamesonline.net</strong> (the "Site").
             </p>
             <p>
               By using the Site you agree to the practices described in this policy. If you do not agree,
