@@ -41,29 +41,29 @@ export default function Home() {
           />
           <div className="absolute inset-0 bg-gradient-to-t from-secondary to-transparent" />
         </div>
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 lg:py-32 flex flex-col items-center text-center">
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14 sm:py-20 lg:py-32 flex flex-col items-center text-center">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
           >
-            <span className="inline-block py-1 px-3 rounded-full bg-primary/20 text-primary font-medium text-sm mb-6 border border-primary/30">
+            <span className="inline-block py-1 px-3 rounded-full bg-primary/20 text-primary font-medium text-sm mb-5 border border-primary/30">
               Free to Play • No Sign Up Required
             </span>
-            <h1 className="text-4xl md:text-5xl lg:text-7xl font-display font-bold leading-tight mb-6 text-white max-w-4xl mx-auto">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-display font-bold leading-tight mb-5 text-white max-w-4xl mx-auto">
               Play Free Bible Games Online and <span className="text-primary">Test Your Knowledge</span>
             </h1>
-            <p className="text-lg md:text-xl text-secondary-foreground/80 max-w-2xl mx-auto mb-10 leading-relaxed">
+            <p className="text-base sm:text-lg md:text-xl text-secondary-foreground/80 max-w-2xl mx-auto mb-8 leading-relaxed">
               Discover interactive and fun ways to learn about the Bible. Choose from trivia, word searches, and kids games designed to build faith and knowledge.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <button onClick={() => setLocation('/bible-trivia')} className="px-8 py-4 rounded-xl font-bold bg-primary text-primary-foreground shadow-lg shadow-primary/25 hover:shadow-xl hover:-translate-y-0.5 hover:bg-primary/90 transition-all duration-200 flex items-center justify-center gap-2">
+            <div className="flex flex-col sm:flex-row gap-3 justify-center w-full max-w-md sm:max-w-none mx-auto">
+              <button onClick={() => setLocation('/bible-trivia')} className="w-full sm:w-auto px-6 py-4 rounded-xl font-bold bg-primary text-primary-foreground shadow-lg shadow-primary/25 hover:shadow-xl hover:-translate-y-0.5 hover:bg-primary/90 transition-all duration-200 flex items-center justify-center gap-2 min-h-[52px]">
                 <Brain className="w-5 h-5" /> Play Trivia
               </button>
-              <button onClick={() => setLocation('/bible-word-games')} className="px-8 py-4 rounded-xl font-bold bg-white/10 text-white hover:bg-white/20 border border-white/20 shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all duration-200 flex items-center justify-center gap-2 backdrop-blur-sm">
+              <button onClick={() => setLocation('/bible-word-games')} className="w-full sm:w-auto px-6 py-4 rounded-xl font-bold bg-white/10 text-white hover:bg-white/20 border border-white/20 shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all duration-200 flex items-center justify-center gap-2 backdrop-blur-sm min-h-[52px]">
                 <Search className="w-5 h-5" /> Word Games
               </button>
-              <button onClick={() => setLocation('/kids-bible-games')} className="px-8 py-4 rounded-xl font-bold bg-white/10 text-white hover:bg-white/20 border border-white/20 shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all duration-200 flex items-center justify-center gap-2 backdrop-blur-sm">
+              <button onClick={() => setLocation('/kids-bible-games')} className="w-full sm:w-auto px-6 py-4 rounded-xl font-bold bg-white/10 text-white hover:bg-white/20 border border-white/20 shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all duration-200 flex items-center justify-center gap-2 backdrop-blur-sm min-h-[52px]">
                 <Smile className="w-5 h-5" /> Kids Games
               </button>
             </div>
@@ -72,14 +72,14 @@ export default function Home() {
       </section>
 
       {/* MINI TRIVIA SECTION */}
-      <section className="py-20 bg-background">
+      <section className="py-12 sm:py-20 bg-background">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="bg-card rounded-3xl p-8 md:p-12 shadow-2xl shadow-primary/5 border border-border/50 relative overflow-hidden">
+          <div className="bg-card rounded-3xl p-5 sm:p-8 md:p-12 shadow-2xl shadow-primary/5 border border-border/50 relative overflow-hidden">
             <div className="absolute top-0 left-0 w-2 h-full bg-primary" />
             
-            <div className="text-center mb-8">
-              <h2 className="text-3xl font-bold mb-2">Quick Bible Quiz</h2>
-              <p className="text-muted-foreground">Test yourself right now with these 4 quick questions!</p>
+            <div className="text-center mb-6">
+              <h2 className="text-2xl sm:text-3xl font-bold mb-2">Quick Bible Quiz</h2>
+              <p className="text-muted-foreground text-sm sm:text-base">Test yourself right now with these 4 quick questions!</p>
             </div>
 
             {!showResult ? (
@@ -139,11 +139,11 @@ export default function Home() {
       </section>
 
       {/* GAME CATEGORIES */}
-      <section className="py-20 bg-muted/30">
+      <section className="py-12 sm:py-20 bg-muted/30">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center max-w-2xl mx-auto mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">Choose Your Game</h2>
-            <p className="text-muted-foreground text-lg">We have curated different types of games to suit your mood and challenge your biblical knowledge.</p>
+          <div className="text-center max-w-2xl mx-auto mb-10 sm:mb-16">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-3">Choose Your Game</h2>
+            <p className="text-muted-foreground text-base sm:text-lg">We have curated different types of games to suit your mood and challenge your biblical knowledge.</p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">

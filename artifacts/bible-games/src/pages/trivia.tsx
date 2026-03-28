@@ -126,21 +126,21 @@ export default function Trivia() {
 
   return (
     <div className="w-full min-h-screen bg-background">
-      <div className="bg-secondary text-secondary-foreground py-16 text-center px-4">
+      <div className="bg-secondary text-secondary-foreground py-10 sm:py-16 text-center px-4">
         <motion.div
           initial={{ scale: 0.8, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           transition={{ type: "spring", stiffness: 300, damping: 20 }}
         >
-          <Brain className="w-14 h-14 mx-auto mb-4 text-primary" />
+          <Brain className="w-12 h-12 sm:w-14 sm:h-14 mx-auto mb-4 text-primary" />
         </motion.div>
-        <h1 className="text-4xl md:text-5xl font-display font-bold mb-4">Play Free Bible Trivia</h1>
-        <p className="text-lg text-secondary-foreground/80 max-w-2xl mx-auto">
+        <h1 className="text-3xl sm:text-4xl md:text-5xl font-display font-bold mb-3">Play Free Bible Trivia</h1>
+        <p className="text-base sm:text-lg text-secondary-foreground/80 max-w-2xl mx-auto">
           Test your biblical knowledge. Choose your category and difficulty to begin the challenge.
         </p>
       </div>
 
-      <div className="max-w-4xl mx-auto px-4 py-12">
+      <div className="max-w-4xl mx-auto px-4 py-8 sm:py-12">
         <AnimatePresence mode="wait">
 
           {/* ── SETUP ── */}
@@ -151,10 +151,10 @@ export default function Trivia() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -24 }}
               transition={{ duration: 0.35, ease: "easeOut" }}
-              className="bg-card border border-border rounded-3xl p-8 md:p-12 shadow-xl shadow-black/5"
+              className="bg-card border border-border rounded-3xl p-5 sm:p-8 md:p-12 shadow-xl shadow-black/5"
             >
               <h2 className="text-2xl font-bold mb-2 text-center">Game Setup</h2>
-              <p className="text-muted-foreground text-center mb-10">Pick your challenge below</p>
+              <p className="text-muted-foreground text-center mb-6 sm:mb-10">Pick your challenge below</p>
 
               <div className="space-y-8">
                 {/* Category */}
@@ -239,10 +239,10 @@ export default function Trivia() {
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: -40 }}
               transition={{ duration: 0.3, ease: "easeOut" }}
-              className="bg-card border border-border rounded-3xl p-6 md:p-10 shadow-xl shadow-black/5"
+              className="bg-card border border-border rounded-3xl p-4 sm:p-6 md:p-10 shadow-xl shadow-black/5"
             >
               {/* Progress header */}
-              <div className="mb-8">
+              <div className="mb-5 sm:mb-8">
                 <div className="flex justify-between items-center mb-3">
                   <div className="flex items-center gap-2">
                     <span className="inline-flex items-center justify-center w-7 h-7 rounded-full bg-primary text-primary-foreground text-xs font-bold">
@@ -270,7 +270,7 @@ export default function Trivia() {
                 key={currentIndex}
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="text-xl md:text-2xl font-bold text-foreground mb-8 leading-snug"
+                className="text-lg sm:text-xl md:text-2xl font-bold text-foreground mb-5 sm:mb-8 leading-snug"
               >
                 {activeQuestions[currentIndex].question}
               </motion.h3>
@@ -341,7 +341,7 @@ export default function Trivia() {
               initial={{ opacity: 0, scale: 0.92 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.4, type: "spring", stiffness: 200, damping: 20 }}
-              className="bg-card border border-border rounded-3xl p-8 md:p-12 shadow-xl shadow-black/5 text-center"
+              className="bg-card border border-border rounded-3xl p-5 sm:p-8 md:p-12 shadow-xl shadow-black/5 text-center"
             >
               <motion.div
                 initial={{ scale: 0, rotate: -10 }}

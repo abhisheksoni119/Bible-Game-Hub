@@ -129,36 +129,36 @@ export default function KidsMatching() {
 
   return (
     <div className="w-full min-h-screen bg-background">
-      <div className="bg-secondary text-secondary-foreground py-16 text-center px-4 relative overflow-hidden">
-        <div className="absolute top-8 left-10 text-5xl opacity-15 transform -rotate-12 select-none">🕊️</div>
-        <div className="absolute top-6 right-12 text-4xl opacity-15 transform rotate-6 select-none">🌈</div>
-        <div className="absolute bottom-8 right-10 text-5xl opacity-15 transform rotate-12 select-none">🦁</div>
-        <div className="absolute bottom-6 left-12 text-4xl opacity-15 transform -rotate-6 select-none">🐘</div>
+      <div className="bg-secondary text-secondary-foreground py-10 sm:py-16 text-center px-4 relative overflow-hidden">
+        <div className="absolute top-8 left-10 text-5xl opacity-15 transform -rotate-12 select-none hidden sm:block">🕊️</div>
+        <div className="absolute top-6 right-12 text-4xl opacity-15 transform rotate-6 select-none hidden sm:block">🌈</div>
+        <div className="absolute bottom-8 right-10 text-5xl opacity-15 transform rotate-12 select-none hidden sm:block">🦁</div>
+        <div className="absolute bottom-6 left-12 text-4xl opacity-15 transform -rotate-6 select-none hidden sm:block">🐘</div>
 
         <motion.div
           initial={{ scale: 0.8, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           transition={{ type: "spring", stiffness: 300, damping: 20 }}
         >
-          <Smile className="w-14 h-14 mx-auto mb-4 text-primary relative z-10" />
+          <Smile className="w-12 h-12 sm:w-14 sm:h-14 mx-auto mb-4 text-primary relative z-10" />
         </motion.div>
-        <h1 className="text-4xl md:text-5xl font-display font-bold mb-4 relative z-10">Fun Kids Matching Game</h1>
-        <p className="text-lg text-secondary-foreground/80 max-w-2xl mx-auto relative z-10">
+        <h1 className="text-3xl sm:text-4xl md:text-5xl font-display font-bold mb-3 relative z-10">Fun Kids Matching Game</h1>
+        <p className="text-base sm:text-lg text-secondary-foreground/80 max-w-2xl mx-auto relative z-10">
           Find the matching Bible animals! Flip two cards at a time to discover pairs.
         </p>
       </div>
 
-      <div className="max-w-4xl mx-auto px-4 py-12">
+      <div className="max-w-4xl mx-auto px-4 py-8 sm:py-12">
 
         {/* Stats bar */}
-        <div className="flex items-center justify-between mb-8 gap-4 flex-wrap">
-          <div className="flex items-center gap-6">
-            <div className="bg-card border border-border rounded-2xl px-5 py-3 text-center shadow-sm">
-              <span className="block text-2xl font-bold text-primary">{moves}</span>
+        <div className="flex items-center justify-between mb-6 sm:mb-8 gap-3">
+          <div className="flex items-center gap-3 sm:gap-6">
+            <div className="bg-card border border-border rounded-2xl px-3 sm:px-5 py-2.5 sm:py-3 text-center shadow-sm min-w-[60px]">
+              <span className="block text-xl sm:text-2xl font-bold text-primary">{moves}</span>
               <span className="block text-xs text-muted-foreground font-medium uppercase tracking-wide">Moves</span>
             </div>
-            <div className="bg-card border border-border rounded-2xl px-5 py-3 text-center shadow-sm">
-              <span className="block text-2xl font-bold text-emerald-500">{matchedPairs}</span>
+            <div className="bg-card border border-border rounded-2xl px-3 sm:px-5 py-2.5 sm:py-3 text-center shadow-sm min-w-[60px]">
+              <span className="block text-xl sm:text-2xl font-bold text-emerald-500">{matchedPairs}</span>
               <span className="block text-xs text-muted-foreground font-medium uppercase tracking-wide">Pairs</span>
             </div>
           </div>
@@ -166,7 +166,7 @@ export default function KidsMatching() {
             onClick={initGame}
             whileHover={{ scale: 1.04, y: -1 }}
             whileTap={{ scale: 0.97 }}
-            className="px-6 py-3 rounded-2xl font-bold bg-secondary text-secondary-foreground hover:bg-secondary/80 transition-colors inline-flex items-center gap-2 shadow-sm"
+            className="px-4 sm:px-6 py-2.5 sm:py-3 rounded-2xl font-bold bg-secondary text-secondary-foreground hover:bg-secondary/80 transition-colors inline-flex items-center gap-2 shadow-sm min-h-[44px] text-sm sm:text-base"
           >
             <RotateCcw className="w-4 h-4" /> Restart
           </motion.button>
@@ -196,7 +196,7 @@ export default function KidsMatching() {
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.85, opacity: 0 }}
               transition={{ type: "spring", stiffness: 260, damping: 18 }}
-              className="mb-10 py-8 px-8 bg-card rounded-3xl border-2 border-primary shadow-2xl shadow-primary/15 text-center"
+              className="mb-8 sm:mb-10 py-6 sm:py-8 px-5 sm:px-8 bg-card rounded-3xl border-2 border-primary shadow-2xl shadow-primary/15 text-center"
             >
               <p className="text-5xl mb-4">🎉</p>
               <h2 className="text-3xl font-bold mb-2">You Won!</h2>
@@ -263,8 +263,8 @@ export default function KidsMatching() {
                       : "border-primary/25 bg-primary/8 hover:border-primary/50 hover:bg-primary/15"
                   )}
                 >
-                  <div className="w-12 h-12 rounded-full bg-primary/20 flex items-center justify-center">
-                    <span className="text-primary font-bold text-2xl">?</span>
+                  <div className="w-8 h-8 sm:w-12 sm:h-12 rounded-full bg-primary/20 flex items-center justify-center">
+                    <span className="text-primary font-bold text-lg sm:text-2xl">?</span>
                   </div>
                 </motion.div>
 

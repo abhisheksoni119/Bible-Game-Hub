@@ -191,25 +191,25 @@ export default function WordSearch() {
 
   return (
     <div className="w-full min-h-screen bg-background">
-      <div className="bg-secondary text-secondary-foreground py-16 text-center px-4">
+      <div className="bg-secondary text-secondary-foreground py-10 sm:py-16 text-center px-4">
         <motion.div
           initial={{ scale: 0.8, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           transition={{ type: "spring", stiffness: 300, damping: 20 }}
         >
-          <Search className="w-14 h-14 mx-auto mb-4 text-primary" />
+          <Search className="w-12 h-12 sm:w-14 sm:h-14 mx-auto mb-4 text-primary" />
         </motion.div>
-        <h1 className="text-4xl md:text-5xl font-display font-bold mb-4">Bible Word Search</h1>
-        <p className="text-lg text-secondary-foreground/80 max-w-2xl mx-auto">
-          Find the hidden biblical words. Click the first letter, then click the last letter of a word to select it.
+        <h1 className="text-3xl sm:text-4xl md:text-5xl font-display font-bold mb-3">Bible Word Search</h1>
+        <p className="text-base sm:text-lg text-secondary-foreground/80 max-w-2xl mx-auto">
+          Find the hidden biblical words. Tap the first letter, then tap the last letter of a word to select it.
         </p>
       </div>
 
-      <div className="max-w-6xl mx-auto px-4 py-12">
-        <div className="flex flex-col lg:flex-row gap-8 items-start">
+      <div className="max-w-6xl mx-auto px-3 sm:px-4 py-8 sm:py-12">
+        <div className="flex flex-col lg:flex-row gap-6 lg:gap-8 items-start">
 
           {/* Game Board */}
-          <div className="flex-grow bg-card border border-border p-6 rounded-3xl shadow-xl shadow-black/5 flex flex-col items-center">
+          <div className="flex-grow w-full bg-card border border-border p-4 sm:p-6 rounded-3xl shadow-xl shadow-black/5 flex flex-col items-center">
 
             {/* Progress bar */}
             <div className="w-full mb-6">
@@ -257,7 +257,7 @@ export default function WordSearch() {
 
             {/* Grid */}
             <div
-              className="grid gap-1 mb-8 select-none"
+              className="w-full grid gap-0.5 sm:gap-1 mb-6 sm:mb-8 select-none"
               style={{ gridTemplateColumns: `repeat(${GRID_SIZE}, minmax(0, 1fr))` }}
               onMouseLeave={() => setHoverCell(null)}
             >
@@ -278,11 +278,11 @@ export default function WordSearch() {
                       animate={isFound ? { scale: [1, 1.15, 1] } : { scale: 1 }}
                       transition={{ duration: 0.2 }}
                       className={cn(
-                        "w-8 h-8 sm:w-10 sm:h-10 md:w-11 md:h-11 flex items-center justify-center text-base sm:text-lg font-bold rounded-lg transition-colors duration-75",
+                        "aspect-square w-full flex items-center justify-center text-[10px] sm:text-sm md:text-base font-bold rounded sm:rounded-lg transition-colors duration-75",
                         isFound
                           ? "bg-primary text-primary-foreground shadow-sm shadow-primary/30"
                           : isStart
-                          ? "bg-primary text-primary-foreground ring-2 ring-offset-1 ring-primary shadow-md scale-110"
+                          ? "bg-primary text-primary-foreground ring-1 sm:ring-2 ring-offset-0 sm:ring-offset-1 ring-primary shadow-md scale-110"
                           : isHover && inPreview
                           ? "bg-primary text-primary-foreground scale-105"
                           : inPreview
@@ -308,12 +308,12 @@ export default function WordSearch() {
           </div>
 
           {/* Word List Panel */}
-          <div className="w-full lg:w-72 bg-card border border-border p-6 rounded-3xl shadow-lg shadow-black/5 flex-shrink-0">
-            <h3 className="text-lg font-bold mb-5 pb-4 border-b border-border flex items-center justify-between">
+          <div className="w-full lg:w-72 bg-card border border-border p-4 sm:p-6 rounded-3xl shadow-lg shadow-black/5 flex-shrink-0">
+            <h3 className="text-base sm:text-lg font-bold mb-4 pb-3 border-b border-border flex items-center justify-between">
               Words to Find
               <span className="text-sm font-normal text-muted-foreground">{foundWords.length}/{wordsToFind.length}</span>
             </h3>
-            <div className="flex flex-col gap-2">
+            <div className="grid grid-cols-2 lg:grid-cols-1 gap-2">
               {wordsToFind.map(word => {
                 const isWordFound = foundWords.includes(word);
                 return (
@@ -322,13 +322,13 @@ export default function WordSearch() {
                     animate={isWordFound ? { x: [0, 4, 0] } : {}}
                     transition={{ duration: 0.3 }}
                     className={cn(
-                      "px-3 py-2.5 rounded-xl font-semibold text-base transition-all flex items-center justify-between gap-2",
+                      "px-3 py-2.5 rounded-xl font-semibold text-sm sm:text-base transition-all flex items-center justify-between gap-2",
                       isWordFound
                         ? "bg-emerald-50 text-emerald-700 dark:bg-emerald-900/25 dark:text-emerald-400"
                         : "bg-secondary/20 text-foreground"
                     )}
                   >
-                    <span className={isWordFound ? "line-through decoration-2" : ""}>{word}</span>
+                    <span className={cn("truncate", isWordFound ? "line-through decoration-2" : "")}>{word}</span>
                     {isWordFound && <CheckCircle2 className="w-4 h-4 shrink-0 text-emerald-500" />}
                   </motion.div>
                 );
