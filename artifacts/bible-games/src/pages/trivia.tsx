@@ -6,6 +6,7 @@ import { triviaQuestions, homeFAQs, Category, Difficulty } from "@/lib/data";
 import { FAQAccordion } from "@/components/ui/faq-accordion";
 import { RelatedGames } from "@/components/ui/related-games";
 import { PageSEO } from "@/components/seo/PageSEO";
+import { BreadcrumbSchema, FAQSchema } from "@/components/seo/SchemaMarkup";
 import { cn } from "@/lib/utils";
 
 const RELATED: import("@/components/ui/related-games").RelatedGame[] = [
@@ -121,6 +122,11 @@ export default function Trivia() {
         description="Play Bible trivia games online with multiple categories and difficulty levels. Test your knowledge with fun and engaging quiz questions."
         canonicalPath="/bible-trivia/"
       />
+      <BreadcrumbSchema crumbs={[
+        { name: "Home", path: "/" },
+        { name: "Bible Trivia", path: "/bible-trivia/" },
+      ]} />
+      <FAQSchema />
 
       {/* Hero */}
       <div className="bg-secondary text-secondary-foreground py-10 sm:py-16 text-center px-4 relative overflow-hidden">

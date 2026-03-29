@@ -5,6 +5,7 @@ import { useState } from "react";
 import { homeFAQs, triviaQuestions } from "@/lib/data";
 import { FAQAccordion } from "@/components/ui/faq-accordion";
 import { PageSEO } from "@/components/seo/PageSEO";
+import { WebSiteSchema, FAQSchema } from "@/components/seo/SchemaMarkup";
 
 export default function Home() {
   const [, setLocation] = useLocation();
@@ -61,6 +62,8 @@ export default function Home() {
         description="Play free Bible games online including trivia, word search, and fun kids Bible games. Test your knowledge and enjoy interactive Christian games."
         canonicalPath="/"
       />
+      <WebSiteSchema />
+      <FAQSchema />
 
       {/* ── HERO ── */}
       <section className="relative bg-secondary text-secondary-foreground overflow-hidden">

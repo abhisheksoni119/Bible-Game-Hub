@@ -6,6 +6,7 @@ import { wordSearchWords, homeFAQs } from "@/lib/data";
 import { FAQAccordion } from "@/components/ui/faq-accordion";
 import { RelatedGames } from "@/components/ui/related-games";
 import { PageSEO } from "@/components/seo/PageSEO";
+import { BreadcrumbSchema, FAQSchema } from "@/components/seo/SchemaMarkup";
 import { cn } from "@/lib/utils";
 
 const RELATED: import("@/components/ui/related-games").RelatedGame[] = [
@@ -165,6 +166,11 @@ export default function WordSearch() {
         description="Find hidden words in Bible word search games and solve puzzle challenges. Fun and educational Bible games for all ages."
         canonicalPath="/bible-word-games/"
       />
+      <BreadcrumbSchema crumbs={[
+        { name: "Home", path: "/" },
+        { name: "Word Games", path: "/bible-word-games/" },
+      ]} />
+      <FAQSchema />
 
       {/* Hero */}
       <div className="bg-secondary text-secondary-foreground py-10 sm:py-16 text-center px-4 relative overflow-hidden">
