@@ -6,7 +6,7 @@ import { kidsGameItems, homeFAQs } from "@/lib/data";
 import { FAQAccordion } from "@/components/ui/faq-accordion";
 import { RelatedGames } from "@/components/ui/related-games";
 import { PageSEO } from "@/components/seo/PageSEO";
-import { BreadcrumbSchema, FAQSchema } from "@/components/seo/SchemaMarkup";
+import { BreadcrumbSchema, FAQSchema, GameSchema } from "@/components/seo/SchemaMarkup";
 import { cn } from "@/lib/utils";
 
 const RELATED: import("@/components/ui/related-games").RelatedGame[] = [
@@ -124,6 +124,11 @@ export default function KidsMatching() {
         { name: "Kids Games", path: "/kids-bible-games/" },
       ]} />
       <FAQSchema />
+      <GameSchema
+        name="Kids Bible Matching Game"
+        url="https://biblegamesonline.net/kids-bible-games/"
+        description="A colorful flip-card matching game for children featuring animals from Noah's Ark. Tap two cards at a time to find all matching pairs."
+      />
 
       {/* Hero */}
       <div className="bg-secondary text-secondary-foreground py-10 sm:py-16 text-center px-4 relative overflow-hidden">

@@ -26,6 +26,14 @@ export function WebSiteSchema() {
       "name": "Bible Games Online",
       "url": `${BASE_URL}/`,
       "description": "Play free Bible games online including trivia, word search, and fun kids Bible games.",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": {
+          "@type": "EntryPoint",
+          "urlTemplate": `${BASE_URL}/?q={search_term_string}`,
+        },
+        "query-input": "required name=search_term_string",
+      },
     }} />
   );
 }
@@ -60,6 +68,32 @@ export function BreadcrumbSchema({ crumbs }: { crumbs: BreadcrumbItem[] }) {
         "name": name,
         "item": `${BASE_URL}${path}`,
       })),
+    }} />
+  );
+}
+
+export interface GameSchemaProps {
+  name: string;
+  url: string;
+  description: string;
+  applicationCategory?: string;
+}
+
+export function GameSchema({ name, url, description, applicationCategory = "Game" }: GameSchemaProps) {
+  return (
+    <JsonLD schema={{
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": name,
+      "applicationCategory": applicationCategory,
+      "operatingSystem": "Web",
+      "url": url,
+      "description": description,
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD",
+      },
     }} />
   );
 }

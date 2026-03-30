@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Mail, MessageSquare, CheckCircle2, Send } from "lucide-react";
 import { Link } from "wouter";
 import { PageSEO } from "@/components/seo/PageSEO";
+import { BreadcrumbSchema } from "@/components/seo/SchemaMarkup";
 
 type FormState = "idle" | "submitting" | "success" | "error";
 
@@ -57,6 +58,7 @@ export default function Contact() {
         description="Get in touch with the Bible Games Online team. We'd love to hear your questions, feedback, or suggestions about our free Bible games."
         canonicalPath="/contact/"
       />
+      <BreadcrumbSchema crumbs={[{ name: "Home", path: "/" }, { name: "Contact", path: "/contact/" }]} />
 
       {/* Hero */}
       <div className="bg-secondary text-secondary-foreground py-10 sm:py-16 text-center px-4 relative overflow-hidden">

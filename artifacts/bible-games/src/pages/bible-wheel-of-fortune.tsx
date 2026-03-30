@@ -6,7 +6,7 @@ import { wheelPhrases, homeFAQs } from "@/lib/data";
 import { FAQAccordion } from "@/components/ui/faq-accordion";
 import { RelatedGames } from "@/components/ui/related-games";
 import { PageSEO } from "@/components/seo/PageSEO";
-import { BreadcrumbSchema, FAQSchema } from "@/components/seo/SchemaMarkup";
+import { BreadcrumbSchema, FAQSchema, GameSchema } from "@/components/seo/SchemaMarkup";
 
 const MAX_WRONG = 6;
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
@@ -75,6 +75,11 @@ export default function BibleWheelOfFortune() {
       />
       <BreadcrumbSchema crumbs={[{ name:"Home", path:"/" }, { name:"Bible Wheel of Fortune", path:"/bible-wheel-of-fortune/" }]} />
       <FAQSchema />
+      <GameSchema
+        name="Bible Wheel of Fortune"
+        url="https://biblegamesonline.net/bible-wheel-of-fortune/"
+        description="Reveal a hidden Bible phrase letter by letter before your six wrong guesses run out in this scripture word-reveal challenge."
+      />
 
       {/* Hero */}
       <div className="bg-secondary text-secondary-foreground py-10 sm:py-14 text-center px-4 relative overflow-hidden">

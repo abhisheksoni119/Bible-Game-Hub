@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { Shield } from "lucide-react";
 import { Link } from "wouter";
 import { PageSEO } from "@/components/seo/PageSEO";
+import { BreadcrumbSchema } from "@/components/seo/SchemaMarkup";
 
 const LAST_UPDATED = "March 28, 2026";
 
@@ -13,6 +14,7 @@ export default function PrivacyPolicy() {
         description="Read the Privacy Policy for Bible Games Online. We do not collect personal data — all games are free, safe, and require no sign-up."
         canonicalPath="/privacy-policy/"
       />
+      <BreadcrumbSchema crumbs={[{ name: "Home", path: "/" }, { name: "Privacy Policy", path: "/privacy-policy/" }]} />
 
       {/* Hero */}
       <div className="bg-secondary text-secondary-foreground py-10 sm:py-16 text-center px-4 relative overflow-hidden">

@@ -5,7 +5,7 @@ import { bibleVerses, verseCategories, verseFAQs, type VerseCategory } from "@/l
 import { FAQAccordion } from "@/components/ui/faq-accordion";
 import { RelatedGames } from "@/components/ui/related-games";
 import { PageSEO } from "@/components/seo/PageSEO";
-import { BreadcrumbSchema, FAQSchema } from "@/components/seo/SchemaMarkup";
+import { BreadcrumbSchema, FAQSchema, GameSchema } from "@/components/seo/SchemaMarkup";
 
 const RELATED: import("@/components/ui/related-games").RelatedGame[] = [
   { title:"Bible Trivia",       description:"Test your scripture knowledge across three categories and difficulty levels.", href:"/bible-trivia/",       emoji:"🧠", cta:"Play Trivia" },
@@ -74,6 +74,12 @@ export default function BibleVerseGenerator() {
       />
       <BreadcrumbSchema crumbs={[{ name:"Home", path:"/" }, { name:"Bible Verse Generator", path:"/bible-verse-generator/" }]} />
       <FAQSchema />
+      <GameSchema
+        name="Bible Verse Generator"
+        url="https://biblegamesonline.net/bible-verse-generator/"
+        description="Instantly generate random Bible verses from 600 curated passages filtered by 12 spiritual themes including Faith, Hope, Love, and Wisdom."
+        applicationCategory="UtilityApplication"
+      />
 
       {/* Hero */}
       <div className="bg-secondary text-secondary-foreground py-10 sm:py-14 text-center px-4 relative overflow-hidden">

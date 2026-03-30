@@ -6,7 +6,7 @@ import { triviaQuestions, homeFAQs } from "@/lib/data";
 import { FAQAccordion } from "@/components/ui/faq-accordion";
 import { RelatedGames } from "@/components/ui/related-games";
 import { PageSEO } from "@/components/seo/PageSEO";
-import { BreadcrumbSchema, FAQSchema } from "@/components/seo/SchemaMarkup";
+import { BreadcrumbSchema, FAQSchema, GameSchema } from "@/components/seo/SchemaMarkup";
 
 const PRIZES = [
   "$100","$200","$300","$500","$1,000",
@@ -129,6 +129,11 @@ export default function BibleMillionaire() {
       />
       <BreadcrumbSchema crumbs={[{ name:"Home", path:"/" }, { name:"Bible Millionaire", path:"/bible-millionaire/" }]} />
       <FAQSchema />
+      <GameSchema
+        name="Bible Millionaire Quiz"
+        url="https://biblegamesonline.net/bible-millionaire/"
+        description="Answer 15 increasingly difficult Bible questions and climb the prize ladder from $100 to one million in this scripture knowledge quiz game."
+      />
 
       {/* Hero */}
       <div className="bg-secondary text-secondary-foreground py-10 sm:py-14 text-center px-4 relative overflow-hidden">

@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { FileText } from "lucide-react";
 import { Link } from "wouter";
 import { PageSEO } from "@/components/seo/PageSEO";
+import { BreadcrumbSchema } from "@/components/seo/SchemaMarkup";
 
 const LAST_UPDATED = "March 28, 2026";
 
@@ -13,6 +14,7 @@ export default function TermsOfService() {
         description="Read the Terms of Service for Bible Games Online — free, wholesome Bible games for all ages with no ads or sign-up required."
         canonicalPath="/terms-of-service/"
       />
+      <BreadcrumbSchema crumbs={[{ name: "Home", path: "/" }, { name: "Terms of Service", path: "/terms-of-service/" }]} />
 
       {/* Hero */}
       <div className="bg-secondary text-secondary-foreground py-10 sm:py-16 text-center px-4 relative overflow-hidden">

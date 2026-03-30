@@ -6,7 +6,7 @@ import { triviaQuestions, homeFAQs, Category, Difficulty } from "@/lib/data";
 import { FAQAccordion } from "@/components/ui/faq-accordion";
 import { RelatedGames } from "@/components/ui/related-games";
 import { PageSEO } from "@/components/seo/PageSEO";
-import { BreadcrumbSchema, FAQSchema } from "@/components/seo/SchemaMarkup";
+import { BreadcrumbSchema, FAQSchema, GameSchema } from "@/components/seo/SchemaMarkup";
 import { cn } from "@/lib/utils";
 
 const RELATED: import("@/components/ui/related-games").RelatedGame[] = [
@@ -141,6 +141,11 @@ export default function Trivia() {
         { name: "Bible Trivia", path: "/bible-trivia/" },
       ]} />
       <FAQSchema />
+      <GameSchema
+        name="Bible Trivia Quiz"
+        url="https://biblegamesonline.net/bible-trivia/"
+        description="Test your Bible knowledge with 250+ questions across General, Old Testament, and New Testament categories at three difficulty levels — Easy, Medium, and Hard."
+      />
 
       {/* Hero */}
       <div className="bg-secondary text-secondary-foreground py-10 sm:py-16 text-center px-4 relative overflow-hidden">

@@ -6,7 +6,7 @@ import { jeopardyCategories, jeopardyClues, homeFAQs } from "@/lib/data";
 import { FAQAccordion } from "@/components/ui/faq-accordion";
 import { RelatedGames } from "@/components/ui/related-games";
 import { PageSEO } from "@/components/seo/PageSEO";
-import { BreadcrumbSchema, FAQSchema } from "@/components/seo/SchemaMarkup";
+import { BreadcrumbSchema, FAQSchema, GameSchema } from "@/components/seo/SchemaMarkup";
 
 const VALUES = [200, 400, 600, 800, 1000];
 
@@ -70,6 +70,11 @@ export default function BibleJeopardy() {
       />
       <BreadcrumbSchema crumbs={[{ name:"Home", path:"/" }, { name:"Bible Jeopardy", path:"/bible-jeopardy/" }]} />
       <FAQSchema />
+      <GameSchema
+        name="Bible Jeopardy"
+        url="https://biblegamesonline.net/bible-jeopardy/"
+        description="Choose from 30 scripture clues across six Bible categories. Right answers earn points and wrong answers subtract in this Jeopardy-style quiz game."
+      />
 
       {/* Hero */}
       <div className="bg-secondary text-secondary-foreground py-10 sm:py-14 text-center px-4 relative overflow-hidden">

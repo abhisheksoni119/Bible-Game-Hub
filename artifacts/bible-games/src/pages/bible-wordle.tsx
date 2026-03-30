@@ -5,7 +5,7 @@ import { wordleWords, homeFAQs } from "@/lib/data";
 import { FAQAccordion } from "@/components/ui/faq-accordion";
 import { RelatedGames } from "@/components/ui/related-games";
 import { PageSEO } from "@/components/seo/PageSEO";
-import { BreadcrumbSchema, FAQSchema } from "@/components/seo/SchemaMarkup";
+import { BreadcrumbSchema, FAQSchema, GameSchema } from "@/components/seo/SchemaMarkup";
 
 const WORD_LENGTH = 5;
 const MAX_GUESSES = 6;
@@ -124,6 +124,11 @@ export default function BibleWordle() {
       />
       <BreadcrumbSchema crumbs={[{ name:"Home", path:"/" }, { name:"Bible Wordle", path:"/bible-wordle/" }]} />
       <FAQSchema />
+      <GameSchema
+        name="Bible Wordle"
+        url="https://biblegamesonline.net/bible-wordle/"
+        description="Guess the hidden five-letter Bible word in six tries. Color-coded feedback reveals whether each letter is correct, misplaced, or not in the word."
+      />
 
       {/* Hero */}
       <div className="bg-secondary text-secondary-foreground py-10 sm:py-14 text-center px-4 relative overflow-hidden">

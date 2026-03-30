@@ -6,7 +6,7 @@ import { memoryPairs, homeFAQs } from "@/lib/data";
 import { FAQAccordion } from "@/components/ui/faq-accordion";
 import { RelatedGames } from "@/components/ui/related-games";
 import { PageSEO } from "@/components/seo/PageSEO";
-import { BreadcrumbSchema, FAQSchema } from "@/components/seo/SchemaMarkup";
+import { BreadcrumbSchema, FAQSchema, GameSchema } from "@/components/seo/SchemaMarkup";
 
 type Card = { uid: string; pairId: number; side: "a"|"b"; label: string; emoji: string };
 
@@ -82,6 +82,11 @@ export default function BibleMemoryGames() {
       />
       <BreadcrumbSchema crumbs={[{ name:"Home", path:"/" }, { name:"Bible Memory Games", path:"/bible-memory-games/" }]} />
       <FAQSchema />
+      <GameSchema
+        name="Bible Memory Games"
+        url="https://biblegamesonline.net/bible-memory-games/"
+        description="Flip scripture-themed cards to find matching pairs of Bible heroes and their defining stories, building both memory skills and biblical knowledge."
+      />
 
       {/* Hero */}
       <div className="bg-secondary text-secondary-foreground py-10 sm:py-14 text-center px-4 relative overflow-hidden">

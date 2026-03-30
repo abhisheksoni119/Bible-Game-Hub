@@ -6,7 +6,7 @@ import { wordSearchWords, homeFAQs } from "@/lib/data";
 import { FAQAccordion } from "@/components/ui/faq-accordion";
 import { RelatedGames } from "@/components/ui/related-games";
 import { PageSEO } from "@/components/seo/PageSEO";
-import { BreadcrumbSchema, FAQSchema } from "@/components/seo/SchemaMarkup";
+import { BreadcrumbSchema, FAQSchema, GameSchema } from "@/components/seo/SchemaMarkup";
 import { cn } from "@/lib/utils";
 
 const RELATED: import("@/components/ui/related-games").RelatedGame[] = [
@@ -185,6 +185,11 @@ export default function WordSearch() {
         { name: "Word Games", path: "/bible-word-games/" },
       ]} />
       <FAQSchema />
+      <GameSchema
+        name="Bible Word Search"
+        url="https://biblegamesonline.net/bible-word-games/"
+        description="Search for hidden scripture words — names, places, and key biblical terms — inside a freshly generated 12×12 letter grid. No two puzzles are ever the same."
+      />
 
       {/* Hero */}
       <div className="bg-secondary text-secondary-foreground py-10 sm:py-16 text-center px-4 relative overflow-hidden">
