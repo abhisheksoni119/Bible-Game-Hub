@@ -356,6 +356,36 @@ export default function WordSearch() {
           </ul>
         </div>
         <div>
+          <h2 className="text-2xl md:text-3xl font-display font-bold text-foreground mb-3 section-title-bar-left">Bible Word Search Online</h2>
+          <p className="text-muted-foreground leading-relaxed mb-4">
+            Our online Bible word search hides scripture terms — names, places, and key words from both testaments — inside a freshly generated 12×12 grid every time you play. No two puzzles are ever identical, so you always get a new challenge.
+          </p>
+          <p className="text-muted-foreground leading-relaxed">
+            Whether you're looking for a short activity between study sessions or a calm way to wind down, searching for words like GRACE, PSALM, ANGEL, and MOSES keeps your mind anchored in scripture without any screen pressure.
+          </p>
+        </div>
+
+        <div>
+          <h2 className="text-2xl md:text-3xl font-display font-bold text-foreground mb-3 section-title-bar-left">Bible Puzzle Games</h2>
+          <p className="text-muted-foreground leading-relaxed mb-4">
+            Puzzle-style Bible games go beyond simple recall — they ask you to think, search, and reason. Word search is just the beginning. The family of scripture puzzles spans letter grids, hidden phrases, matching pairs, and word-guessing challenges, each demanding a slightly different kind of mental engagement.
+          </p>
+          <p className="text-muted-foreground leading-relaxed">
+            What makes Bible puzzles particularly valuable is that the content itself is meaningful. Every word you uncover and every phrase you decode reinforces a name, place, or concept from the Bible — learning that sticks because it's tied to an activity, not just reading.
+          </p>
+        </div>
+
+        <div>
+          <h2 className="text-2xl md:text-3xl font-display font-bold text-foreground mb-3 section-title-bar-left">Bible Word Guessing Games</h2>
+          <p className="text-muted-foreground leading-relaxed mb-4">
+            Wordle-style gameplay has become one of the most popular casual puzzle formats around — and the Bible version puts a faith-based twist on it. You have six attempts to guess a five-letter Bible word, with each guess giving you color-coded feedback: green for the right letter in the right spot, yellow for the right letter in the wrong spot.
+          </p>
+          <p className="text-muted-foreground leading-relaxed">
+            The words come from scripture — names, places, and terms that Bible readers will recognize. It's a quick daily challenge that sharpens both vocabulary and word-pattern thinking. Give it a try in our <a href="/bible-wordle/" className="text-primary hover:underline font-medium">Bible Wordle game</a>.
+          </p>
+        </div>
+
+        <div>
           <h2 className="text-2xl md:text-3xl font-display font-bold text-foreground mb-8 text-center section-title-bar">Frequently Asked Questions</h2>
           <div className="mt-6">
             <FAQAccordion items={homeFAQs} />

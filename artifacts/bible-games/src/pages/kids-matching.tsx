@@ -308,6 +308,31 @@ export default function KidsMatching() {
           </ul>
         </div>
         <div>
+          <h2 className="text-2xl md:text-3xl font-display font-bold text-foreground mb-3 section-title-bar-left">Memory Verse Games for Kids</h2>
+          <p className="text-muted-foreground leading-relaxed mb-4">
+            One of the best ways for children to internalize scripture is through repetition disguised as play. Memory-style games — like our flip-card matching challenge — build the same mental muscles needed to recall a Bible verse: attention, pattern recognition, and short-term retention.
+          </p>
+          <p className="text-muted-foreground leading-relaxed">
+            After a round of matching, parents and teachers can bridge the gap to a memory verse by connecting the animals on the cards to the Noah's Ark story. A short verse like Genesis 6:22 ("Noah did everything just as God commanded him") becomes far more memorable when a child has just spent five minutes thinking about the ark.
+          </p>
+        </div>
+
+        <div>
+          <h2 className="text-2xl md:text-3xl font-display font-bold text-foreground mb-3 section-title-bar-left">Bible Games for Sunday School and VBS</h2>
+          <p className="text-muted-foreground leading-relaxed mb-4">
+            Sunday school teachers and VBS leaders are always looking for activities that keep kids engaged while staying on theme. Our kids' Bible games work well as a five-minute warm-up, a transition activity between sessions, or a quiet individual challenge for early finishers.
+          </p>
+          <ul className="space-y-2 text-muted-foreground mb-4">
+            <li className="flex gap-3"><span className="text-primary font-bold mt-0.5 shrink-0">✓</span> No setup or printed materials needed — just open the page on a tablet or screen</li>
+            <li className="flex gap-3"><span className="text-primary font-bold mt-0.5 shrink-0">✓</span> Safe, ad-free, and completely appropriate for group settings</li>
+            <li className="flex gap-3"><span className="text-primary font-bold mt-0.5 shrink-0">✓</span> Works on phones, tablets, and shared classroom screens</li>
+          </ul>
+          <p className="text-muted-foreground leading-relaxed">
+            For older kids and teens, pairing the matching game with a short discussion about Noah's obedience turns a simple activity into a meaningful group moment.
+          </p>
+        </div>
+
+        <div>
           <h2 className="text-2xl md:text-3xl font-display font-bold text-foreground mb-8 text-center section-title-bar">Frequently Asked Questions</h2>
           <div className="mt-6">
             <FAQAccordion items={homeFAQs} />
