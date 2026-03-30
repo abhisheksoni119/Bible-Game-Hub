@@ -4,7 +4,7 @@ RewriteBase /
 
 # 301 redirect non-trailing-slash URLs to trailing-slash canonical versions
 RewriteCond %{REQUEST_FILENAME} !-f
-RewriteRule ^(bible-trivia|bible-word-games|kids-bible-games|bible-wordle|bible-millionaire|bible-wheel-of-fortune|bible-jeopardy|bible-memory-games|privacy-policy|terms-of-service|contact)$ /$1/ [R=301,L]
+RewriteRule ^(bible-trivia|bible-word-games|kids-bible-games|bible-wordle|bible-millionaire|bible-wheel-of-fortune|bible-jeopardy|bible-memory-games|bible-verse-generator|privacy-policy|terms-of-service|contact)$ /$1/ [R=301,L]
 
 # SPA fallback: serve index.html for all non-file requests so React routing works
 RewriteCond %{REQUEST_FILENAME} !-f

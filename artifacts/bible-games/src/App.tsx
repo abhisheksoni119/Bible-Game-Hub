@@ -17,6 +17,7 @@ import BibleMillionaire from "@/pages/bible-millionaire";
 import BibleWheelOfFortune from "@/pages/bible-wheel-of-fortune";
 import BibleJeopardy from "@/pages/bible-jeopardy";
 import BibleMemoryGames from "@/pages/bible-memory-games";
+import BibleVerseGenerator from "@/pages/bible-verse-generator";
 import PrivacyPolicy from "@/pages/privacy-policy";
 import TermsOfService from "@/pages/terms-of-service";
 import Contact from "@/pages/contact";
@@ -48,6 +49,7 @@ function Router() {
           <Route path="/bible-wheel-of-fortune/" component={BibleWheelOfFortune} />
           <Route path="/bible-jeopardy/" component={BibleJeopardy} />
           <Route path="/bible-memory-games/" component={BibleMemoryGames} />
+          <Route path="/bible-verse-generator/" component={BibleVerseGenerator} />
           <Route path="/privacy-policy/" component={PrivacyPolicy} />
           <Route path="/terms-of-service/" component={TermsOfService} />
           <Route path="/contact/" component={Contact} />

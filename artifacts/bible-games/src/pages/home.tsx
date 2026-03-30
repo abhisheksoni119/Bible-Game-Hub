@@ -1,8 +1,8 @@
 import { Link, useLocation } from "wouter";
-import { motion } from "framer-motion";
-import { Brain, Search, Smile, Play, CheckCircle2, XCircle, ArrowRight } from "lucide-react";
-import { useState } from "react";
-import { homeFAQs, triviaQuestions } from "@/lib/data";
+import { motion, AnimatePresence } from "framer-motion";
+import { Brain, Search, Smile, Play, CheckCircle2, XCircle, ArrowRight, RefreshCw, Sparkles } from "lucide-react";
+import { useState, useMemo } from "react";
+import { homeFAQs, triviaQuestions, bibleVerses } from "@/lib/data";
 import { FAQAccordion } from "@/components/ui/faq-accordion";
 import { PageSEO } from "@/components/seo/PageSEO";
 import { WebSiteSchema, FAQSchema } from "@/components/seo/SchemaMarkup";
@@ -14,6 +14,14 @@ export default function Home() {
   const [selectedOpt, setSelectedOpt] = useState<number | null>(null);
   const [score, setScore] = useState(0);
   const [showResult, setShowResult] = useState(false);
+
+  const [verseKey, setVerseKey]   = useState(0);
+  const [verseIdx, setVerseIdx]   = useState(() => Math.floor(Math.random() * bibleVerses.length));
+  const dailyVerse = useMemo(() => bibleVerses[verseIdx], [verseIdx]);
+  const refreshVerse = () => {
+    setVerseIdx(i => { let n = Math.floor(Math.random() * bibleVerses.length); while (n === i) n = Math.floor(Math.random() * bibleVerses.length); return n; });
+    setVerseKey(k => k + 1);
+  };
 
   const handleMiniTriviaAnswer = (index: number) => {
     if (selectedOpt !== null) return;
@@ -365,6 +373,47 @@ export default function Home() {
             </p>
           </div>
 
+        </div>
+      </section>
+
+      {/* ── Daily Bible Verse ── */}
+      <section className="py-14 sm:py-20">
+        <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <span className="inline-block text-xs font-semibold uppercase tracking-widest text-primary mb-3">Daily Scripture</span>
+          <div className="flex items-center justify-center gap-2 mb-8">
+            <Sparkles className="w-5 h-5 text-primary" />
+            <h2 className="text-2xl sm:text-3xl font-display font-bold section-title-bar">Daily Bible Verse</h2>
+          </div>
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={verseKey}
+              initial={{opacity:0, y:14, scale:0.97}}
+              animate={{opacity:1, y:0,  scale:1}}
+              exit   ={{opacity:0, y:-10, scale:0.97}}
+              transition={{duration:0.3, ease:"easeOut"}}
+              className="bg-card border border-border rounded-2xl p-6 sm:p-8 shadow-card mb-5 relative overflow-hidden"
+            >
+              <div className="absolute top-3 left-5 text-5xl font-display text-primary/10 leading-none select-none">"</div>
+              <span className="inline-block px-3 py-1 rounded-full border border-primary/30 bg-primary/10 text-primary text-xs font-bold mb-4">
+                {dailyVerse.category}
+              </span>
+              <blockquote className="text-base sm:text-lg font-medium text-foreground leading-relaxed mb-4">
+                "{dailyVerse.text}"
+              </blockquote>
+              <p className="text-primary font-display font-bold">— {dailyVerse.reference}</p>
+            </motion.div>
+          </AnimatePresence>
+          <div className="flex flex-col sm:flex-row gap-3 justify-center">
+            <button
+              onClick={refreshVerse}
+              className="inline-flex items-center justify-center gap-2 px-6 py-2.5 rounded-xl bg-card border border-border text-sm font-semibold hover:border-primary/50 hover:text-primary transition-all duration-200"
+            >
+              <RefreshCw className="w-4 h-4" /> New Verse
+            </button>
+            <Link href="/bible-verse-generator/" className="inline-flex items-center justify-center gap-2 px-6 py-2.5 rounded-xl bg-primary text-primary-foreground text-sm font-bold shadow-gold hover:bg-primary/90 transition-all duration-200">
+              <Sparkles className="w-4 h-4" /> Open Verse Generator
+            </Link>
+          </div>
         </div>
       </section>
 

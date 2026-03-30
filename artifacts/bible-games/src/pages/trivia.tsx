@@ -456,7 +456,7 @@ export default function Trivia() {
             The Hard difficulty pulls from the deeper corners of scripture — questions about lesser-known prophets, precise verse details, and historical context that goes beyond Sunday school basics. If you can ace the hard rounds, you genuinely know your Bible. Think Zephaniah versus Zechariah, the exact number of Solomon's chariots, or the name of the city where Paul was shipwrecked.
           </p>
           <p className="text-muted-foreground leading-relaxed">
-            Working through hard questions is one of the most effective ways to grow in Bible literacy. When you get something wrong, look it up — that's where real learning happens. Our database is regularly refreshed so returning players always face fresh challenges rather than the same questions on repeat.
+            Working through hard questions is one of the most effective ways to grow in Bible literacy. When you get something wrong, look it up — that's where real learning happens. Our database is regularly refreshed so returning players always face fresh challenges rather than the same questions on repeat. After a tough round, many players find that reflecting on a scripture verse helps them pause and refocus — our <a href="/bible-verse-generator/" className="text-primary hover:underline font-medium">Bible Verse Generator</a> is a great companion for post-game reflection.
           </p>
         </div>
 

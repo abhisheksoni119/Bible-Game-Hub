@@ -1607,6 +1607,94 @@ export const memoryPairs = [
   { id:12, a: { label: "Ruth",    emoji: "🌾" }, b: { label: "Loyal to Naomi",     emoji: "❤️" } },
 ];
 
+// ── Bible Verse Generator ─────────────────────────────────────────────────────
+export type VerseCategory = "All" | "Faith" | "Love" | "Hope" | "Strength" | "Wisdom" | "Encouragement";
+
+export interface BibleVerse {
+  text: string;
+  reference: string;
+  category: Exclude<VerseCategory, "All">;
+}
+
+export const bibleVerses: BibleVerse[] = [
+  // Faith
+  { text: "Now faith is confidence in what we hope for and assurance about what we do not see.", reference: "Hebrews 11:1", category: "Faith" },
+  { text: "Consequently, faith comes from hearing the message, and the message is heard through the word about Christ.", reference: "Romans 10:17", category: "Faith" },
+  { text: "Everything is possible for one who believes.", reference: "Mark 9:23", category: "Faith" },
+  { text: "Truly I tell you, if you have faith as small as a mustard seed, you can say to this mountain, 'Move from here to there,' and it will move.", reference: "Matthew 17:20", category: "Faith" },
+  { text: "For we live by faith, not by sight.", reference: "2 Corinthians 5:7", category: "Faith" },
+  { text: "I have been crucified with Christ and I no longer live, but Christ lives in me.", reference: "Galatians 2:20", category: "Faith" },
+  { text: "Cast all your anxiety on him because he cares for you.", reference: "1 Peter 5:7", category: "Faith" },
+  { text: "Trust in the Lord with all your heart and lean not on your own understanding.", reference: "Proverbs 3:5", category: "Faith" },
+  { text: "You will keep in perfect peace those whose minds are steadfast, because they trust in you.", reference: "Isaiah 26:3", category: "Faith" },
+  { text: "Without faith it is impossible to please God, because anyone who comes to him must believe that he exists and that he rewards those who earnestly seek him.", reference: "Hebrews 11:6", category: "Faith" },
+  // Love
+  { text: "For God so loved the world that he gave his one and only Son, that whoever believes in him shall not perish but have eternal life.", reference: "John 3:16", category: "Love" },
+  { text: "Love is patient, love is kind. It does not envy, it does not boast, it is not proud.", reference: "1 Corinthians 13:4", category: "Love" },
+  { text: "And now these three remain: faith, hope and love. But the greatest of these is love.", reference: "1 Corinthians 13:13", category: "Love" },
+  { text: "For I am convinced that neither death nor life, neither angels nor demons, neither the present nor the future, nor any powers, can separate us from the love of God.", reference: "Romans 8:38–39", category: "Love" },
+  { text: "Whoever does not love does not know God, because God is love.", reference: "1 John 4:8", category: "Love" },
+  { text: "Greater love has no one than this: to lay down one's life for one's friends.", reference: "John 15:13", category: "Love" },
+  { text: "But God demonstrates his own love for us in this: While we were still sinners, Christ died for us.", reference: "Romans 5:8", category: "Love" },
+  { text: "We love because he first loved us.", reference: "1 John 4:19", category: "Love" },
+  { text: "A new command I give you: Love one another. As I have loved you, so you must love one another.", reference: "John 13:34", category: "Love" },
+  { text: "Many waters cannot quench love; rivers cannot sweep it away.", reference: "Song of Solomon 8:7", category: "Love" },
+  // Hope
+  { text: "For I know the plans I have for you, declares the Lord, plans to prosper you and not to harm you, plans to give you hope and a future.", reference: "Jeremiah 29:11", category: "Hope" },
+  { text: "May the God of hope fill you with all joy and peace as you trust in him, so that you may overflow with hope by the power of the Holy Spirit.", reference: "Romans 15:13", category: "Hope" },
+  { text: "And we know that in all things God works for the good of those who love him, who have been called according to his purpose.", reference: "Romans 8:28", category: "Hope" },
+  { text: "Because of the Lord's great love we are not consumed, for his compassions never fail. They are new every morning.", reference: "Lamentations 3:22–23", category: "Hope" },
+  { text: "But those who hope in the Lord will renew their strength. They will soar on wings like eagles.", reference: "Isaiah 40:31", category: "Hope" },
+  { text: "And hope does not put us to shame, because God's love has been poured out into our hearts through the Holy Spirit.", reference: "Romans 5:5", category: "Hope" },
+  { text: "We have this hope as an anchor for the soul, firm and secure.", reference: "Hebrews 6:19", category: "Hope" },
+  { text: "Rejoice in hope, be patient in tribulation, be constant in prayer.", reference: "Romans 12:12", category: "Hope" },
+  { text: "As for me, I will always have hope; I will praise you more and more.", reference: "Psalm 71:14", category: "Hope" },
+  { text: "Let us hold unswervingly to the hope we profess, for he who promised is faithful.", reference: "Hebrews 10:23", category: "Hope" },
+  // Strength
+  { text: "I can do all this through him who gives me strength.", reference: "Philippians 4:13", category: "Strength" },
+  { text: "So do not fear, for I am with you; do not be dismayed, for I am your God. I will strengthen you and help you.", reference: "Isaiah 41:10", category: "Strength" },
+  { text: "God is our refuge and strength, an ever-present help in trouble.", reference: "Psalm 46:1", category: "Strength" },
+  { text: "Be strong and courageous. Do not be afraid; do not be discouraged, for the Lord your God will be with you wherever you go.", reference: "Joshua 1:9", category: "Strength" },
+  { text: "But he said to me, 'My grace is sufficient for you, for my power is made perfect in weakness.'", reference: "2 Corinthians 12:9", category: "Strength" },
+  { text: "Finally, be strong in the Lord and in his mighty power.", reference: "Ephesians 6:10", category: "Strength" },
+  { text: "He gives strength to the weary and increases the power of the weak.", reference: "Isaiah 40:29", category: "Strength" },
+  { text: "The Lord is my strength and my shield; my heart trusts in him, and he helps me.", reference: "Psalm 28:7", category: "Strength" },
+  { text: "The joy of the Lord is your strength.", reference: "Nehemiah 8:10", category: "Strength" },
+  { text: "Be strong and courageous. Do not be afraid or terrified because of them, for the Lord your God goes with you.", reference: "Deuteronomy 31:6", category: "Strength" },
+  // Wisdom
+  { text: "If any of you lacks wisdom, you should ask God, who gives generously to all without finding fault.", reference: "James 1:5", category: "Wisdom" },
+  { text: "The fear of the Lord is the beginning of wisdom, and knowledge of the Holy One is understanding.", reference: "Proverbs 9:10", category: "Wisdom" },
+  { text: "The fear of the Lord is the beginning of knowledge, but fools despise wisdom and instruction.", reference: "Proverbs 1:7", category: "Wisdom" },
+  { text: "Getting wisdom is the most important thing you can do. Whatever else you get, get insight.", reference: "Proverbs 4:7", category: "Wisdom" },
+  { text: "In whom are hidden all the treasures of wisdom and knowledge.", reference: "Colossians 2:3", category: "Wisdom" },
+  { text: "The wisdom that comes from heaven is first of all pure; then peace-loving, considerate, submissive.", reference: "James 3:17", category: "Wisdom" },
+  { text: "Do not be wise in your own eyes; fear the Lord and shun evil.", reference: "Proverbs 3:7", category: "Wisdom" },
+  { text: "The fear of the Lord is the beginning of wisdom; all who follow his precepts have good understanding.", reference: "Psalm 111:10", category: "Wisdom" },
+  { text: "Blessed is the one who finds wisdom, and the one who gets understanding.", reference: "Proverbs 3:13", category: "Wisdom" },
+  { text: "Wisdom is a shelter as money is a shelter, but the advantage of knowledge is this: Wisdom preserves those who have it.", reference: "Ecclesiastes 7:12", category: "Wisdom" },
+  // Encouragement
+  { text: "Do not be anxious about anything, but in every situation, by prayer and petition, with thanksgiving, present your requests to God.", reference: "Philippians 4:6", category: "Encouragement" },
+  { text: "Come to me, all you who are weary and burdened, and I will give you rest.", reference: "Matthew 11:28", category: "Encouragement" },
+  { text: "For the Spirit God gave us does not make us timid, but gives us power, love and self-discipline.", reference: "2 Timothy 1:7", category: "Encouragement" },
+  { text: "The Lord is close to the brokenhearted and saves those who are crushed in spirit.", reference: "Psalm 34:18", category: "Encouragement" },
+  { text: "I have told you these things, so that in me you may have peace. In this world you will have trouble. But take heart! I have overcome the world.", reference: "John 16:33", category: "Encouragement" },
+  { text: "Therefore encourage one another and build each other up, just as in fact you are doing.", reference: "1 Thessalonians 5:11", category: "Encouragement" },
+  { text: "If God is for us, who can be against us?", reference: "Romans 8:31", category: "Encouragement" },
+  { text: "Even though I walk through the darkest valley, I will fear no evil, for you are with me.", reference: "Psalm 23:4", category: "Encouragement" },
+  { text: "The Lord your God is with you, the Mighty Warrior who saves. He will take great delight in you.", reference: "Zephaniah 3:17", category: "Encouragement" },
+  { text: "Fear not, for I have redeemed you; I have summoned you by name; you are mine.", reference: "Isaiah 43:1", category: "Encouragement" },
+];
+
+export const verseCategories: VerseCategory[] = ["All", "Faith", "Love", "Hope", "Strength", "Wisdom", "Encouragement"];
+
+export const verseFAQs = [
+  { q: "How many Bible verses are in the generator?", a: "Our Bible verse generator contains over 60 carefully selected passages covering six meaningful categories: Faith, Love, Hope, Strength, Wisdom, and Encouragement." },
+  { q: "Can I filter verses by topic?", a: "Yes! Use the category dropdown to focus on a specific theme. Choose from Faith, Love, Hope, Strength, Wisdom, or Encouragement — or keep it on 'All' for a wide variety." },
+  { q: "How do I copy a verse to share it?", a: "Each verse card includes a 'Copy' button. Click it to copy the full verse text and reference to your clipboard, ready to paste into a message, social media post, or document." },
+  { q: "Are these verses from a specific Bible translation?", a: "The verses are drawn primarily from the New International Version (NIV), one of the most widely used modern translations, balanced for readability and accuracy." },
+  { q: "Can I use this for daily devotions?", a: "Absolutely. Many people use the generator as a simple devotional starting point — generate a verse, reflect on it, and let it guide your prayer or journaling for the day." },
+];
+
 export const homeFAQs = [
   { q: "Are these Bible games completely free?", a: "Yes! All games on Bible Games Online are 100% free to play. There are no hidden fees or subscriptions required." },
   { q: "Do I need to create an account to play?", a: "No account is needed. You can jump right in and start playing immediately without any registration." },
