@@ -1,5 +1,10 @@
 uploads = []
-generated = []
+
+[[generated]]
+id = "v0OST2Mw-1yDrtDtccA3K"
+uri = "file://artifacts/mockup-sandbox/public/images/divine-light-road.png"
+type = "image"
+title = "generated_image"
 
 [[outputs]]
 id = "0gbr-QUWRkDsxdyrCtfBm"
