@@ -369,7 +369,7 @@ export default function Home() {
               Share your <Link href="/bible-trivia/" className="text-primary hover:underline font-medium">quiz score</Link> with your small group, race through a <Link href="/bible-word-games/" className="text-primary hover:underline font-medium">word puzzle</Link>, or let the kids enjoy the <Link href="/kids-bible-games/" className="text-primary hover:underline font-medium">Noah's Ark matching game</Link> on their own.
             </p>
             <p className="text-muted-foreground leading-relaxed">
-              We built this platform as a quiet corner of the internet where faith and play belong together. There is always a game ready and waiting for you here.
+              We built this platform as a quiet corner of the internet where faith and play belong together. There is always a game ready and waiting for you here — and when you want to step back from the games for a moment of reflection, our <Link href="/bible-verse-generator/" className="text-primary hover:underline font-medium">Bible Verse Generator</Link> is just one click away, with 600+ passages across 12 themes to speak to wherever you are.
             </p>
           </div>
 
