@@ -465,9 +465,60 @@ export default function Trivia() {
           <p className="text-muted-foreground leading-relaxed mb-3">
             Some Bible questions look simple but hide a twist. For example: <em>"How many animals did Moses take on the ark?"</em> — the answer is zero, because it was Noah, not Moses. These deceptively simple questions test whether you're truly reading carefully or just pattern-matching on familiar words.
           </p>
-          <p className="text-muted-foreground leading-relaxed">
+          <p className="text-muted-foreground leading-relaxed mb-6">
             Other classic tricky questions include: Who was the oldest person in the Bible? (Methuselah — 969 years.) What language was the Old Testament primarily written in? (Hebrew, with some Aramaic.) Which book of the Bible contains the verse "God helps those who help themselves"? (None — it's not in the Bible.) These questions separate casual readers from genuine students of scripture.
           </p>
+
+          <div className="space-y-4">
+            {[
+              {
+                q: "How many animals did Moses take on the ark?",
+                a: "None — Moses never built an ark.",
+                note: "That was Noah! Moses led the Israelites out of Egypt. Mixing up Bible heroes is one of the most common mistakes.",
+              },
+              {
+                q: "How many wise men (Magi) visited baby Jesus?",
+                a: "The Bible doesn't say.",
+                note: "Matthew 2 mentions 'Magi from the east' but gives no number. The tradition of three comes from the three gifts — gold, frankincense, and myrrh.",
+              },
+              {
+                q: "What type of fruit did Eve eat in the Garden of Eden?",
+                a: "The Bible never specifies the fruit.",
+                note: "Genesis 3:6 says only 'the fruit.' The apple legend comes from a Latin wordplay — 'malum' means both 'apple' and 'evil.'",
+              },
+              {
+                q: "How many days was Jesus in the tomb before rising?",
+                a: "3 days (parts of three days by Jewish reckoning).",
+                note: "Friday afternoon, all of Saturday, and Sunday morning. It wasn't 72 full hours — Jewish custom counted any part of a day as a full day.",
+              },
+              {
+                q: "Why did God tell Noah to take 7 pairs of some animals — not just 2?",
+                a: "The clean animals were needed for sacrifice after the flood.",
+                note: "Genesis 7:2–3 requires 7 pairs of clean animals, 1 pair of unclean. After landing, Noah sacrificed from the clean ones (Genesis 8:20).",
+              },
+              {
+                q: "Who was the very first king of Israel?",
+                a: "Saul — not David.",
+                note: "Many assume David, but Saul was anointed first (1 Samuel 10:1). David became the second king after God rejected Saul.",
+              },
+              {
+                q: "Which book of the Bible says 'God helps those who help themselves'?",
+                a: "None — it's not in the Bible at all.",
+                note: "One of the most commonly misquoted 'Bible verses.' The phrase is attributed to Benjamin Franklin, not Scripture.",
+              },
+              {
+                q: "What language was the New Testament originally written in?",
+                a: "Greek (Koine Greek).",
+                note: "Though Jesus likely spoke Aramaic daily, the apostles wrote in Greek — the common trade language of the Roman world.",
+              },
+            ].map(({ q, a, note }, i) => (
+              <div key={i} className="rounded-xl border border-border bg-muted/40 p-4 sm:p-5">
+                <p className="font-semibold text-foreground mb-1.5">{q}</p>
+                <p className="text-primary font-medium text-sm mb-1">✓ {a}</p>
+                {note && <p className="text-muted-foreground text-sm leading-relaxed">{note}</p>}
+              </div>
+            ))}
+          </div>
         </div>
 
         <div>

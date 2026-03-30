@@ -1506,6 +1506,62 @@ export const triviaQuestions: TriviaQuestion[] = [
     category: "new-testament", difficulty: "hard",
     explanation: "Two disciples walked from Jerusalem to Emmaus when a stranger joined them — it was Jesus, whom they did not recognize until he broke bread with them (Luke 24:13–31).",
   },
+  {
+    id: 244, question: "How many animals did Moses take on the ark?",
+    options: ["2 of each kind", "7 pairs of clean animals", "14 in total", "None — Moses never built an ark"],
+    correctIndex: 3,
+    category: "general", difficulty: "medium",
+    explanation: "This is a classic trick question! Moses had nothing to do with the ark — that was Noah. Moses led the Israelites out of Egypt hundreds of years later.",
+  },
+  {
+    id: 245, question: "How many wise men (Magi) visited baby Jesus in Bethlehem?",
+    options: ["3", "12", "7", "The Bible doesn't say"],
+    correctIndex: 3,
+    category: "new-testament", difficulty: "medium",
+    explanation: "Matthew 2:1–12 mentions 'Magi from the east' but never gives a number. The tradition of three wise men comes from the three gifts — gold, frankincense, and myrrh.",
+  },
+  {
+    id: 246, question: "What type of fruit did Eve eat from the forbidden tree in the Garden of Eden?",
+    options: ["Apple", "Fig", "Pomegranate", "The Bible doesn't specify"],
+    correctIndex: 3,
+    category: "old-testament", difficulty: "medium",
+    explanation: "Genesis 3:6 simply says Eve took 'the fruit' — the Bible never identifies what kind. The apple tradition likely comes from a Latin wordplay: 'malum' means both 'apple' and 'evil.'",
+  },
+  {
+    id: 247, question: "Which book of the Bible contains the phrase 'God helps those who help themselves'?",
+    options: ["Proverbs", "Psalms", "Ecclesiastes", "It is not in the Bible"],
+    correctIndex: 3,
+    category: "general", difficulty: "hard",
+    explanation: "This popular saying does not appear anywhere in Scripture. It is commonly (and incorrectly) quoted as a Bible verse — it is attributed to Benjamin Franklin and ancient Greek writings.",
+  },
+  {
+    id: 248, question: "How many days was Jesus in the tomb before his resurrection?",
+    options: ["1 day", "2 days", "3 days", "7 days"],
+    correctIndex: 2,
+    category: "new-testament", difficulty: "easy",
+    explanation: "Jesus rose on the third day (Matthew 12:40; 1 Corinthians 15:4). By Jewish reckoning this covered parts of Friday, all of Saturday, and Sunday morning — not necessarily 72 full hours.",
+  },
+  {
+    id: 249, question: "Why did God tell Noah to take 7 pairs of some animals rather than just one pair?",
+    options: ["Seven is God's perfect number", "Some would die on the voyage", "Clean animals were needed for sacrifice after the flood", "For greater genetic diversity"],
+    correctIndex: 2,
+    category: "old-testament", difficulty: "hard",
+    explanation: "Genesis 7:2–3 specifies 7 pairs of every clean animal and 1 pair of unclean animals. After the flood, Noah offered burnt sacrifices from the clean animals (Genesis 8:20), so extra pairs were required.",
+  },
+  {
+    id: 250, question: "Who was the very first king of Israel?",
+    options: ["David", "Solomon", "Saul", "Samuel"],
+    correctIndex: 2,
+    category: "old-testament", difficulty: "medium",
+    explanation: "Many assume David was Israel's first king, but Saul was anointed king first (1 Samuel 10:1). David became the second king after God rejected Saul for his disobedience.",
+  },
+  {
+    id: 251, question: "What language was the New Testament originally written in?",
+    options: ["Hebrew", "Latin", "Aramaic", "Greek"],
+    correctIndex: 3,
+    category: "general", difficulty: "medium",
+    explanation: "The New Testament was written in Koine Greek — the common trade language of the Roman Empire. Though Jesus likely spoke Aramaic daily, the apostles wrote for a Greek-speaking world.",
+  },
 ];
 
 export const wordSearchWords = ["JESUS", "MOSES", "DAVID", "NOAH", "FAITH", "GRACE", "PRAYER", "BIBLE", "ANGEL", "PSALM"];
