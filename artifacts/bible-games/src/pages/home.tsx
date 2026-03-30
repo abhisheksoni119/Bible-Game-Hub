@@ -5,7 +5,7 @@ import { useState, useMemo } from "react";
 import { homeFAQs, triviaQuestions, bibleVerses } from "@/lib/data";
 import { FAQAccordion } from "@/components/ui/faq-accordion";
 import { PageSEO } from "@/components/seo/PageSEO";
-import { WebSiteSchema, FAQSchema } from "@/components/seo/SchemaMarkup";
+import { WebSiteSchema, FAQSchema, OrganizationSchema } from "@/components/seo/SchemaMarkup";
 
 export default function Home() {
   const [, setLocation] = useLocation();
@@ -41,21 +41,21 @@ export default function Home() {
 
   const games = [
     {
-      href: "/bible-trivia",
+      href: "/bible-trivia/",
       img: `${import.meta.env.BASE_URL}images/trivia-card.png`,
       label: "Bible Trivia",
       desc: "Test your knowledge of scriptures, characters, and events from both the Old and New Testaments.",
-      badge: "243 questions",
+      badge: "251 questions",
     },
     {
-      href: "/bible-word-games",
+      href: "/bible-word-games/",
       img: `${import.meta.env.BASE_URL}images/word-game-card.png`,
       label: "Word Search",
       desc: "Find hidden biblical words in a freshly generated 12×12 letter grid. A new puzzle every time.",
       badge: "Infinite grids",
     },
     {
-      href: "/kids-bible-games",
+      href: "/kids-bible-games/",
       img: `${import.meta.env.BASE_URL}images/kids-game-card.png`,
       label: "Kids Games",
       desc: "Fun, vibrant matching games featuring animals from the ark — perfect for young learners.",
@@ -71,6 +71,7 @@ export default function Home() {
         canonicalPath="/"
       />
       <WebSiteSchema />
+      <OrganizationSchema />
       <FAQSchema />
 
       {/* ── HERO ── */}
@@ -360,6 +361,16 @@ export default function Home() {
               <li className="flex gap-3"><span className="text-primary font-bold mt-0.5 shrink-0">✓</span> No ads, no external links — completely safe for kids</li>
               <li className="flex gap-3"><span className="text-primary font-bold mt-0.5 shrink-0">✓</span> Works great on tablets and phones</li>
             </ul>
+          </div>
+
+          <div>
+            <h2 className="text-2xl md:text-3xl font-display font-bold text-foreground mb-4">More Ways to Explore Scripture Through Play</h2>
+            <p className="text-muted-foreground leading-relaxed mb-4">
+              Beyond our flagship games, the library keeps growing. If you enjoy character-driven challenges, <Link href="/bible-who-am-i/" className="text-primary hover:underline font-medium">Bible Who Am I?</Link> gives you up to five progressive clues and asks you to identify Moses, Esther, Paul, and nine other heroes of faith — the fewer hints you need, the higher your score. For a more relaxed, meditative word challenge, our <Link href="/bible-crossword/" className="text-primary hover:underline font-medium">Bible Crossword</Link> puzzle is arriving soon with across-and-down clues drawn entirely from scripture.
+            </p>
+            <p className="text-muted-foreground leading-relaxed mb-4">
+              Game show fans can step up to <Link href="/bible-millionaire/" className="text-primary hover:underline font-medium">Bible Millionaire</Link> — fifteen questions, three lifelines, and a prize ladder that climbs to $1,000,000 in imaginary winnings. Or test your recall in <Link href="/bible-jeopardy/" className="text-primary hover:underline font-medium">Bible Jeopardy</Link>, where six scripture categories and five clue values keep every session different. And if you prefer something fast and daily, <Link href="/bible-wordle/" className="text-primary hover:underline font-medium">Bible Wordle</Link> challenges you to guess a five-letter scripture word in six tries using color-coded letter feedback.
+            </p>
           </div>
 
           <div>

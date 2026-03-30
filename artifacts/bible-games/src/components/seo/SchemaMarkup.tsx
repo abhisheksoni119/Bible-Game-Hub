@@ -38,6 +38,25 @@ export function WebSiteSchema() {
   );
 }
 
+export function OrganizationSchema() {
+  return (
+    <JsonLD schema={{
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "Bible Games Online",
+      "url": `${BASE_URL}/`,
+      "logo": `${BASE_URL}/favicon.svg`,
+      "description": "Free online Bible games including trivia, word search, kids matching games, Bible Wordle, and more — all rooted in scripture and suitable for all ages.",
+      "sameAs": [],
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "contactType": "customer support",
+        "url": `${BASE_URL}/contact/`,
+      },
+    }} />
+  );
+}
+
 export function FAQSchema() {
   return (
     <JsonLD schema={{
