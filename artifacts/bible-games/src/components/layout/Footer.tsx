@@ -32,6 +32,11 @@ export function Footer() {
               <li><Link href="/bible-trivia/" className="hover:text-primary transition-colors flex items-center gap-1.5">🧠 Bible Trivia</Link></li>
               <li><Link href="/bible-word-games/" className="hover:text-primary transition-colors flex items-center gap-1.5">🔍 Word Search</Link></li>
               <li><Link href="/kids-bible-games/" className="hover:text-primary transition-colors flex items-center gap-1.5">🎮 Kids Matching</Link></li>
+              <li><Link href="/bible-wordle/" className="hover:text-primary transition-colors flex items-center gap-1.5">📖 Bible Wordle</Link></li>
+              <li><Link href="/bible-millionaire/" className="hover:text-primary transition-colors flex items-center gap-1.5">💰 Bible Millionaire</Link></li>
+              <li><Link href="/bible-wheel-of-fortune/" className="hover:text-primary transition-colors flex items-center gap-1.5">🎡 Wheel of Fortune</Link></li>
+              <li><Link href="/bible-jeopardy/" className="hover:text-primary transition-colors flex items-center gap-1.5">📺 Bible Jeopardy</Link></li>
+              <li><Link href="/bible-memory-games/" className="hover:text-primary transition-colors flex items-center gap-1.5">🧩 Memory Games</Link></li>
             </ul>
           </div>
 

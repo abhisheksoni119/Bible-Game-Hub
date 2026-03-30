@@ -1,0 +1,127 @@
+Extend the existing "Bible Games Online" website by adding new game pages while strictly preserving all existing functionality, SEO structure, and content.
+
+=====================
+🚨 CRITICAL RULES
+=================
+
+* DO NOT remove or replace existing content
+* ONLY add new pages and additional content
+* Maintain trailing slash URLs
+* Maintain canonical consistency
+* Preserve internal linking structure
+
+=====================
+🧠 KORAY METHOD (SEMANTIC SEO)
+==============================
+
+Apply semantic SEO principles:
+
+* Use natural language instead of keyword repetition
+* Include semantic variations such as:
+  "Bible quiz", "Christian games", "scripture-based activities", "Bible learning games", "faith-based puzzles"
+* Build topical depth across pages
+* Avoid duplicate phrasing across pages
+* Each page should have unique contextual meaning
+* Focus on user intent (playing games, not reading heavy content)
+
+=====================
+🎯 NEW PAGES
+============
+
+Create:
+
+* /bible-wordle/
+* /bible-millionaire/
+* /bible-wheel-of-fortune/
+* /bible-jeopardy/
+* /bible-memory-games/
+
+=====================
+🎮 GAME LOGIC
+=============
+
+(Implement each game as defined previously — modular, interactive, mobile-friendly)
+
+=====================
+📄 SEO CONTENT RULES
+====================
+
+For EACH new page:
+
+* 200–300 words ONLY
+* Add:
+
+  * 1–2 H2 sections
+  * Optional H3 supporting points
+* Content must:
+
+  * Be human-like
+  * Be engaging
+  * Be contextually unique
+
+DO NOT:
+
+* Repeat same sentences across pages
+* Overuse keywords
+* Add unnecessary length
+
+=====================
+🏠 HOMEPAGE RULES
+=================
+
+* Keep homepage lightweight
+* Add new games ONLY in Featured section
+* Add minimal semantic mentions (no heavy sections)
+
+=====================
+🔗 INTERNAL LINKING (SEMANTIC)
+==============================
+
+* Link related games naturally:
+  Example:
+
+  * Wordle → Word games
+  * Trivia → Jeopardy
+  * Kids → Memory games
+
+* Add “Explore Related Games” sections
+
+* Avoid over-linking
+
+=====================
+📁 SITEMAP + ROBOTS
+===================
+
+* Update sitemap.xml with all new pages (trailing slash)
+* Keep robots.txt unchanged
+
+=====================
+📊 STRUCTURED DATA
+==================
+
+* Maintain existing schema
+* Add FAQ schema for new pages only
+
+=====================
+🎨 UX PRIORITY
+==============
+
+* Games should always be above the fold
+* Content should support gameplay, not dominate
+* Maintain fast loading
+
+=====================
+⚙️ OUTPUT REQUIREMENTS
+======================
+
+* All pages working independently
+* No broken routes
+* No SEO conflicts
+* Fully responsive
+* Ready for production build (/dist)
+
+=====================
+🚀 FINAL STEP
+=============
+
+Ensure project builds successfully into /dist folder for deployment

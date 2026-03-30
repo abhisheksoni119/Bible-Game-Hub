@@ -1519,6 +1519,94 @@ export const kidsGameItems = [
   { id: "donkey", icon: "🐴", name: "Donkey" },
 ];
 
+// ── Bible Wordle ─────────────────────────────────────────────────────────────
+export const wordleWords = [
+  "JESUS","DAVID","FAITH","GRACE","ANGEL","CROSS","PEACE","PSALM",
+  "JAMES","PETER","JUDAS","HEROD","JACOB","ISAAC","ABRAM","SHEEP",
+  "BREAD","WATER","FLOOD","SWORD","TOWER","BABEL","SIMON","AARON",
+  "SARAH","MERCY","LIGHT","ALTAR","OLIVE","MANNA","CROWN","THORN",
+  "RABBI","NAOMI","SINAI","TITHE","TRUST","GLORY","FLESH","TRUTH",
+];
+
+// ── Bible Wheel of Fortune ───────────────────────────────────────────────────
+export const wheelPhrases = [
+  { phrase: "THE LORD IS MY SHEPHERD",        reference: "Psalm 23:1" },
+  { phrase: "FOR GOD SO LOVED THE WORLD",     reference: "John 3:16" },
+  { phrase: "LOVE YOUR NEIGHBOR AS YOURSELF", reference: "Mark 12:31" },
+  { phrase: "THE FRUIT OF THE SPIRIT",        reference: "Galatians 5:22" },
+  { phrase: "WALK BY FAITH NOT BY SIGHT",     reference: "2 Corinthians 5:7" },
+  { phrase: "I AM THE BREAD OF LIFE",         reference: "John 6:35" },
+  { phrase: "BLESSED ARE THE PEACEMAKERS",    reference: "Matthew 5:9" },
+  { phrase: "FEAR NOT FOR I AM WITH YOU",     reference: "Isaiah 41:10" },
+  { phrase: "ASK AND IT WILL BE GIVEN",       reference: "Matthew 7:7" },
+  { phrase: "IN THE BEGINNING GOD CREATED",   reference: "Genesis 1:1" },
+  { phrase: "THE TRUTH SHALL SET YOU FREE",   reference: "John 8:32" },
+  { phrase: "DO UNTO OTHERS AS YOU WOULD",    reference: "Luke 6:31" },
+];
+
+// ── Bible Jeopardy ───────────────────────────────────────────────────────────
+export const jeopardyCategories = [
+  "Old Testament", "New Testament", "Bible Heroes", "Books of Bible", "Bible Places", "Bible Numbers",
+];
+
+export const jeopardyClues: {
+  category: string; value: number; clue: string;
+  answer: string; options: string[];
+}[] = [
+  // Old Testament
+  { category:"Old Testament", value:200, clue:"The first book of the Bible", answer:"Genesis", options:["Exodus","Genesis","Leviticus","Numbers"] },
+  { category:"Old Testament", value:400, clue:"He parted the Red Sea to lead Israel out of Egypt", answer:"Moses", options:["Aaron","Moses","Joshua","Caleb"] },
+  { category:"Old Testament", value:600, clue:"This prophet was swallowed by a great fish", answer:"Jonah", options:["Elijah","Isaiah","Jonah","Hosea"] },
+  { category:"Old Testament", value:800, clue:"The first woman created, made from Adam's rib", answer:"Eve", options:["Sarah","Miriam","Eve","Rachel"] },
+  { category:"Old Testament", value:1000, clue:"King who asked God for wisdom instead of riches", answer:"Solomon", options:["David","Saul","Solomon","Rehoboam"] },
+  // New Testament
+  { category:"New Testament", value:200, clue:"The angel who announced Jesus' birth to Mary", answer:"Gabriel", options:["Michael","Raphael","Gabriel","Uriel"] },
+  { category:"New Testament", value:400, clue:"Jesus performed his first miracle here, turning water to wine", answer:"Cana", options:["Bethlehem","Jerusalem","Cana","Nazareth"] },
+  { category:"New Testament", value:600, clue:"He denied Jesus three times before the rooster crowed", answer:"Peter", options:["Judas","Peter","Thomas","James"] },
+  { category:"New Testament", value:800, clue:"Paul wrote his letter to believers in this Greek city", answer:"Corinth", options:["Athens","Corinth","Philippi","Ephesus"] },
+  { category:"New Testament", value:1000, clue:"The last book of the Bible, written by John", answer:"Revelation", options:["Hebrews","Jude","Revelation","Acts"] },
+  // Bible Heroes
+  { category:"Bible Heroes", value:200, clue:"Killed the giant Goliath with a sling and stone", answer:"David", options:["Samson","David","Gideon","Joshua"] },
+  { category:"Bible Heroes", value:400, clue:"She stayed loyal to her mother-in-law Naomi", answer:"Ruth", options:["Esther","Rahab","Ruth","Deborah"] },
+  { category:"Bible Heroes", value:600, clue:"Built the ark before a great worldwide flood", answer:"Noah", options:["Noah","Abraham","Lot","Shem"] },
+  { category:"Bible Heroes", value:800, clue:"Queen who risked her life to save the Jewish people", answer:"Esther", options:["Ruth","Miriam","Esther","Deborah"] },
+  { category:"Bible Heroes", value:1000, clue:"He interpreted dreams and became ruler of Egypt", answer:"Joseph", options:["Benjamin","Reuben","Joseph","Judah"] },
+  // Books of Bible
+  { category:"Books of Bible", value:200, clue:"Shortest book in the Old Testament (one chapter)", answer:"Obadiah", options:["Obadiah","Nahum","Philemon","Jude"] },
+  { category:"Books of Bible", value:400, clue:"Book containing the Ten Commandments given at Sinai", answer:"Exodus", options:["Leviticus","Deuteronomy","Exodus","Numbers"] },
+  { category:"Books of Bible", value:600, clue:"New Testament book that records the acts of the early church", answer:"Acts", options:["Acts","Romans","James","Hebrews"] },
+  { category:"Books of Bible", value:800, clue:"Book of songs, prayers, and poems — 150 chapters", answer:"Psalms", options:["Proverbs","Psalms","Ecclesiastes","Song of Solomon"] },
+  { category:"Books of Bible", value:1000, clue:"Paul's letter that systematically explains the gospel", answer:"Romans", options:["Galatians","Romans","Ephesians","Colossians"] },
+  // Bible Places
+  { category:"Bible Places", value:200, clue:"City where Jesus was born", answer:"Bethlehem", options:["Jerusalem","Bethlehem","Nazareth","Hebron"] },
+  { category:"Bible Places", value:400, clue:"The garden where Adam and Eve lived", answer:"Eden", options:["Gethsemane","Eden","Paradise","Canaan"] },
+  { category:"Bible Places", value:600, clue:"River where John the Baptist baptized Jesus", answer:"Jordan", options:["Nile","Euphrates","Jordan","Galilee"] },
+  { category:"Bible Places", value:800, clue:"Mountain where Moses received the Ten Commandments", answer:"Sinai", options:["Carmel","Sinai","Zion","Nebo"] },
+  { category:"Bible Places", value:1000, clue:"Paul was shipwrecked on this Mediterranean island", answer:"Malta", options:["Cyprus","Crete","Malta","Sicily"] },
+  // Bible Numbers
+  { category:"Bible Numbers", value:200, clue:"Number of days and nights it rained during Noah's flood", answer:"40", options:["7","30","40","50"] },
+  { category:"Bible Numbers", value:400, clue:"Pieces of silver Judas received for betraying Jesus", answer:"30", options:["20","30","40","50"] },
+  { category:"Bible Numbers", value:600, clue:"Number of apostles Jesus chose", answer:"12", options:["7","10","12","14"] },
+  { category:"Bible Numbers", value:800, clue:"Years the Israelites wandered in the wilderness", answer:"40", options:["20","30","40","50"] },
+  { category:"Bible Numbers", value:1000, clue:"Age of Methuselah, the oldest person in the Bible", answer:"969", options:["777","852","930","969"] },
+];
+
+// ── Bible Memory Game Pairs ───────────────────────────────────────────────────
+export const memoryPairs = [
+  { id: 1, a: { label: "Moses",   emoji: "🏔️" }, b: { label: "Parted the Red Sea", emoji: "🌊" } },
+  { id: 2, a: { label: "David",   emoji: "⭐" }, b: { label: "Slew Goliath",        emoji: "🪨" } },
+  { id: 3, a: { label: "Noah",    emoji: "🚢" }, b: { label: "Built the Ark",       emoji: "🌈" } },
+  { id: 4, a: { label: "Esther",  emoji: "👑" }, b: { label: "Saved Her People",    emoji: "💛" } },
+  { id: 5, a: { label: "Jonah",   emoji: "🐳" }, b: { label: "Swallowed by Fish",   emoji: "🌊" } },
+  { id: 6, a: { label: "Daniel",  emoji: "🦁" }, b: { label: "Den of Lions",        emoji: "🔒" } },
+  { id: 7, a: { label: "Mary",    emoji: "✨" }, b: { label: "Mother of Jesus",     emoji: "🕊️" } },
+  { id: 8, a: { label: "Paul",    emoji: "✉️" }, b: { label: "Wrote Many Epistles", emoji: "📜" } },
+  { id: 9, a: { label: "Joseph",  emoji: "🎨" }, b: { label: "Coat of Many Colors", emoji: "🌟" } },
+  { id:10, a: { label: "Samson",  emoji: "💪" }, b: { label: "His Strength Was His Hair", emoji: "✂️" } },
+  { id:11, a: { label: "Elijah",  emoji: "🔥" }, b: { label: "Fire from Heaven",   emoji: "⚡" } },
+  { id:12, a: { label: "Ruth",    emoji: "🌾" }, b: { label: "Loyal to Naomi",     emoji: "❤️" } },
+];
+
 export const homeFAQs = [
   { q: "Are these Bible games completely free?", a: "Yes! All games on Bible Games Online are 100% free to play. There are no hidden fees or subscriptions required." },
   { q: "Do I need to create an account to play?", a: "No account is needed. You can jump right in and start playing immediately without any registration." },

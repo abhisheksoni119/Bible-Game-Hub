@@ -237,6 +237,30 @@ export default function Home() {
               </Link>
             ))}
           </div>
+
+          {/* New Games Row */}
+          <div className="mt-8">
+            <p className="text-center text-xs font-bold uppercase tracking-widest text-primary mb-5">New Games</p>
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
+              {[
+                { href:"/bible-wordle/",          emoji:"📖", label:"Bible Wordle",        badge:"Daily word" },
+                { href:"/bible-millionaire/",     emoji:"💰", label:"Millionaire",          badge:"15 questions" },
+                { href:"/bible-wheel-of-fortune/",emoji:"🎡", label:"Wheel of Fortune",    badge:"Guess phrases" },
+                { href:"/bible-jeopardy/",        emoji:"📺", label:"Bible Jeopardy",       badge:"30 clues" },
+                { href:"/bible-memory-games/",    emoji:"🧩", label:"Memory Games",         badge:"12 pairs" },
+              ].map(g => (
+                <Link
+                  key={g.href}
+                  href={g.href}
+                  className="group flex flex-col items-center gap-2 bg-card border border-border rounded-2xl p-4 hover:border-primary/50 hover:shadow-md transition-all duration-200 text-center"
+                >
+                  <span className="text-3xl">{g.emoji}</span>
+                  <span className="font-semibold text-sm text-foreground group-hover:text-primary transition-colors leading-tight">{g.label}</span>
+                  <span className="text-xs text-muted-foreground">{g.badge}</span>
+                </Link>
+              ))}
+            </div>
+          </div>
         </div>
       </section>
 

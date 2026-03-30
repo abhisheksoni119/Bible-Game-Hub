@@ -12,6 +12,11 @@ import Home from "@/pages/home";
 import Trivia from "@/pages/trivia";
 import WordSearch from "@/pages/word-search";
 import KidsMatching from "@/pages/kids-matching";
+import BibleWordle from "@/pages/bible-wordle";
+import BibleMillionaire from "@/pages/bible-millionaire";
+import BibleWheelOfFortune from "@/pages/bible-wheel-of-fortune";
+import BibleJeopardy from "@/pages/bible-jeopardy";
+import BibleMemoryGames from "@/pages/bible-memory-games";
 import PrivacyPolicy from "@/pages/privacy-policy";
 import TermsOfService from "@/pages/terms-of-service";
 import Contact from "@/pages/contact";
@@ -38,6 +43,11 @@ function Router() {
           <Route path="/bible-trivia/" component={Trivia} />
           <Route path="/bible-word-games/" component={WordSearch} />
           <Route path="/kids-bible-games/" component={KidsMatching} />
+          <Route path="/bible-wordle/" component={BibleWordle} />
+          <Route path="/bible-millionaire/" component={BibleMillionaire} />
+          <Route path="/bible-wheel-of-fortune/" component={BibleWheelOfFortune} />
+          <Route path="/bible-jeopardy/" component={BibleJeopardy} />
+          <Route path="/bible-memory-games/" component={BibleMemoryGames} />
           <Route path="/privacy-policy/" component={PrivacyPolicy} />
           <Route path="/terms-of-service/" component={TermsOfService} />
           <Route path="/contact/" component={Contact} />
