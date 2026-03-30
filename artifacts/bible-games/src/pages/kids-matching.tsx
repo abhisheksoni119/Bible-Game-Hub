@@ -11,16 +11,23 @@ import { cn } from "@/lib/utils";
 
 const RELATED: import("@/components/ui/related-games").RelatedGame[] = [
   {
+    title: "Bible Memory Games",
+    description: "Match 12 famous Bible characters with their defining stories in this card-flip challenge.",
+    href: "/bible-memory-games/",
+    emoji: "🧩",
+    cta: "Play Memory",
+  },
+  {
     title: "Bible Trivia Challenge",
     description: "Test your knowledge of scripture across three categories and three difficulty levels.",
-    href: "/bible-trivia",
+    href: "/bible-trivia/",
     emoji: "🧠",
     cta: "Try the trivia",
   },
   {
     title: "Bible Word Hunt",
     description: "Find hidden biblical names and places in a freshly generated 12×12 letter grid.",
-    href: "/bible-word-games",
+    href: "/bible-word-games/",
     emoji: "🔍",
     cta: "Start a word puzzle",
   },

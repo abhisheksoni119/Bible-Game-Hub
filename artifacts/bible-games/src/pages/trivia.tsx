@@ -11,16 +11,30 @@ import { cn } from "@/lib/utils";
 
 const RELATED: import("@/components/ui/related-games").RelatedGame[] = [
   {
+    title: "Bible Jeopardy",
+    description: "Pick from 6 scripture categories and climb to $1,000 — a board-game twist on Bible knowledge.",
+    href: "/bible-jeopardy/",
+    emoji: "📺",
+    cta: "Play Jeopardy",
+  },
+  {
+    title: "Bible Millionaire",
+    description: "15 questions, three lifelines, and a $1,000,000 prize ladder. How far can you go?",
+    href: "/bible-millionaire/",
+    emoji: "💰",
+    cta: "Play Millionaire",
+  },
+  {
     title: "Bible Word Search",
     description: "Scan a 12×12 grid to find hidden scripture words. A fresh puzzle every time.",
-    href: "/bible-word-games",
+    href: "/bible-word-games/",
     emoji: "🔍",
     cta: "Try the word puzzle",
   },
   {
     title: "Kids Bible Games",
     description: "A colorful flip-card matching game with Noah's Ark animals — perfect for young learners.",
-    href: "/kids-bible-games",
+    href: "/kids-bible-games/",
     emoji: "🎮",
     cta: "Play the matching game",
   },
@@ -435,6 +449,37 @@ export default function Trivia() {
             <li className="flex gap-3"><span className="text-primary font-bold mt-0.5 shrink-0">✓</span> Great for solo play, youth groups, or family nights</li>
           </ul>
         </div>
+
+        <div>
+          <h2 className="text-2xl md:text-3xl font-display font-bold text-foreground mb-3 section-title-bar-left">Hard Bible Trivia Questions</h2>
+          <p className="text-muted-foreground leading-relaxed mb-3">
+            The Hard difficulty pulls from the deeper corners of scripture — questions about lesser-known prophets, precise verse details, and historical context that goes beyond Sunday school basics. If you can ace the hard rounds, you genuinely know your Bible. Think Zephaniah versus Zechariah, the exact number of Solomon's chariots, or the name of the city where Paul was shipwrecked.
+          </p>
+          <p className="text-muted-foreground leading-relaxed">
+            Working through hard questions is one of the most effective ways to grow in Bible literacy. When you get something wrong, look it up — that's where real learning happens. Our database is regularly refreshed so returning players always face fresh challenges rather than the same questions on repeat.
+          </p>
+        </div>
+
+        <div>
+          <h2 className="text-2xl md:text-3xl font-display font-bold text-foreground mb-3 section-title-bar-left">Tricky Bible Questions and Answers</h2>
+          <p className="text-muted-foreground leading-relaxed mb-3">
+            Some Bible questions look simple but hide a twist. For example: <em>"How many animals did Moses take on the ark?"</em> — the answer is zero, because it was Noah, not Moses. These deceptively simple questions test whether you're truly reading carefully or just pattern-matching on familiar words.
+          </p>
+          <p className="text-muted-foreground leading-relaxed">
+            Other classic tricky questions include: Who was the oldest person in the Bible? (Methuselah — 969 years.) What language was the Old Testament primarily written in? (Hebrew, with some Aramaic.) Which book of the Bible contains the verse "God helps those who help themselves"? (None — it's not in the Bible.) These questions separate casual readers from genuine students of scripture.
+          </p>
+        </div>
+
+        <div>
+          <h2 className="text-2xl md:text-3xl font-display font-bold text-foreground mb-3 section-title-bar-left">Bible Jeopardy Style Quiz</h2>
+          <p className="text-muted-foreground leading-relaxed mb-3">
+            If you enjoy this trivia format, you'll love the Jeopardy-style approach where <em>you</em> choose the category and the stakes. Our <a href="/bible-jeopardy/" className="text-primary hover:underline font-medium">Bible Jeopardy</a> game spreads 30 clues across six scripture categories — Old Testament, New Testament, Bible Heroes, Books of the Bible, Bible Places, and Bible Numbers.
+          </p>
+          <p className="text-muted-foreground leading-relaxed">
+            Lower dollar values ease you in; the $800 and $1,000 clues genuinely challenge seasoned readers. Right answers add to your score, wrong answers subtract — so pacing and strategy matter just as much as raw knowledge. It's a great format for group play, Sunday school sessions, or a solo devotional challenge.
+          </p>
+        </div>
+
         <div>
           <h2 className="text-2xl md:text-3xl font-display font-bold text-foreground mb-8 text-center section-title-bar">Frequently Asked Questions</h2>
           <div className="mt-6">

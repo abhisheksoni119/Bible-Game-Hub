@@ -11,16 +11,30 @@ import { cn } from "@/lib/utils";
 
 const RELATED: import("@/components/ui/related-games").RelatedGame[] = [
   {
+    title: "Bible Wordle",
+    description: "Guess the 5-letter Bible word in 6 tries — a fresh daily scripture word challenge.",
+    href: "/bible-wordle/",
+    emoji: "📖",
+    cta: "Play Wordle",
+  },
+  {
+    title: "Bible Wheel of Fortune",
+    description: "Reveal a hidden Bible phrase one letter at a time before your chances run out.",
+    href: "/bible-wheel-of-fortune/",
+    emoji: "🎡",
+    cta: "Spin the Wheel",
+  },
+  {
     title: "Scripture Trivia Quiz",
     description: "Think you know the Bible? Pick a category and difficulty, then answer 10 questions.",
-    href: "/bible-trivia",
+    href: "/bible-trivia/",
     emoji: "🧠",
     cta: "Take the quiz",
   },
   {
     title: "Children's Bible Activities",
     description: "Safe, ad-free flip-card matching with Noah's Ark animals — great for kids of all ages.",
-    href: "/kids-bible-games",
+    href: "/kids-bible-games/",
     emoji: "🎮",
     cta: "Open kids games",
   },

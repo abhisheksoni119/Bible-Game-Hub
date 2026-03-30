@@ -1,0 +1,98 @@
+Audit and fix SEO and content implementation across the entire website WITHOUT breaking existing functionality.
+
+=====================
+🔍 STEP 1: NEW PAGES SEO CHECK
+==============================
+
+For all new game pages:
+
+* /bible-wordle/
+* /bible-millionaire/
+* /bible-wheel-of-fortune/
+* /bible-jeopardy/
+* /bible-memory-games/
+
+Check and FIX if missing:
+
+* Meta title is present and optimized
+* Meta description is present and meaningful
+* Canonical tag is present and matches trailing slash URL
+* H1 is present and relevant
+
+DO NOT overwrite existing good content — only fix missing or incorrect elements.
+
+=====================
+📁 STEP 2: SITEMAP VALIDATION
+=============================
+
+Check sitemap.xml and ensure it includes:
+
+* https://biblegamesonline.net/bible-wordle/
+* https://biblegamesonline.net/bible-millionaire/
+* https://biblegamesonline.net/bible-wheel-of-fortune/
+* https://biblegamesonline.net/bible-jeopardy/
+* https://biblegamesonline.net/bible-memory-games/
+
+Fix:
+
+* Add missing URLs
+* Ensure all URLs use trailing slash
+* Maintain proper XML structure
+
+=====================
+📄 STEP 3: TRIVIA PAGE CONTENT EXPANSION
+========================================
+
+On Bible Trivia page:
+
+Add ONLY if not already present:
+
+H2: Hard Bible Trivia Questions
+
+* Add short, engaging content
+
+H2: Tricky Bible Questions and Answers
+
+* Include examples like:
+  “How many animals did Moses take on the ark?”
+
+H2: Bible Jeopardy Style Quiz
+
+* Explain gameplay variation
+
+Requirements:
+
+* Do NOT remove or replace existing content
+* ONLY add new sections
+* Use H2 + supporting paragraphs
+* Keep content concise and human-friendly
+
+=====================
+🔗 STEP 4: INTERNAL LINKING CHECK
+=================================
+
+Ensure:
+
+* New game pages are linked from homepage
+* "Explore More Games" section exists on all pages
+* Internal links use correct trailing slash URLs
+
+Fix if missing.
+
+=====================
+⚠️ FINAL RULES
+==============
+
+* DO NOT break any existing page
+* DO NOT duplicate content
+* DO NOT over-optimize or keyword stuff
+* Maintain clean, readable structure
+
+=====================
+✅ OUTPUT
+========
+
+* All SEO issues fixed
+* Sitemap updated
+* Missing sections added
+* Site remains stable and functional
