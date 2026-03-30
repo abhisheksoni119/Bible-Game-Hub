@@ -256,6 +256,8 @@ export default function Home() {
                 { href:"/bible-wheel-of-fortune/",emoji:"🎡", label:"Wheel of Fortune",    badge:"Guess phrases" },
                 { href:"/bible-jeopardy/",        emoji:"📺", label:"Bible Jeopardy",       badge:"30 clues" },
                 { href:"/bible-memory-games/",    emoji:"🧩", label:"Memory Games",         badge:"12 pairs" },
+                { href:"/bible-crossword/",       emoji:"✏️", label:"Bible Crossword",      badge:"Coming soon" },
+                { href:"/bible-who-am-i/",        emoji:"🔍", label:"Who Am I?",            badge:"12 characters" },
               ].map(g => (
                 <Link
                   key={g.href}

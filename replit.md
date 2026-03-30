@@ -51,6 +51,27 @@ Every package extends `tsconfig.base.json` which sets `composite: true`. The roo
 
 ## Packages
 
+### `artifacts/bible-games` (`@workspace/bible-games`)
+
+React + Vite frontend for Bible Games Online (domain: `biblegamesonline.net`). Pure SPA, no backend. Uses Wouter for routing with trailing-slash convention.
+
+**Pages (15 total):**
+- `/` — Home (featured games, mini-trivia, SEO content)
+- `/bible-trivia/` — Trivia quiz (251 questions, 3 difficulties)
+- `/bible-word-games/` — Word Search (12×12 generated grid)
+- `/kids-bible-games/` — Kids Matching game
+- `/bible-wordle/` — Daily Bible Wordle
+- `/bible-millionaire/` — Who Wants to Be a Millionaire style
+- `/bible-wheel-of-fortune/` — Wheel of Fortune style
+- `/bible-jeopardy/` — Jeopardy style (6 categories, 30 clues)
+- `/bible-memory-games/` — Card flip matching (12 pairs)
+- `/bible-verse-generator/` — 600+ verse generator by category
+- `/bible-crossword/` — Coming-soon crossword with decorative grid + full SEO
+- `/bible-who-am-i/` — Working guess-the-character game (12 chars, 5 clues each, 8 rounds)
+- `/privacy-policy/`, `/terms-of-service/`, `/contact/`
+
+**Key files:** `src/App.tsx` (routing), `src/lib/data.ts` (all game data), `src/components/seo/SchemaMarkup.tsx` (JSON-LD schemas), `public/sitemap.xml`
+
 ### `artifacts/api-server` (`@workspace/api-server`)
 
 Express 5 API server. Routes live in `src/routes/` and use `@workspace/api-zod` for request and response validation and `@workspace/db` for persistence.

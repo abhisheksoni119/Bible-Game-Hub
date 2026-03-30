@@ -38,6 +38,8 @@ export function Footer() {
               <li><Link href="/bible-jeopardy/" className="hover:text-primary transition-colors flex items-center gap-1.5">📺 Bible Jeopardy</Link></li>
               <li><Link href="/bible-memory-games/" className="hover:text-primary transition-colors flex items-center gap-1.5">🧩 Memory Games</Link></li>
               <li><Link href="/bible-verse-generator/" className="hover:text-primary transition-colors flex items-center gap-1.5">✨ Verse Generator</Link></li>
+              <li><Link href="/bible-crossword/" className="hover:text-primary transition-colors flex items-center gap-1.5">✏️ Bible Crossword</Link></li>
+              <li><Link href="/bible-who-am-i/" className="hover:text-primary transition-colors flex items-center gap-1.5">🔍 Who Am I?</Link></li>
             </ul>
           </div>
 

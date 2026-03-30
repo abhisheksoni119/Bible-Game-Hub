@@ -2309,6 +2309,136 @@ export const verseFAQs = [
   { q: "What makes each category distinct?", a: "Each category is focused on a single spiritual theme: Peace covers inner rest and harmony; Joy celebrates gladness in the Lord; Forgiveness addresses mercy and reconciliation; Patience covers endurance and trust in God's timing; Guidance is about seeking God's direction; and Gratitude focuses on thankfulness and praise." },
 ];
 
+export interface WhoAmICharacter {
+  id: number;
+  name: string;
+  emoji: string;
+  clues: string[];
+}
+
+export const whoAmICharacters: WhoAmICharacter[] = [
+  {
+    id: 1, name: "Moses", emoji: "🏔️",
+    clues: [
+      "I grew up as royalty but was born into slavery.",
+      "I fled to a foreign land after killing a man.",
+      "I encountered God in a bush that burned without being consumed.",
+      "I stretched out my staff and the sea parted before me.",
+      "I received the Ten Commandments on Mount Sinai.",
+    ],
+  },
+  {
+    id: 2, name: "David", emoji: "⭐",
+    clues: [
+      "I was the youngest of eight brothers.",
+      "I was anointed by a prophet while still tending my father's sheep.",
+      "I played the harp to soothe a troubled king.",
+      "I killed a giant with a single stone from my sling.",
+      "I am called a man after God's own heart and Israel's greatest king.",
+    ],
+  },
+  {
+    id: 3, name: "Elijah", emoji: "🔥",
+    clues: [
+      "I declared a great drought that lasted three and a half years.",
+      "I was fed by ravens in the wilderness.",
+      "I challenged 450 false prophets to a contest on Mount Carmel.",
+      "I heard God's voice not in a storm, but in a still, small whisper.",
+      "I was taken up to heaven in a chariot of fire.",
+    ],
+  },
+  {
+    id: 4, name: "Esther", emoji: "👑",
+    clues: [
+      "I kept my true identity hidden for a long time.",
+      "I was raised by my older cousin after my parents died.",
+      "I won a royal contest that placed me in a king's palace.",
+      "I risked my life by approaching the king without being summoned.",
+      "I saved my people with the words: 'For such a time as this.'",
+    ],
+  },
+  {
+    id: 5, name: "Peter", emoji: "🐟",
+    clues: [
+      "I was a fisherman on the Sea of Galilee before everything changed.",
+      "I stepped out of a boat onto water — and began to sink.",
+      "I declared that Jesus was the Christ, the Son of the living God.",
+      "I denied knowing Jesus three times before the rooster crowed.",
+      "I preached at Pentecost and three thousand people were baptized.",
+    ],
+  },
+  {
+    id: 6, name: "Mary", emoji: "🕊️",
+    clues: [
+      "An angel appeared to me with news that would change the world.",
+      "I traveled a great distance while very close to giving birth.",
+      "My child was laid in a manger because there was no room in the inn.",
+      "I kept all these things and pondered them quietly in my heart.",
+      "I am the mother of Jesus.",
+    ],
+  },
+  {
+    id: 7, name: "Jonah", emoji: "🐳",
+    clues: [
+      "I received a command from God and immediately ran the other way.",
+      "I boarded a ship headed to Tarshish to escape God's call.",
+      "The sailors threw me overboard during a terrible storm at sea.",
+      "I spent three days and three nights inside a great fish.",
+      "I preached in Nineveh, and the entire city turned to God.",
+    ],
+  },
+  {
+    id: 8, name: "Abraham", emoji: "🌟",
+    clues: [
+      "God told me to leave my homeland for a place I had never seen.",
+      "I left the ancient city of Ur with my family and my flocks.",
+      "God made a covenant with me and gave me a new name.",
+      "God tested my faith by asking me to sacrifice my only son.",
+      "I am called the father of many nations and of faith itself.",
+    ],
+  },
+  {
+    id: 9, name: "Ruth", emoji: "🌾",
+    clues: [
+      "I left my homeland and my people to follow someone I loved.",
+      "I gathered leftover grain in a stranger's fields to survive.",
+      "I declared: 'Where you go I will go, and where you stay I will stay.'",
+      "A kind man named Boaz noticed my loyalty and showed me great kindness.",
+      "I am a Moabite woman who became an ancestor of King David.",
+    ],
+  },
+  {
+    id: 10, name: "Daniel", emoji: "🦁",
+    clues: [
+      "As a young man, I was taken from my homeland to serve a foreign king.",
+      "I refused the king's food and drink to stay true to my faith.",
+      "I interpreted the mysterious handwriting that appeared on a palace wall.",
+      "I was thrown into a den of lions for praying to God three times each day.",
+      "I also interpreted the disturbing dreams of King Nebuchadnezzar.",
+    ],
+  },
+  {
+    id: 11, name: "Paul", emoji: "✉️",
+    clues: [
+      "Before my transformation, I actively hunted down followers of Jesus.",
+      "A blinding light struck me down on the road to a famous city.",
+      "I traveled thousands of miles planting churches across the Roman world.",
+      "I wrote more books of the New Testament than any other author.",
+      "My original name was Saul; I became the great apostle to the Gentiles.",
+    ],
+  },
+  {
+    id: 12, name: "Joseph", emoji: "🎨",
+    clues: [
+      "My brothers were so jealous of me that they plotted against my life.",
+      "My father gave me a special, richly ornamented coat.",
+      "My brothers sold me as a slave, but God used it for good.",
+      "I became a trusted leader by interpreting the dreams of a great king.",
+      "I was reunited with my family in Egypt and saved them from famine.",
+    ],
+  },
+];
+
 export const homeFAQs = [
   { q: "Are these Bible games completely free?", a: "Yes! All games on Bible Games Online are 100% free to play. There are no hidden fees or subscriptions required." },
   { q: "Do I need to create an account to play?", a: "No account is needed. You can jump right in and start playing immediately without any registration." },
