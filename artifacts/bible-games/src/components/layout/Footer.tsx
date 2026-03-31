@@ -40,6 +40,7 @@ export function Footer() {
               <li><Link href="/bible-verse-generator/" className="hover:text-primary transition-colors flex items-center gap-1.5">✨ Verse Generator</Link></li>
               <li><Link href="/bible-crossword/" className="hover:text-primary transition-colors flex items-center gap-1.5">✏️ Bible Crossword</Link></li>
               <li><Link href="/bible-who-am-i/" className="hover:text-primary transition-colors flex items-center gap-1.5">🔍 Who Am I?</Link></li>
+              <li><Link href="/bible-true-false/" className="hover:text-primary transition-colors flex items-center gap-1.5">✅ True or False</Link></li>
             </ul>
           </div>
 

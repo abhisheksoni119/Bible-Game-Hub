@@ -20,6 +20,7 @@ import BibleMemoryGames from "@/pages/bible-memory-games";
 import BibleVerseGenerator from "@/pages/bible-verse-generator";
 import BibleCrossword from "@/pages/bible-crossword";
 import BibleWhoAmI from "@/pages/bible-who-am-i";
+import BibleTrueFalse from "@/pages/bible-true-false";
 import PrivacyPolicy from "@/pages/privacy-policy";
 import TermsOfService from "@/pages/terms-of-service";
 import Contact from "@/pages/contact";
@@ -54,6 +55,7 @@ function Router() {
           <Route path="/bible-verse-generator/" component={BibleVerseGenerator} />
           <Route path="/bible-crossword/" component={BibleCrossword} />
           <Route path="/bible-who-am-i/" component={BibleWhoAmI} />
+          <Route path="/bible-true-false/" component={BibleTrueFalse} />
           <Route path="/privacy-policy/" component={PrivacyPolicy} />
           <Route path="/terms-of-service/" component={TermsOfService} />
           <Route path="/contact/" component={Contact} />
