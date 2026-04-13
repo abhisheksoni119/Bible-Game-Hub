@@ -1,0 +1,147 @@
+Implement a complete and scalable structured data (schema markup) system across the entire website using JSON-LD format.
+
+=====================
+🚨 CORE RULES
+=============
+
+* Use ONLY JSON-LD format
+* Place schema inside <head> section
+* Do NOT duplicate schema types on the same page
+* Ensure schema matches visible content
+* Maintain clean and valid structure
+
+=====================
+🌐 1. WEBSITE SCHEMA (HOMEPAGE ONLY)
+====================================
+
+Add WebSite schema on homepage:
+
+* name: Bible Games Online
+* url: https://biblegamesonline.net/
+
+Include SearchAction:
+
+* target: https://biblegamesonline.net/?q={search_term_string}
+
+=====================
+🧭 2. BREADCRUMB SCHEMA (ALL PAGES)
+===================================
+
+Add breadcrumb schema dynamically for all pages:
+
+Examples:
+
+Homepage:
+
+* Home
+
+Bible Trivia:
+
+* Home > Bible Trivia
+
+Word Games:
+
+* Home > Word Games
+
+Kids Games:
+
+* Home > Kids Games
+
+Other pages:
+
+* Home > [Page Name]
+
+Ensure:
+
+* URLs use trailing slash
+* Match actual navigation structure
+
+=====================
+❓ 3. FAQ SCHEMA (ALL PAGES WITH FAQ)
+====================================
+
+* Convert visible FAQ sections into FAQPage schema
+* Each question/answer must match page content EXACTLY
+* Do NOT create fake FAQs
+
+=====================
+🎮 4. GAME SCHEMA (ALL GAME PAGES)
+==================================
+
+Add SoftwareApplication schema for ALL game pages:
+
+Pages include:
+
+* /bible-trivia/
+* /bible-word-games/
+* /kids-bible-games/
+* /bible-wordle/
+* /bible-millionaire/
+* /bible-wheel-of-fortune/
+* /bible-jeopardy/
+* /bible-memory-games/
+* /bible-crossword/
+* /bible-who-am-i/
+* /bible-true-false/
+* /bible-emoji-game/
+
+Schema properties:
+
+* name: [Game Name]
+* applicationCategory: Game
+* operatingSystem: Web
+* url: [Page URL]
+* description: Short unique description per page
+
+Ensure:
+
+* Each page has unique description
+* No duplicate content across pages
+
+=====================
+📖 5. TOOL PAGE SCHEMA (VERSE GENERATOR)
+========================================
+
+For:
+/bible-verse-generator/
+
+Add SoftwareApplication schema:
+
+* name: Bible Verse Generator
+* applicationCategory: UtilityApplication
+* operatingSystem: Web
+* url: https://biblegamesonline.net/bible-verse-generator/
+* description: Generates random Bible verses by category
+
+=====================
+📁 6. FUTURE SCALABILITY
+========================
+
+* Ensure schema logic automatically applies to new pages
+* Use reusable structure for new games
+* Maintain consistency across all future additions
+
+=====================
+🔍 VALIDATION
+=============
+
+* Ensure all schema passes Google Rich Results Test
+* No warnings or errors
+* Proper nesting and formatting
+
+=====================
+⚠️ FINAL RULES
+==============
+
+* Do NOT break existing functionality
+* Do NOT add unnecessary schema types
+* Keep implementation clean and minimal
+
+=====================
+✅ OUTPUT
+========
+
+* Fully implemented schema across all pages
+* SEO-optimized structured data
+* Scalable for future pages
+* Ready for production

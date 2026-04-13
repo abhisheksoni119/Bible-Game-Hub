@@ -1,0 +1,195 @@
+Add a new feature page called "Bible Verse Generator" to the existing website and integrate it fully without breaking anything.
+
+=====================
+🚨 CRITICAL RULES
+=================
+
+* DO NOT remove or modify existing content
+* ONLY add new page and sections
+* Maintain trailing slash URL structure
+* Add canonical tag matching trailing slash
+* Keep SEO clean and human-friendly
+* Maintain site design consistency
+
+=====================
+📁 CREATE NEW PAGE
+==================
+
+Route:
+/bible-verse-generator/
+
+=====================
+📖 CORE FUNCTIONALITY
+=====================
+
+Build a Bible Verse Generator with:
+
+* Display random Bible verse
+
+* Show:
+
+  * Verse text
+  * Reference (e.g., John 3:16)
+
+* Button:
+  "Generate Another Verse"
+
+* Add smooth transition when verse changes
+
+=====================
+📚 VERSE DATA (IMPORTANT)
+=========================
+
+* Create a dataset of at least 50 Bible verses
+* Each verse must include:
+
+  * text
+  * reference
+  * category
+
+=====================
+📂 CATEGORIES (MUST INCLUDE)
+============================
+
+Add category filter dropdown:
+
+* Faith
+* Love
+* Hope
+* Strength
+* Wisdom
+* Encouragement
+
+Functionality:
+
+* User can filter verses by category
+* Default = All categories
+
+=====================
+🎨 UI STRUCTURE
+===============
+
+1. Hero Section:
+
+* H1: Bible Verse Generator
+* Short description (2–3 lines)
+
+2. Verse Card (centered):
+
+* Large readable verse text
+* Reference below
+* Subtle animation
+
+3. Controls:
+
+* Category dropdown
+* Generate button
+
+4. Optional:
+
+* Copy verse button
+
+=====================
+🏠 HOMEPAGE INTEGRATION
+=======================
+
+Add a new section on homepage:
+
+Section title:
+"Daily Bible Verse"
+
+Include:
+
+* One random verse preview
+* Small card layout
+* "Generate New Verse" button
+* Link to full page (/bible-verse-generator/)
+
+Placement:
+
+* Below game sections
+* Above footer
+
+=====================
+🔗 INTERNAL LINKING
+===================
+
+Add contextual links:
+
+* From homepage → full generator page
+* From Trivia page → mention verse reflection
+* From Kids page → mention learning scriptures
+
+Use natural language (no forced keywords)
+
+=====================
+📄 SEO IMPLEMENTATION
+=====================
+
+Add:
+
+* H1: Bible Verse Generator
+* 200–300 words of content
+
+Include semantic variations:
+
+* daily bible verse
+* random scripture generator
+* inspirational bible verses
+* christian encouragement verses
+
+Add 3–4 FAQ questions
+
+Add:
+
+* Meta title
+* Meta description
+* Canonical tag (with trailing slash)
+
+=====================
+📊 SCHEMA
+=========
+
+Add:
+
+* FAQ schema (matching visible content)
+* Breadcrumb schema:
+  Home > Bible Verse Generator
+
+=====================
+📁 SITEMAP UPDATE
+=================
+
+Add:
+https://biblegamesonline.net/bible-verse-generator/
+
+Ensure trailing slash
+
+=====================
+🎨 DESIGN RULES
+===============
+
+* Follow existing theme (dark + light + gold)
+* Mobile responsive
+* Clean spacing
+* Smooth animations
+
+=====================
+⚙️ FINAL CHECK
+==============
+
+* Page loads correctly
+* Generator works smoothly
+* Category filter works
+* No broken links
+* Homepage preview works
+* SEO tags present
+
+=====================
+🚀 OUTPUT
+=========
+
+* Fully working verse generator
+* Homepage preview integrated
+* SEO optimized
+* Ready for production build (/dist)

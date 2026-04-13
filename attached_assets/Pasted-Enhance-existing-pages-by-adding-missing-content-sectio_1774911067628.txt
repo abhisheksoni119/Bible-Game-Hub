@@ -1,0 +1,129 @@
+Enhance existing pages by adding missing content sections ONLY if they are not already present. Do NOT duplicate or overwrite existing content.
+
+=====================
+🚨 CORE RULES
+=============
+
+* DO NOT remove or replace any existing content
+* ONLY add sections if they are missing
+* DO NOT repeat similar headings or content
+* Keep content concise, natural, and non-repetitive
+* Follow semantic SEO (Koray method)
+
+=====================
+📄 1. BIBLE TRIVIA PAGE UPDATES
+===============================
+
+Check if the following sections exist. If NOT, add them:
+
+---
+
+## A. Hard Quiz Section
+
+H2: Hard Bible Trivia Questions
+
+* Add 3–5 challenging Bible questions
+* Include correct answers
+* Add 1-line explanation where helpful
+* Keep difficulty higher than normal trivia
+
+---
+
+## B. Jeopardy Style Section
+
+H2: Bible Jeopardy Style Quiz
+
+* Briefly explain how Jeopardy-style gameplay works:
+  (category-based questions, increasing difficulty, score system)
+
+* Add a natural internal link to:
+  /bible-jeopardy/
+
+* Keep explanation short and engaging
+
+=====================
+📄 2. WORD GAMES PAGE UPDATES
+=============================
+
+Check and add ONLY if missing:
+
+---
+
+## A. Word Search Section
+
+H2: Bible Word Search Online
+
+* Explain how users can find hidden words related to Bible stories
+* Keep content short and engaging
+
+---
+
+## B. Puzzle Section
+
+H2: Bible Puzzle Games
+
+* Describe puzzle-style gameplay (logic, word solving, matching)
+* Keep it general and non-repetitive
+
+---
+
+## C. Wordle Mention Section
+
+H2: Bible Word Guessing Games
+
+* Briefly introduce Bible Wordle-style gameplay
+
+* Add internal link to:
+  /bible-wordle/
+
+* Do NOT repeat content from Wordle page
+
+=====================
+📄 3. KIDS PAGE UPDATES
+=======================
+
+Check and add ONLY if missing:
+
+---
+
+## A. Memory Verse Section
+
+H2: Memory Verse Games for Kids
+
+* Explain how kids can learn and remember Bible verses through games
+* Keep tone simple and engaging
+
+---
+
+## B. Sunday School / VBS Section
+
+H2: Bible Games for Sunday School and VBS
+
+* Explain usage in church activities and group learning
+* Keep content practical and helpful
+
+=====================
+🔗 INTERNAL LINKING RULES
+=========================
+
+* Add links naturally within content
+* Do NOT force keywords
+* Use human-like sentences
+* Ensure each link adds context
+
+=====================
+⚠️ FINAL CHECK
+==============
+
+* No duplicate sections
+* No repeated headings
+* No keyword stuffing
+* Maintain clean layout
+
+=====================
+✅ OUTPUT
+========
+
+* Missing sections added only
+* All content unique and relevant
+* Pages improved without duplication
