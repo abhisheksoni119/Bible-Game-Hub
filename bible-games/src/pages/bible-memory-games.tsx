@@ -1,20 +1,24 @@
 import { useState, useEffect } from "react";
 import { Helmet } from "react-helmet-async";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { RotateCcw, Trophy } from "lucide-react";
+import { Brain, RotateCcw, Trophy } from "lucide-react";
 import { motion } from "framer-motion";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { GameHero } from "@/components/games/GameHero";
+import { ExploreMoreGames } from "@/components/games/ExploreMoreGames";
+import { FaqSection } from "@/components/games/FaqSection";
+import { GameContent, ContentBlock } from "@/components/games/GameContent";
+import { exploreOthers } from "@/lib/explore-games";
 
 const pairs = [
   { front: "Genesis", back: "Creation" },
-  { front: "Exodus", back: "Moses" },
+  { front: "Exodus", back: "Moses' Journey" },
   { front: "Matthew", back: "Jesus's Birth" },
   { front: "Acts", back: "Early Church" },
   { front: "Psalms", back: "Songs of Praise" },
   { front: "Revelation", back: "End Times" },
   { front: "John", back: "God is Love" },
-  { front: "Romans", back: "Salvation" },
+  { front: "Romans", back: "Salvation by Faith" },
 ];
 
 type MemCard = { id: string; text: string; pairId: number; flipped: boolean; matched: boolean };
@@ -38,27 +42,27 @@ export default function BibleMemoryGames() {
     if (flipped.length === 2) {
       const [a, b] = flipped;
       if (cards[a].pairId === cards[b].pairId) {
-        setCards(prev => prev.map((c, i) => i === a || i === b ? { ...c, matched: true } : c));
+        setCards((prev) => prev.map((c, i) => (i === a || i === b ? { ...c, matched: true } : c)));
         setFlipped([]);
       } else {
         const t = setTimeout(() => {
-          setCards(prev => prev.map((c, i) => i === a || i === b ? { ...c, flipped: false } : c));
+          setCards((prev) => prev.map((c, i) => (i === a || i === b ? { ...c, flipped: false } : c)));
           setFlipped([]);
-        }, 1200);
+        }, 1100);
         return () => clearTimeout(t);
       }
     }
   }, [flipped, cards]);
 
   useEffect(() => {
-    if (cards.length > 0 && cards.every(c => c.matched)) setWon(true);
+    if (cards.length > 0 && cards.every((c) => c.matched)) setWon(true);
   }, [cards]);
 
   function flip(i: number) {
     if (flipped.length >= 2 || cards[i].flipped || cards[i].matched) return;
-    setCards(prev => prev.map((c, j) => j === i ? { ...c, flipped: true } : c));
-    setFlipped(prev => [...prev, i]);
-    setMoves(m => m + 1);
+    setCards((prev) => prev.map((c, j) => (j === i ? { ...c, flipped: true } : c)));
+    setFlipped((prev) => [...prev, i]);
+    setMoves((m) => m + 1);
   }
 
   function reset() { setCards(buildCards()); setFlipped([]); setMoves(0); setWon(false); }
@@ -66,51 +70,74 @@ export default function BibleMemoryGames() {
   return (
     <>
       <Helmet>
-        <title>Bible Memory Games – Match Bible Books and Topics | Bible Games Online</title>
-        <meta name="description" content="Play Bible memory games online. Match Bible books with their topics and themes in this fun memory card game." />
+        <title>Bible Memory Games – Match Bible Books | Bible Games Online</title>
+        <meta name="description" content="Match Bible books to their themes in this fun memory card-flip game. A great way to learn scripture by association." />
       </Helmet>
-      <div className="container mx-auto px-4 py-12 max-w-3xl">
-        <h1 className="text-4xl font-bold text-center mb-2">Bible Memory Game</h1>
-        <p className="text-center text-muted-foreground mb-6">Match each Bible book with its theme</p>
 
-        <div className="flex justify-between items-center mb-6">
-          <Badge variant="secondary">Moves: {moves}</Badge>
-          <Button variant="outline" size="sm" onClick={reset}><RotateCcw className="w-4 h-4 mr-1" />Reset</Button>
-        </div>
+      <GameHero
+        icon={<Brain className="w-6 h-6" />}
+        title="Bible Memory Game"
+        subtitle="Match each Bible book with its key theme — flip two cards at a time."
+      />
 
-        {won && (
-          <Card className="text-center mb-6 shadow-gold">
-            <CardContent className="py-6">
-              <Trophy className="w-12 h-12 text-primary mx-auto mb-2" />
-              <h2 className="text-2xl font-bold mb-2">Excellent Memory!</h2>
-              <p className="text-muted-foreground mb-4">Completed in {moves} moves</p>
-              <Button onClick={reset}>Play Again</Button>
-            </CardContent>
-          </Card>
-        )}
+      <section className="py-10 bg-background">
+        <div className="container mx-auto px-4 max-w-3xl">
+          <div className="rounded-3xl border border-border bg-card shadow-card-lg p-5 md:p-7">
+            <div className="flex items-center justify-between mb-5">
+              <Badge variant="secondary">Moves: {moves}</Badge>
+              <Button onClick={reset} variant="outline" size="sm">
+                <RotateCcw className="w-4 h-4 mr-1" /> Restart
+              </Button>
+            </div>
 
-        <div className="grid grid-cols-4 gap-3">
-          {cards.map((card, i) => (
-            <motion.div
-              key={card.id}
-              className="perspective-1000 cursor-pointer"
-              style={{ aspectRatio: "1" }}
-              onClick={() => flip(i)}
-              whileTap={{ scale: 0.95 }}
-            >
-              <div className={`relative w-full h-full transform-style-3d transition-transform duration-500 ${card.flipped || card.matched ? "rotate-y-180" : ""}`}>
-                <div className="absolute inset-0 backface-hidden bg-secondary rounded-xl flex items-center justify-center">
-                  <span className="text-2xl">📖</span>
-                </div>
-                <div className={`absolute inset-0 backface-hidden rotate-y-180 rounded-xl flex items-center justify-center p-2 text-center text-xs font-bold leading-tight
-                  ${card.matched ? "bg-primary text-primary-foreground" : "bg-card border border-border text-foreground"}`}>
-                  {card.text}
-                </div>
+            {won && (
+              <div className="rounded-2xl border border-primary/30 bg-primary/10 p-5 text-center mb-5">
+                <Trophy className="w-12 h-12 text-primary mx-auto mb-2" />
+                <p className="text-xl font-bold mb-1">Excellent Memory!</p>
+                <p className="text-sm text-muted-foreground">Completed in {moves} moves.</p>
               </div>
-            </motion.div>
-          ))}
+            )}
+
+            <div className="grid grid-cols-4 gap-3 max-w-2xl mx-auto">
+              {cards.map((card, i) => (
+                <motion.button
+                  key={card.id}
+                  whileTap={{ scale: 0.95 }}
+                  className="perspective-1000 cursor-pointer"
+                  style={{ aspectRatio: "1" }}
+                  onClick={() => flip(i)}
+                >
+                  <div className={`relative w-full h-full transform-style-3d transition-transform duration-500 ${card.flipped || card.matched ? "rotate-y-180" : ""}`}>
+                    <div className="absolute inset-0 backface-hidden bg-secondary text-primary rounded-xl flex items-center justify-center text-2xl shadow-card">
+                      📖
+                    </div>
+                    <div className={`absolute inset-0 backface-hidden rotate-y-180 rounded-xl flex items-center justify-center p-2 text-center text-xs font-bold leading-tight shadow-card
+                      ${card.matched ? "bg-primary/15 border border-primary/40 text-primary" : "bg-card border border-border text-foreground"}`}>
+                      {card.text}
+                    </div>
+                  </div>
+                </motion.button>
+              ))}
+            </div>
+          </div>
         </div>
-      </div>
+      </section>
+
+      <GameContent>
+        <ContentBlock title="A Memory Game Built on Scripture">
+          <p>
+            Memory matching is a deceptively simple format that builds real recall. Our Bible Memory game pairs the names of biblical books with the themes most associated with them — Genesis with Creation, Acts with the Early Church, Romans with Salvation by Faith. Flip cards two at a time and try to find every pair using the fewest moves possible.
+          </p>
+        </ContentBlock>
+        <ContentBlock title="Why This Works for Bible Learning">
+          <p>
+            Pairing book names with themes accelerates the kind of mental indexing that helps you locate passages quickly later. After a few rounds, you'll naturally start associating "Acts" with the spread of the early church or "John" with the famous love declaration in 3:16. It's a simple game with a deep payoff for personal study, Sunday school, or family devotional time.
+          </p>
+        </ContentBlock>
+      </GameContent>
+
+      <ExploreMoreGames cards={exploreOthers("memory", 4)} />
+      <FaqSection />
     </>
   );
 }

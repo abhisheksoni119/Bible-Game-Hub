@@ -2,244 +2,304 @@ import { useState } from "react";
 import { Link } from "wouter";
 import { Helmet } from "react-helmet-async";
 import { motion } from "framer-motion";
+import {
+  BookOpen, Search, Type, Trophy, RotateCw, Layout, Brain,
+  Sparkles, Grid3x3, User, Baby, ArrowRight, CheckCircle2, XCircle,
+  Heart, Star,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { BookOpen, Star, Gamepad2, Users, Trophy, ChevronRight, CheckCircle2, XCircle } from "lucide-react";
+import { FaqSection } from "@/components/games/FaqSection";
 
-const triviaQuestions = [
+const heroGames = [
   {
-    question: "Who built the ark?",
-    options: ["Moses", "Noah", "Abraham", "David"],
-    answer: "Noah",
+    href: "/bible-trivia/",
+    title: "Bible Trivia",
+    description: "Quiz across Old & New Testament, with three difficulty tiers.",
+    icon: BookOpen,
+    accent: "from-amber-400/30 to-yellow-600/20",
   },
   {
-    question: "How many days did God take to create the world?",
-    options: ["5", "6", "7", "10"],
-    answer: "6",
+    href: "/bible-word-games/",
+    title: "Bible Word Search",
+    description: "Hunt for hidden scripture words on a generated grid.",
+    icon: Search,
+    accent: "from-emerald-400/30 to-emerald-600/20",
   },
   {
-    question: "What is the first book of the Bible?",
-    options: ["Exodus", "Psalms", "Genesis", "Matthew"],
-    answer: "Genesis",
-  },
-  {
-    question: "Who was swallowed by a great fish?",
-    options: ["Elijah", "Jonah", "Daniel", "Paul"],
-    answer: "Jonah",
-  },
-  {
-    question: "How many disciples did Jesus have?",
-    options: ["10", "11", "12", "13"],
-    answer: "12",
+    href: "/kids-bible-games/",
+    title: "Kids Matching",
+    description: "Bright, gentle card-flip game built for young readers.",
+    icon: Baby,
+    accent: "from-rose-400/30 to-rose-600/20",
   },
 ];
 
-const gameCategories = [
-  { title: "Bible Trivia", href: "/bible-trivia/", icon: "📖", desc: "Test your Bible knowledge with hundreds of questions" },
-  { title: "Word Games", href: "/bible-word-games/", icon: "🔤", desc: "Find hidden Bible words in our word search puzzles" },
-  { title: "Kids Games", href: "/kids-bible-games/", icon: "🎠", desc: "Fun and educational Bible games for children" },
-  { title: "Bible Wordle", href: "/bible-wordle/", icon: "🟩", desc: "Guess the Bible word in 6 tries" },
-  { title: "Bible Jeopardy", href: "/bible-jeopardy/", icon: "💡", desc: "Answer Bible questions in Jeopardy style" },
-  { title: "Bible Millionaire", href: "/bible-millionaire/", icon: "💰", desc: "Who wants to be a Bible millionaire?" },
-  { title: "Memory Games", href: "/bible-memory-games/", icon: "🧠", desc: "Match Bible cards and train your memory" },
-  { title: "Verse Generator", href: "/bible-verse-generator/", icon: "✨", desc: "Discover inspiring Bible verses" },
+const smallGames = [
+  { href: "/bible-wordle/", title: "Wordle", icon: Type },
+  { href: "/bible-millionaire/", title: "Millionaire", icon: Trophy },
+  { href: "/bible-jeopardy/", title: "Jeopardy", icon: Layout },
+  { href: "/bible-wheel-of-fortune/", title: "Wheel of Fortune", icon: RotateCw },
+  { href: "/bible-memory-games/", title: "Memory", icon: Brain },
+  { href: "/bible-verse-generator/", title: "Verse Gen", icon: Sparkles },
+  { href: "/bible-crossword/", title: "Crossword", icon: Grid3x3 },
+  { href: "/bible-who-am-i/", title: "Who Am I?", icon: User },
+];
+
+const quickQuestions = [
+  { q: "Who built the ark?", opts: ["Moses", "Noah", "Abraham", "David"], a: "Noah" },
+  { q: "Where was Jesus born?", opts: ["Nazareth", "Jerusalem", "Bethlehem", "Capernaum"], a: "Bethlehem" },
+  { q: "How many disciples did Jesus have?", opts: ["7", "10", "12", "14"], a: "12" },
+  { q: "Who was thrown into the lions' den?", opts: ["Daniel", "David", "Joseph", "Jonah"], a: "Daniel" },
+  { q: "What is the first book of the Bible?", opts: ["Exodus", "Genesis", "Psalms", "Matthew"], a: "Genesis" },
+];
+
+const homeFaqs = [
+  {
+    q: "Are these Bible games completely free?",
+    a: "Yes. Every single game on Bible Games Online is free to play, with no signup, ads, or paywalls. Our mission is to make scripture engagement joyful and accessible to everyone.",
+  },
+  {
+    q: "Do I need to create an account or download anything?",
+    a: "No. Open the site, pick a game, and play instantly in your browser. There's nothing to install on phones, tablets, or computers.",
+  },
+  {
+    q: "Are these games appropriate for children?",
+    a: "Yes — all games are family-friendly and built around scripture. Younger kids will especially enjoy the matching game and word search, while older students can tackle trivia, Millionaire, and Jeopardy.",
+  },
+  {
+    q: "Can I play on a phone or tablet?",
+    a: "Absolutely. The site is fully responsive — every game adjusts to your screen size and works smoothly on iOS and Android devices.",
+  },
+  {
+    q: "How often are new questions and games added?",
+    a: "We're continually expanding our trivia banks and adding new game formats. Bookmark the site and check back often for fresh challenges.",
+  },
 ];
 
 export default function Home() {
-  const [currentQ, setCurrentQ] = useState(0);
-  const [selected, setSelected] = useState<string | null>(null);
-  const [score, setScore] = useState(0);
-  const [finished, setFinished] = useState(false);
-
-  const q = triviaQuestions[currentQ];
-
-  function handleAnswer(opt: string) {
-    if (selected) return;
-    setSelected(opt);
-    if (opt === q.answer) setScore((s) => s + 1);
-    setTimeout(() => {
-      if (currentQ + 1 >= triviaQuestions.length) {
-        setFinished(true);
-      } else {
-        setCurrentQ((c) => c + 1);
-        setSelected(null);
-      }
-    }, 900);
-  }
-
-  function resetGame() {
-    setCurrentQ(0);
-    setSelected(null);
-    setScore(0);
-    setFinished(false);
-  }
+  const [qIdx] = useState(() => Math.floor(Math.random() * quickQuestions.length));
+  const question = quickQuestions[qIdx];
+  const [picked, setPicked] = useState<string | null>(null);
 
   return (
     <>
       <Helmet>
-        <title>Bible Games Online – Play Free Bible Trivia, Wordle & More</title>
-        <meta name="description" content="Play free Bible games online including trivia, word search, Wordle, Jeopardy, and kids games. Test your Bible knowledge and have fun!" />
+        <title>Bible Games Online — Play Free Bible Trivia, Word Search, Wordle & More</title>
+        <meta
+          name="description"
+          content="Play free Bible games online — trivia, word search, Wordle, Millionaire, Jeopardy, crossword and more. Fun scripture games for kids, families, Sunday school, and adults."
+        />
       </Helmet>
 
-      {/* Hero */}
-      <section className="bg-secondary text-secondary-foreground py-20 px-4 text-center">
-        <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
-          <div className="flex justify-center mb-4">
-            <BookOpen className="w-14 h-14 text-primary" />
+      {/* HERO */}
+      <section className="relative bg-secondary text-secondary-foreground overflow-hidden">
+        <div
+          className="absolute inset-0 opacity-[0.07] pointer-events-none"
+          style={{
+            backgroundImage:
+              "radial-gradient(circle at 1px 1px, hsl(var(--primary)) 1px, transparent 0)",
+            backgroundSize: "32px 32px",
+          }}
+        />
+        <div
+          className="absolute -top-32 -right-32 w-96 h-96 rounded-full pointer-events-none"
+          style={{ background: "radial-gradient(closest-side, hsl(var(--primary) / 0.18), transparent)" }}
+        />
+        <div className="container mx-auto px-4 pt-16 pb-20 text-center relative">
+          <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-primary/15 ring-1 ring-primary/30 mb-6 text-primary">
+            <BookOpen className="w-8 h-8" />
           </div>
-          <h1 className="text-4xl md:text-5xl font-bold mb-4">
-            Play Free Bible Games Online and<br className="hidden md:block" />{" "}
-            Test Your Knowledge in a Fun Way
+          <h1 className="font-display text-4xl md:text-6xl leading-[1.1] mb-6 max-w-4xl mx-auto">
+            Play Free Bible Games Online{" "}
+            <span className="italic text-primary">and Test Your Knowledge</span>
           </h1>
-          <p className="text-lg text-secondary-foreground/70 max-w-2xl mx-auto mb-8">
-            Explore hundreds of Bible trivia questions, word games, memory challenges, and more.
-            Learn scripture while having fun — for all ages!
+          <p className="text-lg text-secondary-foreground/75 max-w-2xl mx-auto mb-8">
+            Discover interactive and fun ways to learn about the Bible. Play trivia, word games, and games for kids — all free to play.
           </p>
-          <div className="flex flex-wrap gap-4 justify-center">
-            <Button asChild size="lg" className="text-base">
+          <div className="flex flex-wrap justify-center gap-3">
+            <Button asChild size="lg" className="font-bold">
               <Link href="/bible-trivia/">Play Trivia</Link>
             </Button>
-            <Button asChild size="lg" variant="outline" className="text-base border-primary text-primary hover:bg-primary hover:text-primary-foreground">
-              <Link href="/bible-word-games/">Word Games</Link>
+            <Button asChild size="lg" variant="outline" className="bg-transparent border-primary text-primary hover:bg-primary hover:text-primary-foreground font-bold">
+              <Link href="/bible-word-games/">Word Search</Link>
             </Button>
-            <Button asChild size="lg" variant="outline" className="text-base border-white/30 text-secondary-foreground hover:bg-white/10">
-              <Link href="/kids-bible-games/">Kids Games</Link>
+            <Button asChild size="lg" variant="outline" className="bg-transparent border-white/20 text-secondary-foreground hover:bg-white/10 hover:text-secondary-foreground font-bold">
+              <Link href="/bible-wordle/">Wordle</Link>
             </Button>
           </div>
-        </motion.div>
-      </section>
-
-      {/* Mini Trivia Game */}
-      <section className="py-16 px-4 bg-muted/40">
-        <div className="container mx-auto max-w-2xl">
-          <h2 className="text-3xl font-bold text-center mb-2 section-title-bar">Quick Bible Quiz</h2>
-          <p className="text-center text-muted-foreground mb-8">5 quick questions to warm up your Bible knowledge</p>
-
-          {!finished ? (
-            <Card className="shadow-card-lg">
-              <CardHeader>
-                <div className="flex justify-between items-center mb-2">
-                  <Badge variant="secondary">Question {currentQ + 1} / {triviaQuestions.length}</Badge>
-                  <Badge className="bg-primary text-primary-foreground">Score: {score}</Badge>
-                </div>
-                <CardTitle className="text-xl">{q.question}</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="grid grid-cols-1 gap-3">
-                  {q.options.map((opt) => {
-                    let variant: "outline" | "default" | "destructive" = "outline";
-                    if (selected) {
-                      if (opt === q.answer) variant = "default";
-                      else if (opt === selected) variant = "destructive";
-                    }
-                    return (
-                      <Button
-                        key={opt}
-                        variant={variant}
-                        className="justify-start text-left h-auto py-3"
-                        onClick={() => handleAnswer(opt)}
-                      >
-                        {selected && opt === q.answer && <CheckCircle2 className="mr-2 w-4 h-4" />}
-                        {selected && opt === selected && opt !== q.answer && <XCircle className="mr-2 w-4 h-4" />}
-                        {opt}
-                      </Button>
-                    );
-                  })}
-                </div>
-              </CardContent>
-            </Card>
-          ) : (
-            <Card className="shadow-card-lg text-center">
-              <CardContent className="py-10">
-                <Trophy className="w-16 h-16 text-primary mx-auto mb-4" />
-                <h3 className="text-2xl font-bold mb-2">Quiz Complete!</h3>
-                <p className="text-lg mb-6">You scored <span className="text-primary font-bold">{score}</span> out of {triviaQuestions.length}</p>
-                <div className="flex gap-4 justify-center flex-wrap">
-                  <Button onClick={resetGame} variant="outline">Play Again</Button>
-                  <Button asChild>
-                    <Link href="/bible-trivia/">Play Full Game <ChevronRight className="ml-1 w-4 h-4" /></Link>
-                  </Button>
-                </div>
-              </CardContent>
-            </Card>
-          )}
         </div>
       </section>
 
-      {/* Game Categories */}
-      <section className="py-16 px-4">
-        <div className="container mx-auto">
-          <h2 className="text-3xl font-bold text-center mb-2 section-title-bar">Game Categories</h2>
-          <p className="text-center text-muted-foreground mb-10">Choose from a wide variety of Bible games</p>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {gameCategories.map((cat) => (
-              <motion.div key={cat.href} whileHover={{ y: -4 }} transition={{ type: "spring", stiffness: 300 }}>
-                <Link href={cat.href}>
-                  <Card className="h-full shadow-card hover:shadow-card-lg transition-shadow cursor-pointer group">
-                    <CardContent className="pt-6 text-center">
-                      <div className="text-4xl mb-3">{cat.icon}</div>
-                      <h3 className="font-bold text-lg mb-2 group-hover:text-primary transition-colors">{cat.title}</h3>
-                      <p className="text-sm text-muted-foreground">{cat.desc}</p>
-                    </CardContent>
-                  </Card>
+      {/* QUICK BIBLE QUIZ */}
+      <section className="py-12 bg-background">
+        <div className="container mx-auto px-4 max-w-2xl">
+          <div className="rounded-3xl border border-border bg-card shadow-card-lg p-6 md:p-8">
+            <div className="flex items-center gap-2 text-primary text-sm font-semibold mb-1">
+              <Sparkles className="w-4 h-4" /> Quick Bible Quiz
+            </div>
+            <h2 className="text-2xl font-bold mb-1">{question.q}</h2>
+            <p className="text-sm text-muted-foreground mb-5">Pick your answer to warm up.</p>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              {question.opts.map((opt) => {
+                const isCorrect = picked && opt === question.a;
+                const isWrongPick = picked === opt && opt !== question.a;
+                return (
+                  <button
+                    key={opt}
+                    onClick={() => !picked && setPicked(opt)}
+                    className={`text-left rounded-xl border-2 px-4 py-3 font-medium transition-all
+                      ${isCorrect ? "border-green-500 bg-green-50 text-green-700" :
+                        isWrongPick ? "border-destructive bg-red-50 text-destructive" :
+                        picked ? "border-border bg-card opacity-60" :
+                        "border-border bg-card hover:border-primary hover:bg-primary/5"}`}
+                    disabled={!!picked}
+                  >
+                    <span className="flex items-center gap-2">
+                      {isCorrect && <CheckCircle2 className="w-4 h-4" />}
+                      {isWrongPick && <XCircle className="w-4 h-4" />}
+                      {opt}
+                    </span>
+                  </button>
+                );
+              })}
+            </div>
+            {picked && (
+              <div className="mt-5 text-center">
+                <Button asChild>
+                  <Link href="/bible-trivia/">Play Full Trivia <ArrowRight className="ml-2 w-4 h-4" /></Link>
+                </Button>
+              </div>
+            )}
+          </div>
+        </div>
+      </section>
+
+      {/* CHOOSE YOUR GAME */}
+      <section className="py-14">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-10">
+            <h2 className="text-3xl font-bold section-title-bar inline-block">Choose Your Game</h2>
+            <p className="text-muted-foreground mt-4">Different games for every mood — pick your favorite.</p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-5 max-w-5xl mx-auto mb-8">
+            {heroGames.map((g, i) => (
+              <motion.div
+                key={g.href}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.08 }}
+              >
+                <Link
+                  href={g.href}
+                  className="group block rounded-2xl border border-border bg-card shadow-card hover:shadow-card-lg transition-all hover:-translate-y-1 overflow-hidden"
+                >
+                  <div className={`relative h-36 bg-gradient-to-br ${g.accent} flex items-center justify-center`}>
+                    <g.icon className="w-16 h-16 text-secondary/70 group-hover:scale-110 transition-transform" />
+                  </div>
+                  <div className="p-5">
+                    <h3 className="font-bold text-lg mb-2">{g.title}</h3>
+                    <p className="text-sm text-muted-foreground leading-relaxed">{g.description}</p>
+                  </div>
                 </Link>
               </motion.div>
             ))}
           </div>
-        </div>
-      </section>
 
-      {/* Stats */}
-      <section className="py-16 px-4 bg-secondary text-secondary-foreground">
-        <div className="container mx-auto">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-            {[
-              { icon: <Gamepad2 className="w-8 h-8 mx-auto mb-2 text-primary" />, value: "12+", label: "Bible Games" },
-              { icon: <BookOpen className="w-8 h-8 mx-auto mb-2 text-primary" />, value: "500+", label: "Trivia Questions" },
-              { icon: <Users className="w-8 h-8 mx-auto mb-2 text-primary" />, value: "All Ages", label: "Suitable For" },
-              { icon: <Star className="w-8 h-8 mx-auto mb-2 text-primary" />, value: "100%", label: "Free to Play" },
-            ].map((stat, i) => (
-              <div key={i}>
-                {stat.icon}
-                <div className="text-3xl font-bold text-primary">{stat.value}</div>
-                <div className="text-secondary-foreground/70">{stat.label}</div>
-              </div>
+          <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-3 max-w-5xl mx-auto">
+            {smallGames.map((g) => (
+              <Link
+                key={g.href}
+                href={g.href}
+                className="group flex flex-col items-center gap-2 rounded-xl border border-border bg-card p-4 shadow-card hover:shadow-card-lg hover:-translate-y-0.5 transition-all"
+              >
+                <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
+                  <g.icon className="w-5 h-5" />
+                </div>
+                <span className="text-xs font-semibold text-center leading-tight">{g.title}</span>
+              </Link>
             ))}
           </div>
         </div>
       </section>
 
-      {/* SEO Content */}
-      <section className="py-16 px-4">
-        <div className="container mx-auto max-w-4xl prose prose-slate max-w-none">
-          <h2 className="text-3xl font-bold mb-6">Welcome to Bible Games Online</h2>
-          <p className="text-muted-foreground leading-relaxed mb-4">
-            Bible Games Online is your ultimate destination for free online Bible activities that make learning scripture
-            entertaining and engaging. Whether you're a seasoned Bible scholar or just beginning your journey of faith,
-            our collection of Christian games offers something for everyone.
-          </p>
-          <p className="text-muted-foreground leading-relaxed mb-4">
-            Our Bible quiz games challenge your knowledge of the Old and New Testament, covering everything from
-            Genesis to Revelation. With hundreds of questions across multiple difficulty levels, you'll never run out
-            of ways to test and expand your biblical understanding.
-          </p>
-          <p className="text-muted-foreground leading-relaxed mb-4">
-            Parents and teachers love our games for kids — interactive, faith-based activities designed to help
-            younger learners connect with the Bible in a fun and memorable way. Our kids Bible games include memory
-            matching, character recognition, and simple trivia perfect for Sunday school and home learning.
-          </p>
-          <p className="text-muted-foreground leading-relaxed mb-4">
-            From our unique Bible Wordle game where you guess scripture-based words, to the exciting Bible Jeopardy
-            format that brings the classic quiz show to your faith journey, we're constantly expanding our catalog
-            of online Bible activities to keep you engaged and growing.
-          </p>
-          <p className="text-muted-foreground leading-relaxed">
-            All games are completely free, mobile-friendly, and require no downloads. Simply visit, play, and
-            deepen your relationship with God's Word through the power of play.
-          </p>
+      {/* CONTENT SECTIONS */}
+      <section className="py-12 bg-background">
+        <div className="container mx-auto px-4 max-w-3xl space-y-10">
+          <div>
+            <h2 className="text-2xl md:text-3xl font-bold mb-4">Discover Interactive Ways to Learn and Enjoy the Bible</h2>
+            <p className="text-muted-foreground leading-relaxed mb-3">
+              Bible Games Online is your home for free, browser-based scripture games designed to make learning the Word feel like play. Whether you're a Sunday school teacher, a parent looking for wholesome screen time, or an adult who simply enjoys a good Bible challenge, there's a game here for you.
+            </p>
+            <ul className="space-y-2 text-muted-foreground">
+              {[
+                "12+ scripture-themed games for every age group",
+                "Old and New Testament content covered in depth",
+                "Difficulty levels from easy to expert",
+                "Great for solo play, family time, or group study",
+              ].map((p) => (
+                <li key={p} className="flex gap-2">
+                  <CheckCircle2 className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" />
+                  <span>{p}</span>
+                </li>
+              ))}
+            </ul>
+            <div className="mt-5 flex flex-wrap gap-3">
+              <Button asChild>
+                <Link href="/bible-trivia/">Get Started Free <ArrowRight className="ml-2 w-4 h-4" /></Link>
+              </Button>
+            </div>
+          </div>
+
+          <div>
+            <h2 className="text-2xl md:text-3xl font-bold mb-3">Challenge Yourself with Engaging Bible Quiz Games</h2>
+            <p className="text-muted-foreground leading-relaxed">
+              Our quiz games challenge what you know — and gently fill in what you don't. From <Link href="/bible-trivia/" className="text-primary font-medium underline-offset-4 hover:underline">Bible Trivia</Link> to <Link href="/bible-millionaire/" className="text-primary font-medium underline-offset-4 hover:underline">Bible Millionaire</Link>, each round combines familiar passages with lesser-known facts so you keep discovering scripture in a new light. Great for personal devotion warm-ups, classroom review, or family game night.
+            </p>
+          </div>
+
+          <div>
+            <h2 className="text-2xl md:text-3xl font-bold mb-3">Explore Word Search and Puzzle-Based Bible Challenges</h2>
+            <p className="text-muted-foreground leading-relaxed">
+              Word lovers can sharpen vocabulary with our scripture-themed <Link href="/bible-word-games/" className="text-primary font-medium underline-offset-4 hover:underline">Word Search</Link>, <Link href="/bible-crossword/" className="text-primary font-medium underline-offset-4 hover:underline">Crossword</Link>, and <Link href="/bible-wordle/" className="text-primary font-medium underline-offset-4 hover:underline">Bible Wordle</Link>. These slower-paced puzzles are perfect for quiet mornings, study breaks, or a focused moment of meditation on a passage.
+            </p>
+          </div>
+
+          <div>
+            <h2 className="text-2xl md:text-3xl font-bold mb-3">Fun and Educational Bible Games Designed for Kids</h2>
+            <p className="text-muted-foreground leading-relaxed">
+              Younger players love our <Link href="/kids-bible-games/" className="text-primary font-medium underline-offset-4 hover:underline">Kids Matching</Link> game, where colorful animal cards introduce children to creation. Pair it with the <Link href="/bible-verse-generator/" className="text-primary font-medium underline-offset-4 hover:underline">Verse Generator</Link> for a gentle moment of reflection, or use the <Link href="/bible-who-am-i/" className="text-primary font-medium underline-offset-4 hover:underline">Who Am I?</Link> clue game to spark curiosity about Bible heroes.
+            </p>
+          </div>
+
+          <div>
+            <h2 className="text-2xl md:text-3xl font-bold mb-3">Why Playing Bible Games Online Can Be Both Fun and Meaningful</h2>
+            <p className="text-muted-foreground leading-relaxed">
+              Quality matters. Each game is built so the playful surface — colors, animations, scoring — sits on top of accurate scripture content. The result is a study habit that doesn't feel like studying. Play a few rounds before bed, share Trivia with friends, or use Memory Games to memorize a passage without trying. The Word stays with you.
+            </p>
+          </div>
         </div>
       </section>
+
+      {/* DAILY BIBLE VERSE */}
+      <section className="py-12">
+        <div className="container mx-auto px-4 max-w-2xl">
+          <div className="rounded-3xl border border-primary/30 bg-card shadow-gold p-8 text-center">
+            <div className="inline-flex items-center gap-2 text-primary text-sm font-semibold mb-3">
+              <Star className="w-4 h-4 fill-primary" /> Daily Bible Verse
+            </div>
+            <blockquote className="font-display text-xl md:text-2xl italic text-foreground leading-relaxed mb-3">
+              "For the Lord is good and his love endures forever; his faithfulness continues through all generations."
+            </blockquote>
+            <p className="text-primary font-bold mb-5">— Psalm 100:5</p>
+            <Button asChild variant="outline">
+              <Link href="/bible-verse-generator/"><Heart className="mr-2 w-4 h-4" />Get Another Verse</Link>
+            </Button>
+          </div>
+        </div>
+      </section>
+
+      <FaqSection items={homeFaqs} />
     </>
   );
 }

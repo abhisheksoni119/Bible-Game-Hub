@@ -1,148 +1,162 @@
 import { useState, useCallback } from "react";
 import { Helmet } from "react-helmet-async";
+import { RotateCw, Trophy, RotateCcw } from "lucide-react";
+import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { RotateCcw, Trophy } from "lucide-react";
+import { GameHero } from "@/components/games/GameHero";
+import { ExploreMoreGames } from "@/components/games/ExploreMoreGames";
+import { FaqSection } from "@/components/games/FaqSection";
+import { GameContent, ContentBlock } from "@/components/games/GameContent";
+import { exploreOthers } from "@/lib/explore-games";
 
-const puzzles = [
-  { phrase: "LOVE YOUR NEIGHBOR", hint: "Jesus's teaching" },
-  { phrase: "THE LORD IS MY SHEPHERD", hint: "Famous Psalm" },
-  { phrase: "IN THE BEGINNING GOD CREATED", hint: "First verse of the Bible" },
-  { phrase: "BLESSED ARE THE PEACEMAKERS", hint: "Beatitude" },
-  { phrase: "THOU SHALT NOT STEAL", hint: "One of the Ten Commandments" },
-  { phrase: "FEAR NOT FOR I AM WITH YOU", hint: "God's promise" },
-  { phrase: "WALK BY FAITH NOT BY SIGHT", hint: "2 Corinthians" },
-  { phrase: "THE TRUTH SHALL SET YOU FREE", hint: "John 8:32" },
+const phrases = [
+  { phrase: "LOVE YOUR NEIGHBOR", ref: "Mark 12:31" },
+  { phrase: "THE LORD IS MY SHEPHERD", ref: "Psalm 23:1" },
+  { phrase: "IN THE BEGINNING GOD CREATED", ref: "Genesis 1:1" },
+  { phrase: "BLESSED ARE THE PEACEMAKERS", ref: "Matthew 5:9" },
+  { phrase: "WALK BY FAITH NOT BY SIGHT", ref: "2 Corinthians 5:7" },
+  { phrase: "THE TRUTH SHALL SET YOU FREE", ref: "John 8:32" },
+  { phrase: "BE STILL AND KNOW", ref: "Psalm 46:10" },
+  { phrase: "FOR GOD SO LOVED THE WORLD", ref: "John 3:16" },
 ];
 
-function pickPuzzle() {
-  return puzzles[Math.floor(Math.random() * puzzles.length)];
-}
-
-const ALL_LETTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+const VOWELS = "AEIOU";
+const CONSONANTS = "BCDFGHJKLMNPQRSTVWXYZ";
+const MAX_WRONG = 6;
 
 export default function BibleWheelOfFortune() {
-  const [puzzle] = useState(pickPuzzle);
+  const [puzzle, setPuzzle] = useState(() => phrases[Math.floor(Math.random() * phrases.length)]);
   const [guessed, setGuessed] = useState<Set<string>>(new Set());
-  const [inputLetter, setInputLetter] = useState("");
   const [wrong, setWrong] = useState(0);
-  const maxWrong = 6;
+  const [spinning, setSpinning] = useState(false);
 
-  const letters = puzzle.phrase.toUpperCase().replace(/[^A-Z]/g, "");
-  const uniqueLetters = [...new Set(letters)];
-  const allRevealed = uniqueLetters.every(l => guessed.has(l));
-  const lost = wrong >= maxWrong;
+  const uniqueLetters = new Set(puzzle.phrase.replace(/[^A-Z]/g, "").split(""));
+  const allRevealed = [...uniqueLetters].every((l) => guessed.has(l));
+  const lost = wrong >= MAX_WRONG;
+  const done = allRevealed || lost;
 
   const guessLetter = useCallback((letter: string) => {
-    const l = letter.toUpperCase();
-    if (!l.match(/^[A-Z]$/) || guessed.has(l)) return;
-    setGuessed(prev => new Set([...prev, l]));
-    if (!puzzle.phrase.toUpperCase().includes(l)) setWrong(w => w + 1);
-    setInputLetter("");
-  }, [guessed, puzzle.phrase]);
+    if (guessed.has(letter) || done) return;
+    setGuessed((prev) => new Set([...prev, letter]));
+    if (!puzzle.phrase.includes(letter)) setWrong((w) => w + 1);
+  }, [guessed, puzzle.phrase, done]);
 
-  function reset() { window.location.reload(); }
+  function spin() {
+    setSpinning(true);
+    setTimeout(() => setSpinning(false), 800);
+  }
+
+  function reset() {
+    setPuzzle(phrases[Math.floor(Math.random() * phrases.length)]);
+    setGuessed(new Set());
+    setWrong(0);
+  }
 
   return (
     <>
       <Helmet>
-        <title>Bible Wheel of Fortune – Guess the Phrase | Bible Games Online</title>
-        <meta name="description" content="Play Bible Wheel of Fortune online! Guess Bible phrases and scripture in this exciting word game." />
+        <title>Bible Wheel of Fortune – Guess the Bible Phrase | Bible Games Online</title>
+        <meta name="description" content="Play Bible Wheel of Fortune! Guess the hidden Bible phrase one letter at a time before you run out of chances." />
       </Helmet>
-      <div className="container mx-auto px-4 py-12 max-w-2xl">
-        <h1 className="text-4xl font-bold text-center mb-2">Bible Wheel of Fortune</h1>
-        <p className="text-center text-muted-foreground mb-8">Guess the Bible phrase letter by letter</p>
 
-        <div className="flex justify-between mb-4">
-          <Badge variant="secondary">Hint: {puzzle.hint}</Badge>
-          <Badge variant={wrong >= maxWrong - 1 ? "destructive" : "outline"}>Wrong: {wrong}/{maxWrong}</Badge>
-        </div>
+      <GameHero
+        icon={<RotateCw className={`w-6 h-6 ${spinning ? "animate-spin" : ""}`} />}
+        title="Bible Wheel of Fortune"
+        subtitle="Guess the hidden Bible phrase one letter at a time before you run out of chances."
+      />
 
-        {/* Hangman-style progress */}
-        <div className="flex gap-1 justify-center mb-2">
-          {Array.from({ length: maxWrong }).map((_, i) => (
-            <div key={i} className={`w-8 h-8 rounded-full border-2 flex items-center justify-center text-sm ${i < wrong ? "bg-destructive border-destructive text-destructive-foreground" : "border-muted"}`}>
-              {i < wrong ? "✗" : ""}
+      <section className="py-10 bg-background">
+        <div className="container mx-auto px-4 max-w-2xl">
+          <div className="rounded-3xl border border-border bg-card shadow-card-lg p-6 md:p-8">
+            <div className="flex justify-center mb-4">
+              <Badge variant={wrong >= MAX_WRONG - 2 ? "destructive" : "outline"}>
+                Wrong guesses: {wrong} / {MAX_WRONG}
+              </Badge>
             </div>
-          ))}
-        </div>
 
-        <Card className="shadow-card-lg mb-6">
-          <CardHeader>
-            <CardTitle className="text-center text-sm text-muted-foreground">GUESS THE PHRASE</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="flex flex-wrap gap-2 justify-center">
+            <div className="flex flex-wrap gap-3 justify-center mb-3">
               {puzzle.phrase.split(" ").map((word, wi) => (
                 <div key={wi} className="flex gap-1">
                   {word.split("").map((char, ci) => {
-                    const revealed = guessed.has(char.toUpperCase()) || (allRevealed || lost);
+                    const revealed = guessed.has(char) || done;
                     return (
-                      <div key={ci} className="flex flex-col items-center">
-                        <div className="w-8 h-8 flex items-center justify-center font-bold text-lg">
+                      <div key={ci} className="flex flex-col items-center w-7">
+                        <div className="h-8 flex items-center justify-center font-bold text-xl text-primary">
                           {revealed ? char : ""}
                         </div>
-                        <div className="w-8 h-0.5 bg-foreground/30" />
+                        <div className="w-6 h-0.5 bg-foreground/30" />
                       </div>
                     );
                   })}
                 </div>
               ))}
             </div>
-          </CardContent>
-        </Card>
+            <p className="text-center text-sm text-muted-foreground mb-6">— {puzzle.ref}</p>
 
-        {(allRevealed || lost) ? (
-          <Card className="text-center shadow-gold mb-6">
-            <CardContent className="py-6">
-              {allRevealed ? (
-                <>
-                  <Trophy className="w-12 h-12 text-primary mx-auto mb-2" />
-                  <p className="text-xl font-bold mb-1">Excellent!</p>
-                  <p className="text-muted-foreground mb-4">You solved the puzzle!</p>
-                </>
-              ) : (
-                <>
-                  <p className="text-xl font-bold mb-1">Game Over!</p>
-                  <p className="text-muted-foreground mb-4">The phrase was: <span className="font-bold text-primary">{puzzle.phrase}</span></p>
-                </>
-              )}
-              <Button onClick={reset}><RotateCcw className="mr-2 w-4 h-4" />New Puzzle</Button>
-            </CardContent>
-          </Card>
-        ) : (
-          <>
-            <div className="flex gap-2 mb-4">
-              <Input
-                value={inputLetter}
-                onChange={e => setInputLetter(e.target.value.toUpperCase().slice(0, 1))}
-                placeholder="Type a letter"
-                className="text-center text-xl font-bold uppercase"
-                maxLength={1}
-                onKeyDown={e => e.key === "Enter" && guessLetter(inputLetter)}
-              />
-              <Button onClick={() => guessLetter(inputLetter)} disabled={!inputLetter}>Guess</Button>
+            <div className="flex justify-center mb-5">
+              <Button onClick={spin} variant="outline" disabled={done}>
+                <RotateCw className={`w-4 h-4 mr-2 ${spinning ? "animate-spin" : ""}`} />
+                Spin Wheel
+              </Button>
             </div>
 
-            <div className="flex flex-wrap gap-1 justify-center">
-              {ALL_LETTERS.split("").map(l => (
-                <Button
-                  key={l}
-                  variant={guessed.has(l) ? (puzzle.phrase.toUpperCase().includes(l) ? "default" : "destructive") : "outline"}
-                  size="sm"
-                  className="w-8 h-8 p-0 text-sm"
-                  onClick={() => guessLetter(l)}
-                  disabled={guessed.has(l)}
-                >
-                  {l}
-                </Button>
-              ))}
+            <div className="grid grid-cols-7 sm:grid-cols-9 gap-1.5">
+              {(VOWELS + CONSONANTS).split("").sort().map((l) => {
+                const tried = guessed.has(l);
+                const inWord = puzzle.phrase.includes(l);
+                return (
+                  <button
+                    key={l}
+                    onClick={() => guessLetter(l)}
+                    disabled={tried || done}
+                    className={`aspect-square rounded-md font-bold text-sm transition-all
+                      ${tried && inWord ? "bg-primary text-primary-foreground" :
+                        tried ? "bg-muted/40 text-muted-foreground line-through" :
+                        "bg-muted hover:bg-primary/15 hover:text-primary"}`}
+                  >
+                    {l}
+                  </button>
+                );
+              })}
             </div>
-          </>
-        )}
-      </div>
+
+            {done && (
+              <div className="mt-6 text-center rounded-2xl bg-primary/10 border border-primary/30 p-5">
+                {allRevealed ? (
+                  <>
+                    <Trophy className="w-10 h-10 text-primary mx-auto mb-1" />
+                    <p className="font-bold text-lg">Excellent!</p>
+                    <p className="text-sm text-muted-foreground mb-3">You revealed the verse.</p>
+                  </>
+                ) : (
+                  <>
+                    <p className="font-bold text-lg">Out of chances</p>
+                    <p className="text-sm text-muted-foreground mb-3">The phrase was: <span className="font-bold text-primary">{puzzle.phrase}</span></p>
+                  </>
+                )}
+                <Button onClick={reset}><RotateCcw className="mr-2 w-4 h-4" /> New Phrase</Button>
+              </div>
+            )}
+          </div>
+        </div>
+      </section>
+
+      <GameContent>
+        <ContentBlock title="Reveal the Hidden Bible Verse">
+          <p>
+            Twelve beloved passages from scripture — from Psalm 23 to John 3:16 — hide behind rows of blank tiles. Click any letter to guess; consonants reveal for free while yellow-highlighted vowels add a touch of strategy. Make too many wrong guesses and the gallows fills in — but the phrase and its Bible reference are always shown at the end, turning every loss into a learning moment.
+          </p>
+        </ContentBlock>
+        <ContentBlock title="Scripture That Sticks">
+          <p>
+            Repetition is one of the most effective ways to memorize scripture, and this word puzzle makes that process enjoyable. Each time you uncover a phrase like "Walk by Faith Not by Sight" or "For God So Loved the World," the words land with fresh impact. It's a natural fit for personal devotion, Sunday school warm-ups, or a friendly family challenge. Pair it with our <Link href="/bible-wordle/" className="text-primary font-medium underline-offset-4 hover:underline">Bible Wordle</Link> for a complete word-game devotional session.
+          </p>
+        </ContentBlock>
+      </GameContent>
+
+      <ExploreMoreGames cards={exploreOthers("wheel", 4)} />
+      <FaqSection />
     </>
   );
 }

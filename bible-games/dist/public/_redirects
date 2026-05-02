@@ -1,0 +1,19 @@
+# Redirect non-trailing-slash URLs to canonical trailing-slash versions
+/bible-trivia              /bible-trivia/              301
+/bible-word-games          /bible-word-games/          301
+/kids-bible-games          /kids-bible-games/          301
+/bible-wordle              /bible-wordle/              301
+/bible-millionaire         /bible-millionaire/         301
+/bible-wheel-of-fortune    /bible-wheel-of-fortune/    301
+/bible-jeopardy            /bible-jeopardy/            301
+/bible-memory-games        /bible-memory-games/        301
+/bible-verse-generator     /bible-verse-generator/     301
+/bible-crossword           /bible-crossword/           301
+/bible-who-am-i            /bible-who-am-i/            301
+/bible-true-false          /bible-true-false/          301
+/privacy-policy            /privacy-policy/            301
+/terms-of-service          /terms-of-service/          301
+/contact                   /contact/                   301
+
+# SPA fallback — must be last
+/*    /index.html    200

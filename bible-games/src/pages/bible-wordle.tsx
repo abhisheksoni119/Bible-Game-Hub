@@ -1,158 +1,222 @@
 import { useState, useEffect, useCallback } from "react";
 import { Helmet } from "react-helmet-async";
+import { Type, RotateCcw, Trophy, BookOpen } from "lucide-react";
+import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Badge } from "@/components/ui/badge";
-import { Card, CardContent } from "@/components/ui/card";
-import { RotateCcw, Trophy } from "lucide-react";
-import { motion } from "framer-motion";
+import { GameHero } from "@/components/games/GameHero";
+import { ExploreMoreGames } from "@/components/games/ExploreMoreGames";
+import { FaqSection } from "@/components/games/FaqSection";
+import { GameContent, ContentBlock } from "@/components/games/GameContent";
+import { exploreOthers } from "@/lib/explore-games";
 
-const WORDS = ["GRACE", "FAITH", "ANGEL", "CROSS", "PSALM", "DAVID", "MOSES", "GLORY", "PEACE", "TRUTH", "LIGHT", "FLESH", "BLOOD", "WATER", "BREAD", "SHEEP", "WHEAT", "GRAIN"];
+const WORDS = ["FAITH", "GRACE", "PEACE", "BIBLE", "JESUS", "MANNA", "PSALM", "ANGEL", "CROSS", "GLORY"];
 const MAX_GUESSES = 6;
+const WORD_LEN = 5;
 
 function pickWord() {
   return WORDS[Math.floor(Math.random() * WORDS.length)];
 }
 
-type LetterState = "correct" | "present" | "absent" | "empty";
+type LetterStatus = "correct" | "present" | "absent";
 
-function checkGuess(guess: string, target: string): LetterState[] {
-  const result: LetterState[] = Array(5).fill("absent");
-  const tArr = target.split("");
-  const gArr = guess.split("");
-  const used = Array(5).fill(false);
-  for (let i = 0; i < 5; i++) {
-    if (gArr[i] === tArr[i]) { result[i] = "correct"; used[i] = true; }
+function gradeGuess(guess: string, target: string): LetterStatus[] {
+  const result: LetterStatus[] = Array(WORD_LEN).fill("absent");
+  const targetArr = target.split("");
+  const used = Array(WORD_LEN).fill(false);
+  for (let i = 0; i < WORD_LEN; i++) {
+    if (guess[i] === target[i]) { result[i] = "correct"; used[i] = true; }
   }
-  for (let i = 0; i < 5; i++) {
+  for (let i = 0; i < WORD_LEN; i++) {
     if (result[i] === "correct") continue;
-    const j = tArr.findIndex((l, idx) => l === gArr[i] && !used[idx]);
-    if (j !== -1) { result[i] = "present"; used[j] = true; }
+    for (let j = 0; j < WORD_LEN; j++) {
+      if (!used[j] && guess[i] === targetArr[j]) { result[i] = "present"; used[j] = true; break; }
+    }
   }
   return result;
 }
 
-const colorMap: Record<LetterState, string> = {
-  correct: "bg-green-500 text-white border-green-500",
-  present: "bg-yellow-400 text-white border-yellow-400",
-  absent: "bg-muted-foreground/30 text-foreground border-muted-foreground/30",
-  empty: "bg-background text-foreground border-border",
-};
+const KEYBOARD_ROWS = ["QWERTYUIOP", "ASDFGHJKL", "ZXCVBNM"];
 
 export default function BibleWordle() {
-  const [target] = useState(pickWord);
+  const [target, setTarget] = useState(pickWord);
   const [guesses, setGuesses] = useState<string[]>([]);
-  const [results, setResults] = useState<LetterState[][]>([]);
   const [current, setCurrent] = useState("");
-  const [won, setWon] = useState(false);
-  const [lost, setLost] = useState(false);
+  const [keyStatus, setKeyStatus] = useState<Record<string, LetterStatus>>({});
+
+  const won = guesses.some((g) => g === target);
+  const lost = guesses.length >= MAX_GUESSES && !won;
+  const done = won || lost;
 
   const submit = useCallback(() => {
-    if (current.length !== 5 || won || lost) return;
-    const g = current.toUpperCase();
-    if (!WORDS.includes(g) && !g.match(/^[A-Z]{5}$/)) return;
-    const res = checkGuess(g, target);
-    setGuesses(prev => [...prev, g]);
-    setResults(prev => [...prev, res]);
-    if (g === target) setWon(true);
-    else if (guesses.length + 1 >= MAX_GUESSES) setLost(true);
+    if (current.length !== WORD_LEN || done) return;
+    const upper = current.toUpperCase();
+    const grade = gradeGuess(upper, target);
+    setGuesses((g) => [...g, upper]);
+    setKeyStatus((prev) => {
+      const next = { ...prev };
+      const priority = { correct: 3, present: 2, absent: 1 } as const;
+      for (let i = 0; i < WORD_LEN; i++) {
+        const k = upper[i];
+        if (!next[k] || priority[grade[i]] > priority[next[k]]) next[k] = grade[i];
+      }
+      return next;
+    });
     setCurrent("");
-  }, [current, target, won, lost, guesses.length]);
+  }, [current, done, target]);
+
+  const press = useCallback((k: string) => {
+    if (done) return;
+    if (k === "ENTER") submit();
+    else if (k === "BACK") setCurrent((c) => c.slice(0, -1));
+    else if (current.length < WORD_LEN && /^[A-Z]$/.test(k)) setCurrent((c) => c + k);
+  }, [submit, current, done]);
 
   useEffect(() => {
     function onKey(e: KeyboardEvent) {
-      if (won || lost) return;
-      if (e.key === "Enter") { submit(); return; }
-      if (e.key === "Backspace") { setCurrent(p => p.slice(0, -1)); return; }
-      if (e.key.match(/^[a-zA-Z]$/) && current.length < 5) setCurrent(p => p + e.key.toUpperCase());
+      const k = e.key.toUpperCase();
+      if (k === "ENTER") press("ENTER");
+      else if (k === "BACKSPACE") press("BACK");
+      else if (/^[A-Z]$/.test(k)) press(k);
     }
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [submit, current, won, lost]);
+  }, [press]);
 
   function reset() {
-    window.location.reload();
+    setTarget(pickWord());
+    setGuesses([]);
+    setCurrent("");
+    setKeyStatus({});
   }
+
+  const rows = Array.from({ length: MAX_GUESSES }, (_, i) => guesses[i] ?? (i === guesses.length ? current : ""));
 
   return (
     <>
       <Helmet>
-        <title>Bible Wordle – Guess the Bible Word | Bible Games Online</title>
-        <meta name="description" content="Play Bible Wordle online! Guess the 5-letter Bible word in 6 tries. A fun Bible word game for all ages." />
+        <title>Bible Wordle – Free Daily Bible Word Puzzle | Bible Games Online</title>
+        <meta name="description" content="Play Bible Wordle online. Guess the 5-letter Bible word in 6 attempts. Green = correct spot, Yellow = wrong spot." />
       </Helmet>
-      <div className="container mx-auto px-4 py-12 max-w-md text-center">
-        <h1 className="text-4xl font-bold mb-2">Bible Wordle</h1>
-        <p className="text-muted-foreground mb-8">Guess the 5-letter Bible word in {MAX_GUESSES} tries</p>
 
-        <div className="grid gap-2 mb-8">
-          {Array.from({ length: MAX_GUESSES }).map((_, row) => {
-            const guess = guesses[row] ?? "";
-            const res = results[row];
-            const isCurrent = row === guesses.length && !won && !lost;
-            const displayWord = isCurrent ? current.padEnd(5) : guess.padEnd(5);
-            return (
-              <div key={row} className="grid grid-cols-5 gap-2">
-                {Array.from({ length: 5 }).map((_, col) => {
-                  const letter = displayWord[col] ?? "";
-                  const state: LetterState = res ? res[col] : "empty";
-                  return (
-                    <motion.div
-                      key={col}
-                      className={`w-full aspect-square border-2 rounded-lg flex items-center justify-center text-2xl font-bold transition-colors ${colorMap[state]}`}
-                      initial={res && state !== "empty" ? { rotateX: 0 } : false}
-                      animate={res ? { rotateX: [0, 90, 0] } : {}}
-                      transition={{ delay: col * 0.1, duration: 0.4 }}
-                    >
-                      {letter}
-                    </motion.div>
-                  );
-                })}
-              </div>
-            );
-          })}
-        </div>
+      <GameHero
+        icon={<Type className="w-6 h-6" />}
+        title="Bible Wordle"
+        subtitle="Guess the 5-letter Bible word in 6 attempts. Green = correct spot, Yellow = wrong spot."
+      />
 
-        {(won || lost) && (
-          <Card className="mb-6 shadow-gold">
-            <CardContent className="py-6">
+      <section className="py-10 bg-background">
+        <div className="container mx-auto px-4 max-w-md">
+          <div className="grid gap-1.5 mb-6">
+            {rows.map((row, ri) => {
+              const submitted = ri < guesses.length;
+              const grade = submitted ? gradeGuess(row, target) : null;
+              return (
+                <div key={ri} className="grid grid-cols-5 gap-1.5">
+                  {Array.from({ length: WORD_LEN }, (_, ci) => {
+                    const letter = row[ci] ?? "";
+                    const status = grade?.[ci];
+                    return (
+                      <div
+                        key={ci}
+                        className={`aspect-square flex items-center justify-center font-bold text-2xl rounded-lg border-2 transition-all
+                          ${status === "correct" ? "bg-green-500 text-white border-green-500" :
+                            status === "present" ? "bg-amber-400 text-white border-amber-400" :
+                            status === "absent" ? "bg-muted text-muted-foreground border-muted" :
+                            letter ? "border-foreground/30 bg-card" : "border-border bg-card"}`}
+                      >
+                        {letter}
+                      </div>
+                    );
+                  })}
+                </div>
+              );
+            })}
+          </div>
+
+          {done && (
+            <div className="rounded-2xl border border-primary/30 bg-card shadow-gold p-5 text-center mb-5">
               {won ? (
                 <>
-                  <Trophy className="w-12 h-12 text-primary mx-auto mb-2" />
-                  <p className="text-xl font-bold mb-1">Excellent!</p>
-                  <p className="text-muted-foreground mb-4">You got it in {guesses.length} {guesses.length === 1 ? "try" : "tries"}!</p>
+                  <Trophy className="w-10 h-10 text-primary mx-auto mb-1" />
+                  <p className="font-bold text-lg">You got it!</p>
+                  <p className="text-sm text-muted-foreground mb-3">in {guesses.length} {guesses.length === 1 ? "guess" : "guesses"}</p>
                 </>
               ) : (
                 <>
-                  <p className="text-xl font-bold mb-1">Nice Try!</p>
-                  <p className="text-muted-foreground mb-4">The word was <span className="font-bold text-primary">{target}</span></p>
+                  <p className="font-bold text-lg">So close!</p>
+                  <p className="text-sm text-muted-foreground mb-3">The word was <span className="font-bold text-primary">{target}</span></p>
                 </>
               )}
-              <Button onClick={reset}><RotateCcw className="mr-2 w-4 h-4" />New Word</Button>
-            </CardContent>
-          </Card>
-        )}
+              <Button onClick={reset}><RotateCcw className="mr-2 w-4 h-4" /> New Game</Button>
+            </div>
+          )}
 
-        {!won && !lost && (
-          <div className="flex gap-2">
-            <Input
-              value={current}
-              onChange={e => setCurrent(e.target.value.toUpperCase().slice(0, 5))}
-              placeholder="Type a word..."
-              className="text-center text-lg font-bold uppercase"
-              maxLength={5}
-            />
-            <Button onClick={submit} disabled={current.length !== 5}>Guess</Button>
+          <div className="space-y-1.5">
+            {KEYBOARD_ROWS.map((row, ri) => (
+              <div key={ri} className="flex justify-center gap-1">
+                {ri === 2 && (
+                  <button
+                    onClick={() => press("ENTER")}
+                    className="px-3 h-12 rounded-md bg-muted hover:bg-muted/70 text-xs font-bold uppercase"
+                  >
+                    Enter
+                  </button>
+                )}
+                {row.split("").map((k) => {
+                  const s = keyStatus[k];
+                  return (
+                    <button
+                      key={k}
+                      onClick={() => press(k)}
+                      className={`w-8 sm:w-9 h-12 rounded-md font-bold text-sm
+                        ${s === "correct" ? "bg-green-500 text-white" :
+                          s === "present" ? "bg-amber-400 text-white" :
+                          s === "absent" ? "bg-muted/40 text-muted-foreground" :
+                          "bg-muted hover:bg-muted/70"}`}
+                    >
+                      {k}
+                    </button>
+                  );
+                })}
+                {ri === 2 && (
+                  <button
+                    onClick={() => press("BACK")}
+                    className="px-3 h-12 rounded-md bg-muted hover:bg-muted/70 text-xs font-bold"
+                  >
+                    ⌫
+                  </button>
+                )}
+              </div>
+            ))}
           </div>
-        )}
 
-        <div className="mt-6 flex gap-2 flex-wrap justify-center">
-          {["correct = right spot", "present = wrong spot", "absent = not in word"].map((hint, i) => (
-            <Badge key={i} variant="outline" className={`text-xs ${i === 0 ? "border-green-500 text-green-600" : i === 1 ? "border-yellow-500 text-yellow-600" : ""}`}>
-              {hint}
-            </Badge>
-          ))}
+          <div className="mt-5 text-center">
+            <Button variant="ghost" size="sm" onClick={reset}>
+              <RotateCcw className="w-4 h-4 mr-1" /> New Game
+            </Button>
+          </div>
         </div>
-      </div>
+      </section>
+
+      <GameContent>
+        <ContentBlock title="How to Play Bible Wordle">
+          <p>
+            Each day brings a fresh five-letter word drawn straight from scripture — a character, a place, a concept, or a virtue found in the Bible. Type any guess using the on-screen keyboard or your physical keys, then hit Enter. Tiles flip to reveal how close you got: <span className="font-semibold text-green-600">green</span> means the letter is in the word and in the right spot, <span className="font-semibold text-amber-600">yellow</span> means it appears elsewhere in the word, and gray means it isn't present at all.
+          </p>
+        </ContentBlock>
+
+        <ContentBlock title="A Word Puzzle With Purpose">
+          <p>
+            Bible Wordle blends the satisfaction of a word puzzle with the richness of Christian vocabulary. Words like GRACE, PEACE, FAITH, PSALM, and MANNA challenge your letter-elimination skills while keeping your mind anchored in scripture. Whether you solve it in two tries or need all six, every round is a small celebration of biblical language. Share your result with friends or your small group — no spoilers needed, just colored squares.
+          </p>
+          <p>
+            Enjoy more faith-based word challenges in our <Link href="/bible-word-games/" className="text-primary font-medium underline-offset-4 hover:underline">Bible Word Search</Link> or try your knowledge in <Link href="/bible-trivia/" className="text-primary font-medium underline-offset-4 hover:underline">Bible Trivia</Link>.
+          </p>
+        </ContentBlock>
+      </GameContent>
+
+      <ExploreMoreGames cards={exploreOthers("wordle", 4)} />
+      <FaqSection />
     </>
   );
 }

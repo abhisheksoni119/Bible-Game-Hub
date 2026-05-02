@@ -1,16 +1,15 @@
 import { useState } from "react";
 import { Link, useLocation } from "wouter";
-import { Menu, X, BookOpen } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { BrandLogo } from "./BrandLogo";
 
 const navLinks = [
   { href: "/", label: "Home" },
   { href: "/bible-trivia/", label: "Bible Trivia" },
   { href: "/bible-word-games/", label: "Word Games" },
   { href: "/kids-bible-games/", label: "Kids Games" },
-  { href: "/bible-wordle/", label: "Wordle" },
-  { href: "/bible-jeopardy/", label: "Jeopardy" },
 ];
 
 export function Navbar() {
@@ -18,12 +17,9 @@ export function Navbar() {
   const [location] = useLocation();
 
   return (
-    <header className="sticky top-0 z-50 bg-secondary text-secondary-foreground shadow-md">
+    <header className="sticky top-0 z-50 bg-secondary text-secondary-foreground border-b border-white/5">
       <div className="container mx-auto px-4 py-3 flex items-center justify-between">
-        <Link href="/" className="flex items-center gap-2 font-bold text-xl text-primary">
-          <BookOpen className="w-6 h-6" />
-          Bible Games Online
-        </Link>
+        <BrandLogo />
 
         <nav className="hidden md:flex items-center gap-1">
           {navLinks.map((link) => (
@@ -31,8 +27,10 @@ export function Navbar() {
               key={link.href}
               href={link.href}
               className={cn(
-                "px-3 py-2 rounded-md text-sm font-medium transition-colors hover:text-primary",
-                location === link.href ? "text-primary" : "text-secondary-foreground/80"
+                "px-4 py-2 rounded-md text-sm font-medium transition-colors",
+                location === link.href
+                  ? "text-primary"
+                  : "text-secondary-foreground/85 hover:text-primary"
               )}
             >
               {link.label}
@@ -43,8 +41,9 @@ export function Navbar() {
         <Button
           variant="ghost"
           size="icon"
-          className="md:hidden text-secondary-foreground"
+          className="md:hidden text-secondary-foreground hover:bg-white/5"
           onClick={() => setOpen(!open)}
+          aria-label="Toggle menu"
         >
           {open ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
         </Button>
@@ -57,8 +56,8 @@ export function Navbar() {
               key={link.href}
               href={link.href}
               className={cn(
-                "block py-2 text-sm font-medium transition-colors hover:text-primary",
-                location === link.href ? "text-primary" : "text-secondary-foreground/80"
+                "block py-2.5 text-sm font-medium transition-colors",
+                location === link.href ? "text-primary" : "text-secondary-foreground/85 hover:text-primary"
               )}
               onClick={() => setOpen(false)}
             >
