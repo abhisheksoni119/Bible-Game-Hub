@@ -1,8 +1,8 @@
-import { useState, useCallback, useEffect } from "react";
+import { useState, useCallback, useEffect, useMemo } from "react";
 import { Helmet } from "react-helmet-async";
 import { Link } from "wouter";
-import { LayoutGrid, RotateCcw, Trophy, Shuffle } from "lucide-react";
-import { motion } from "framer-motion";
+import { LayoutGrid, RotateCcw, Trophy, Shuffle, Check } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { GameHero } from "@/components/games/GameHero";
@@ -14,22 +14,32 @@ import { exploreOthers } from "@/lib/explore-games";
 const SIZE = 4;
 const TOTAL = SIZE * SIZE;
 
-const verses = [
+type Verse = {
+  ref: string;
+  words: string[];
+  palette: [string, string, string];
+};
+
+const verses: Verse[] = [
   {
     ref: "Psalm 23:1",
     words: ["The", "LORD", "is", "my", "shepherd", "I", "shall", "not", "want", "He", "leads", "me", "in", "still", "waters", ""],
+    palette: ["#1e3a8a", "#3b82f6", "#a7d8ff"],
   },
   {
     ref: "John 3:16",
     words: ["For", "God", "so", "loved", "the", "world", "that", "He", "gave", "His", "only", "begotten", "Son", "to", "save", ""],
+    palette: ["#7c2d12", "#dc2626", "#fecaca"],
   },
   {
     ref: "Philippians 4:13",
     words: ["I", "can", "do", "all", "things", "through", "Christ", "who", "strengthens", "me", "every", "day", "in", "all", "ways", ""],
+    palette: ["#581c87", "#a855f7", "#e9d5ff"],
   },
   {
     ref: "Proverbs 3:5",
     words: ["Trust", "in", "the", "LORD", "with", "all", "your", "heart", "and", "lean", "not", "on", "your", "own", "mind", ""],
+    palette: ["#064e3b", "#10b981", "#a7f3d0"],
   },
 ];
 
@@ -63,6 +73,7 @@ export default function BibleTiles() {
   const [moves, setMoves] = useState(0);
   const verse = verses[verseIdx];
   const solved = isSolved(board);
+  const inPlace = useMemo(() => board.filter((v, i) => v === i && v !== TOTAL - 1).length, [board]);
 
   const move = useCallback((idx: number) => {
     if (solved) return;
@@ -107,6 +118,9 @@ export default function BibleTiles() {
     return () => window.removeEventListener("keydown", onKey);
   }, [board, move, solved]);
 
+  const [c1, c2, c3] = verse.palette;
+  const boardBg = `radial-gradient(circle at 30% 20%, ${c3}22, transparent 60%), linear-gradient(135deg, ${c1} 0%, ${c2} 100%)`;
+
   return (
     <>
       <Helmet>
@@ -119,77 +133,109 @@ export default function BibleTiles() {
         title="Bible Tiles"
         subtitle="Slide the tiles into the correct order to reveal a hidden Bible verse."
         meta={
-          <div className="flex gap-2">
-            <Badge variant="outline" className="bg-transparent border-primary/40 text-primary">Verse: {verse.ref}</Badge>
+          <div className="flex flex-wrap gap-2 justify-center">
+            <Badge variant="outline" className="bg-transparent border-primary/40 text-primary">{verse.ref}</Badge>
             <Badge className="bg-primary text-primary-foreground">Moves: {moves}</Badge>
+            <Badge variant="outline" className="bg-transparent border-white/20 text-white/80">{inPlace}/15 in place</Badge>
           </div>
         }
       />
 
-      <section className="py-10 bg-background">
-        <div className="container mx-auto px-4 max-w-md">
-          <div className="rounded-3xl border border-border bg-card shadow-card-lg p-5 md:p-7">
+      <section className="py-12 bg-gradient-to-b from-background via-background to-muted/40">
+        <div className="container mx-auto px-4 max-w-lg">
+          <div className="rounded-3xl border border-border bg-card shadow-card-lg p-4 md:p-6 relative overflow-hidden">
+            <div className="absolute inset-0 opacity-[0.04] pointer-events-none" style={{ backgroundImage: "radial-gradient(circle, currentColor 1px, transparent 1px)", backgroundSize: "16px 16px" }} />
+
             <div
-              className="grid mx-auto"
+              className="relative grid mx-auto rounded-2xl p-3 shadow-inner"
               style={{
                 gridTemplateColumns: `repeat(${SIZE}, minmax(0, 1fr))`,
-                gap: "6px",
-                maxWidth: "360px",
+                gap: "8px",
+                maxWidth: "420px",
+                background: boardBg,
               }}
             >
               {board.map((tileVal, idx) => {
                 const isBlank = tileVal === TOTAL - 1;
                 const word = verse.words[tileVal];
                 const correct = tileVal === idx;
+                if (isBlank) {
+                  return (
+                    <div
+                      key={idx}
+                      className="aspect-square rounded-xl border-2 border-dashed border-white/20 bg-black/10"
+                      aria-hidden
+                    />
+                  );
+                }
                 return (
                   <motion.button
                     key={idx}
                     layout
                     transition={{ type: "spring", stiffness: 600, damping: 35 }}
-                    onClick={() => !isBlank && move(idx)}
-                    disabled={isBlank}
-                    className={`aspect-square rounded-xl flex flex-col items-center justify-center p-1 text-center font-bold transition-all
-                      ${isBlank ? "bg-transparent" :
-                        solved ? "bg-primary text-primary-foreground shadow-gold" :
-                        correct ? "bg-primary/15 text-primary border border-primary/40" :
-                        "bg-card border-2 border-border hover:border-primary hover:bg-primary/5 cursor-pointer"}`}
+                    onClick={() => move(idx)}
+                    aria-label={`Tile ${tileVal + 1}: ${word}. Position ${idx + 1} of 16.`}
+                    className={`aspect-square rounded-xl flex flex-col items-center justify-center p-1 text-center font-bold relative overflow-hidden group transition-all
+                      ${solved
+                        ? "bg-gradient-to-br from-primary to-primary/80 text-primary-foreground shadow-gold ring-2 ring-primary/40"
+                        : correct
+                          ? "bg-gradient-to-br from-primary to-amber-500 text-primary-foreground shadow-md ring-2 ring-primary/60"
+                          : "bg-gradient-to-br from-white to-slate-100 text-slate-900 shadow-md hover:shadow-xl hover:-translate-y-0.5 hover:from-amber-50 hover:to-white cursor-pointer"
+                      }`}
                   >
-                    {!isBlank && (
-                      <>
-                        <span className="text-[10px] font-semibold opacity-60 leading-none">{tileVal + 1}</span>
-                        <span className="text-xs md:text-sm leading-tight mt-0.5 break-words">{word}</span>
-                      </>
+                    <span className={`absolute top-1 left-1.5 text-[9px] font-black tracking-tight px-1.5 py-0.5 rounded-full
+                      ${correct || solved ? "bg-white/30 text-white" : "bg-primary/15 text-primary"}`}>
+                      {tileVal + 1}
+                    </span>
+                    {correct && !solved && (
+                      <Check className="absolute top-1 right-1 w-3 h-3 text-white" />
                     )}
+                    <span className="font-serif text-base md:text-lg leading-tight px-1 break-words drop-shadow-sm">{word}</span>
                   </motion.button>
                 );
               })}
             </div>
 
-            {solved && (
-              <motion.div
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="mt-5 rounded-2xl border border-primary/30 bg-primary/10 p-4 text-center"
-              >
-                <Trophy className="w-10 h-10 text-primary mx-auto mb-1" />
-                <p className="font-bold text-lg">Verse Revealed!</p>
-                <p className="text-sm text-muted-foreground italic mb-1">"{verse.words.filter(Boolean).join(" ")}"</p>
-                <p className="text-sm text-primary font-semibold mb-3">— {verse.ref} ({moves} moves)</p>
-                <Button onClick={newVerse}><Shuffle className="mr-2 w-4 h-4" /> Next Verse</Button>
-              </motion.div>
-            )}
+            <div className="mt-4">
+              <div className="h-1.5 rounded-full bg-muted overflow-hidden">
+                <motion.div
+                  className="h-full bg-gradient-to-r from-primary to-amber-500"
+                  animate={{ width: `${(inPlace / 15) * 100}%` }}
+                  transition={{ type: "spring", stiffness: 200, damping: 25 }}
+                />
+              </div>
+              <p className="text-center text-xs text-muted-foreground mt-2">
+                Click any tile next to the empty square to slide it. Or use arrow keys.
+              </p>
+            </div>
+
+            <AnimatePresence>
+              {solved && (
+                <motion.div
+                  initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0 }}
+                  className="mt-5 rounded-2xl border border-primary/30 bg-gradient-to-br from-primary/15 to-amber-500/10 p-5 text-center"
+                >
+                  <div className="inline-flex items-center justify-center w-14 h-14 rounded-full bg-gradient-to-br from-primary to-amber-500 mb-2 shadow-gold">
+                    <Trophy className="w-7 h-7 text-white" />
+                  </div>
+                  <p className="font-bold text-xl mb-1">Verse Revealed!</p>
+                  <p className="font-serif italic text-base text-foreground/90 leading-relaxed">"{verse.words.filter(Boolean).join(" ")}"</p>
+                  <p className="text-sm text-primary font-bold mt-2 mb-4">— {verse.ref} · solved in {moves} moves</p>
+                  <Button onClick={newVerse} size="lg" className="font-bold"><Shuffle className="mr-2 w-4 h-4" /> Play Next Verse</Button>
+                </motion.div>
+              )}
+            </AnimatePresence>
 
             <div className="mt-5 flex gap-2 justify-center">
               <Button variant="outline" size="sm" onClick={reset}>
-                <RotateCcw className="w-4 h-4 mr-1" /> Reshuffle
+                <RotateCcw className="w-4 h-4 mr-1.5" /> Reshuffle
               </Button>
               <Button variant="ghost" size="sm" onClick={newVerse}>
-                <Shuffle className="w-4 h-4 mr-1" /> New Verse
+                <Shuffle className="w-4 h-4 mr-1.5" /> New Verse
               </Button>
             </div>
-            <p className="text-center text-xs text-muted-foreground mt-3">
-              Tip: use arrow keys to slide the blank space.
-            </p>
           </div>
         </div>
       </section>
@@ -200,7 +246,7 @@ export default function BibleTiles() {
             Each round scrambles a familiar Bible verse across 15 movable tiles plus one empty space. Click any tile next to the empty square — it slides into place. Your job is to rearrange the tiles in the correct order so the verse reads top to bottom, left to right. Solve it in as few moves as possible, then advance to a new verse.
           </p>
           <p>
-            Prefer keyboard play? Use the arrow keys: each press slides whichever tile is opposite the direction you press, just like the classic 15-puzzle. Tiles already in their correct spot light up gold so you can track your progress at a glance.
+            Prefer keyboard play? Use the arrow keys: each press slides whichever tile is opposite the direction you press, just like the classic 15-puzzle. Tiles already in their correct spot light up gold with a checkmark, and a progress bar at the bottom tracks how close you are to completing the verse.
           </p>
         </ContentBlock>
         <ContentBlock title="A Sliding Puzzle With Scripture at Its Heart">
