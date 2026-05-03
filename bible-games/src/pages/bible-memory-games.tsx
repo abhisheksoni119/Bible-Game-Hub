@@ -8,7 +8,6 @@ import { Badge } from "@/components/ui/badge";
 import { GameHero } from "@/components/games/GameHero";
 import { ExploreMoreGames } from "@/components/games/ExploreMoreGames";
 import { FaqSection } from "@/components/games/FaqSection";
-import { Link } from "wouter";
 import { GameContent, ContentBlock } from "@/components/games/GameContent";
 import { exploreOthers } from "@/lib/explore-games";
 

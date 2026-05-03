@@ -37,3 +37,7 @@ outputType = "webview"
 deploymentTarget = "static"
 build = ["pnpm", "--filter", "@workspace/bible-games", "run", "build"]
 publicDir = "bible-games/dist/public"
+
+[postMerge]
+path = "scripts/post-merge.sh"
+timeoutMs = 120000
