@@ -10,6 +10,7 @@ import { FaqSection } from "@/components/games/FaqSection";
 import { GameContent, ContentBlock } from "@/components/games/GameContent";
 import { exploreOthers } from "@/lib/explore-games";
 import { bibleScenes, type BibleScene } from "@/lib/bible-scenes";
+import { BEST_KEYS, formatTime, getBest, saveBest, type BestRecord } from "@/lib/local-bests";
 
 type Difficulty = 12 | 24 | 48 | 96;
 const DIFFS: { value: Difficulty; rows: number; cols: number; label: string }[] = [
@@ -60,9 +61,12 @@ export default function BibleJigsawPuzzle() {
   const [running, setRunning] = useState(false);
   const [won, setWon] = useState(false);
   const [drag, setDrag] = useState<{ id: number; offX: number; offY: number; pointerId: number } | null>(null);
+  const [best, setBest] = useState<BestRecord | null>(() => getBest(BEST_KEYS.jigsaw, `${bibleScenes[0].id}:12`));
+  const [newBestTime, setNewBestTime] = useState(false);
 
   const containerRef = useRef<HTMLDivElement>(null);
   const scene = bibleScenes[sceneIdx];
+  const bestSlot = `${scene.id}:${difficulty}`;
 
   const cfg = useMemo(() => DIFFS.find((d) => d.value === difficulty)!, [difficulty]);
   const pieceW = BOARD_W / cfg.cols;
@@ -94,8 +98,10 @@ export default function BibleJigsawPuzzle() {
       setSeconds(0);
       setRunning(false);
       setWon(false);
+      setNewBestTime(false);
       setSceneIdx(sIdx);
       setDifficulty(diff);
+      setBest(getBest(BEST_KEYS.jigsaw, `${bibleScenes[sIdx].id}:${diff}`));
     },
     [sceneIdx, difficulty]
   );
@@ -112,11 +118,14 @@ export default function BibleJigsawPuzzle() {
   }, [running, won]);
 
   useEffect(() => {
-    if (pieces.length > 0 && pieces.every((p) => p.placed)) {
+    if (pieces.length > 0 && pieces.every((p) => p.placed) && !won) {
       setWon(true);
       setRunning(false);
+      const result = saveBest(BEST_KEYS.jigsaw, bestSlot, { time: seconds });
+      setBest(result.current);
+      setNewBestTime(result.newBestTime);
     }
-  }, [pieces]);
+  }, [pieces, won, bestSlot, seconds]);
 
   function shuffleTray() {
     setPieces((prev) =>
@@ -252,6 +261,11 @@ export default function BibleJigsawPuzzle() {
                 <Badge className="bg-primary text-primary-foreground">
                   Placed: {placedCount}/{pieces.length}
                 </Badge>
+                {best && (
+                  <Badge variant="outline" className="gap-1" title={`Best for ${scene.title} · ${difficulty} pieces`}>
+                    <Trophy className="w-3.5 h-3.5" /> Best: {formatTime(best.time)}
+                  </Badge>
+                )}
               </div>
             </div>
 
@@ -278,10 +292,19 @@ export default function BibleJigsawPuzzle() {
                 >
                   <Trophy className="w-12 h-12 text-primary mx-auto mb-2" />
                   <p className="font-bold text-xl mb-1">Puzzle Complete!</p>
-                  <p className="text-sm text-muted-foreground mb-3">
-                    {scene.title} assembled in {Math.floor(seconds / 60)}:
-                    {String(seconds % 60).padStart(2, "0")}.
+                  <p className="text-sm text-muted-foreground mb-2">
+                    {scene.title} assembled in {formatTime(seconds)}.
                   </p>
+                  {newBestTime && (
+                    <div className="flex justify-center mb-3">
+                      <Badge className="bg-primary text-primary-foreground">New best time!</Badge>
+                    </div>
+                  )}
+                  {best && !newBestTime && (
+                    <p className="text-xs text-muted-foreground mb-3">
+                      Best for this scene at {difficulty} pieces: {formatTime(best.time)}
+                    </p>
+                  )}
                   <div className="max-w-sm mx-auto rounded-xl overflow-hidden border border-border mb-3">
                     <div className="w-full" style={{ aspectRatio: `${BOARD_W}/${BOARD_H}` }}>
                       <SceneSvg scene={scene} />

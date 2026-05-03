@@ -9,6 +9,7 @@ import { ExploreMoreGames } from "@/components/games/ExploreMoreGames";
 import { FaqSection } from "@/components/games/FaqSection";
 import { GameContent, ContentBlock } from "@/components/games/GameContent";
 import { exploreOthers } from "@/lib/explore-games";
+import { BEST_KEYS, formatTime, getBest, saveBest, type BestRecord } from "@/lib/local-bests";
 
 type Difficulty = "easy" | "medium" | "hard";
 
@@ -131,6 +132,9 @@ export default function BibleTiles() {
   const [history, setHistory] = useState<Tile[][]>([]);
   const [hint, setHint] = useState<[number, number] | null>(null);
   const [won, setWon] = useState(false);
+  const [best, setBest] = useState<BestRecord | null>(() => getBest(BEST_KEYS.tiles, "easy"));
+  const [newBestTime, setNewBestTime] = useState(false);
+  const [newBestMoves, setNewBestMoves] = useState(false);
 
   const layout = LAYOUTS[difficulty];
 
@@ -141,11 +145,15 @@ export default function BibleTiles() {
   }, [running, won]);
 
   useEffect(() => {
-    if (tiles.length > 0 && tiles.every((t) => t.removed)) {
+    if (tiles.length > 0 && tiles.every((t) => t.removed) && !won) {
       setWon(true);
       setRunning(false);
+      const result = saveBest(BEST_KEYS.tiles, difficulty, { time: seconds, moves });
+      setBest(result.current);
+      setNewBestTime(result.newBestTime);
+      setNewBestMoves(result.newBestMoves);
     }
-  }, [tiles]);
+  }, [tiles, won, difficulty, seconds, moves]);
 
   function snapshot() {
     setHistory((h) => [...h.slice(-19), tiles.map((t) => ({ ...t }))]);
@@ -187,6 +195,9 @@ export default function BibleTiles() {
     setHistory([]);
     setHint(null);
     setWon(false);
+    setNewBestTime(false);
+    setNewBestMoves(false);
+    setBest(getBest(BEST_KEYS.tiles, diff));
   }
 
   function undo() {
@@ -282,6 +293,11 @@ export default function BibleTiles() {
                 <Badge className="bg-primary text-primary-foreground">
                   Tiles: {remaining}/{tiles.length}
                 </Badge>
+                {best && (
+                  <Badge variant="outline" className="gap-1" title={best.moves !== undefined ? `Best: ${formatTime(best.time)} · ${best.moves} moves` : `Best: ${formatTime(best.time)}`}>
+                    <Trophy className="w-3.5 h-3.5" /> Best: {formatTime(best.time)}
+                  </Badge>
+                )}
               </div>
             </div>
 
@@ -312,10 +328,25 @@ export default function BibleTiles() {
                 >
                   <Trophy className="w-12 h-12 text-primary mx-auto mb-2" />
                   <p className="font-bold text-xl mb-1">You Cleared the Board!</p>
-                  <p className="text-sm text-muted-foreground mb-3">
-                    Finished in {moves} moves and {Math.floor(seconds / 60)}:
-                    {String(seconds % 60).padStart(2, "0")}.
+                  <p className="text-sm text-muted-foreground mb-2">
+                    Finished in {moves} moves and {formatTime(seconds)}.
                   </p>
+                  {(newBestTime || newBestMoves) && (
+                    <div className="flex flex-wrap justify-center gap-2 mb-3">
+                      {newBestTime && (
+                        <Badge className="bg-primary text-primary-foreground">New best time!</Badge>
+                      )}
+                      {newBestMoves && (
+                        <Badge className="bg-primary text-primary-foreground">Fewest moves!</Badge>
+                      )}
+                    </div>
+                  )}
+                  {best && !newBestTime && (
+                    <p className="text-xs text-muted-foreground mb-3">
+                      Best on {difficulty}: {formatTime(best.time)}
+                      {best.moves !== undefined ? ` · ${best.moves} moves` : ""}
+                    </p>
+                  )}
                   <blockquote className="italic text-foreground max-w-md mx-auto mb-1">
                     {WIN_VERSE.text}
                   </blockquote>
