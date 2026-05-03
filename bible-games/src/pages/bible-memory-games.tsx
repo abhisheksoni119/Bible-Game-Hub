@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { Helmet } from "react-helmet-async";
+import { Link } from "wouter";
 import { Brain, RotateCcw, Trophy } from "lucide-react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
@@ -131,7 +132,7 @@ export default function BibleMemoryGames() {
         </ContentBlock>
         <ContentBlock title="Why This Works for Bible Learning">
           <p>
-            Pairing book names with themes accelerates the kind of mental indexing that helps you locate passages quickly later. After a few rounds, you'll naturally start associating "Acts" with the spread of the early church or "John" with the famous love declaration in 3:16. It's a simple game with a deep payoff for personal study, Sunday school, or family devotional time.
+            Pairing book names with themes accelerates the kind of mental indexing that helps you locate passages quickly later. After a few rounds, you'll naturally start associating "Acts" with the spread of the early church or "John" with the famous love declaration in 3:16. It's a simple game with a deep payoff for personal study, Sunday school, or family devotional time. For more visual recall practice, try sliding the pieces in <Link href="/bible-tiles/" className="text-primary font-medium underline-offset-4 hover:underline">Bible Tiles</Link> or assembling a scene in our <Link href="/bible-jigsaw-puzzle/" className="text-primary font-medium underline-offset-4 hover:underline">Bible Jigsaw Puzzle</Link>.
           </p>
         </ContentBlock>
       </GameContent>

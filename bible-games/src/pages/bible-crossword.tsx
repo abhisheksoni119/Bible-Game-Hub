@@ -114,6 +114,9 @@ export default function BibleCrossword() {
             <li>Broadens vocabulary of key scripture terms</li>
             <li>Ideal for group settings — teams can solve clues together</li>
           </ul>
+          <p>
+            Love puzzles? While the crossword is on its way, try our other tile-based challenges: arrange and slide pieces in <Link href="/bible-tiles/" className="text-primary font-medium underline-offset-4 hover:underline">Bible Tiles</Link>, or assemble a complete biblical scene in our <Link href="/bible-jigsaw-puzzle/" className="text-primary font-medium underline-offset-4 hover:underline">Bible Jigsaw Puzzle</Link>.
+          </p>
         </ContentBlock>
       </GameContent>
 

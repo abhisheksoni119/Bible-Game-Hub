@@ -223,7 +223,7 @@ export default function WordSearch() {
             Wordle-style gameplay has become one of the most popular casual puzzle formats around — and the Bible version puts a faith-based twist on it. You have six attempts to guess a five-letter Bible word, with each guess giving you color-coded feedback (green for the letter in the right spot, yellow for the right letter in the wrong place).
           </p>
           <p>
-            The same effect comes from this game: every search trains your eye to spot Bible words with renewed intentionality. As a quick daily challenge that sharpens both vocabulary and pattern thinking, give it a try in our <a href="/bible-wordle/" className="text-primary font-medium underline-offset-4 hover:underline">Bible Wordle</a> game.
+            The same effect comes from this game: every search trains your eye to spot Bible words with renewed intentionality. As a quick daily challenge that sharpens both vocabulary and pattern thinking, give it a try in our <a href="/bible-wordle/" className="text-primary font-medium underline-offset-4 hover:underline">Bible Wordle</a> game. Want a more hands-on visual puzzle? Slide tiles into place in <a href="/bible-tiles/" className="text-primary font-medium underline-offset-4 hover:underline">Bible Tiles</a> or piece together a stunning biblical scene with our <a href="/bible-jigsaw-puzzle/" className="text-primary font-medium underline-offset-4 hover:underline">Bible Jigsaw Puzzle</a>.
           </p>
         </ContentBlock>
       </GameContent>

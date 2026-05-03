@@ -261,7 +261,7 @@ export default function Home() {
           <div>
             <h2 className="text-2xl md:text-3xl font-bold mb-3">Explore Word Search and Puzzle-Based Bible Challenges</h2>
             <p className="text-muted-foreground leading-relaxed">
-              Word lovers can sharpen vocabulary with our scripture-themed <Link href="/bible-word-games/" className="text-primary font-medium underline-offset-4 hover:underline">Word Search</Link>, <Link href="/bible-crossword/" className="text-primary font-medium underline-offset-4 hover:underline">Crossword</Link>, and <Link href="/bible-wordle/" className="text-primary font-medium underline-offset-4 hover:underline">Bible Wordle</Link>. These slower-paced puzzles are perfect for quiet mornings, study breaks, or a focused moment of meditation on a passage.
+              Word lovers can sharpen vocabulary with our scripture-themed <Link href="/bible-word-games/" className="text-primary font-medium underline-offset-4 hover:underline">Word Search</Link>, <Link href="/bible-crossword/" className="text-primary font-medium underline-offset-4 hover:underline">Crossword</Link>, and <Link href="/bible-wordle/" className="text-primary font-medium underline-offset-4 hover:underline">Bible Wordle</Link>. Puzzle fans can also slide their way through <Link href="/bible-tiles/" className="text-primary font-medium underline-offset-4 hover:underline">Bible Tiles</Link> or piece together a beautiful biblical scene in our <Link href="/bible-jigsaw-puzzle/" className="text-primary font-medium underline-offset-4 hover:underline">Bible Jigsaw Puzzle</Link>. These slower-paced puzzles are perfect for quiet mornings, study breaks, or a focused moment of meditation on a passage.
             </p>
           </div>
 

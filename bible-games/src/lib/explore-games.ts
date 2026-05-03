@@ -1,6 +1,6 @@
 import {
   BookOpen, Search, Baby, Type, Trophy, RotateCw, Layout,
-  Brain, Sparkles, Grid3x3, User, CheckCircle2,
+  Brain, Sparkles, Grid3x3, User, CheckCircle2, Puzzle, LayoutGrid,
 } from "lucide-react";
 import { createElement } from "react";
 import type { ExploreCard } from "@/components/games/ExploreMoreGames";
@@ -101,6 +101,22 @@ export const allGames: (ExploreCard & { key: string })[] = [
     description: "Quick-fire scripture facts — true or false?",
     icon: createElement(CheckCircle2, { className: "w-5 h-5" }),
     cta: "Play Now",
+  },
+  {
+    key: "tiles",
+    href: "/bible-tiles/",
+    title: "Bible Tiles",
+    description: "Slide and arrange tiles to reveal a hidden Bible verse.",
+    icon: createElement(LayoutGrid, { className: "w-5 h-5" }),
+    cta: "Play Tiles",
+  },
+  {
+    key: "jigsaw",
+    href: "/bible-jigsaw-puzzle/",
+    title: "Bible Jigsaw Puzzle",
+    description: "Piece together beautiful biblical scenes one tile at a time.",
+    icon: createElement(Puzzle, { className: "w-5 h-5" }),
+    cta: "Solve Jigsaw",
   },
 ];
 

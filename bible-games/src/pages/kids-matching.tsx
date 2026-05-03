@@ -124,7 +124,7 @@ export default function KidsMatching() {
       <GameContent>
         <ContentBlock title="Engaging Children with Christian Games">
           <p>
-            Kids learn best when they're having fun. Our matching game uses colorful animal cards and simple flip mechanics to introduce children to the story of Noah's ark. Once the cards are put away, it can be a lovely moment to read a short scripture together — you can pull one up instantly from our <a href="/bible-verse-generator/" className="text-primary font-medium underline-offset-4 hover:underline">Bible verse generator</a>, which has categories like Love, Hope, and Encouragement that age gently enough for young hearts.
+            Kids learn best when they're having fun. Our matching game uses colorful animal cards and simple flip mechanics to introduce children to the story of Noah's ark. Once the cards are put away, it can be a lovely moment to read a short scripture together — you can pull one up instantly from our <a href="/bible-verse-generator/" className="text-primary font-medium underline-offset-4 hover:underline">Bible verse generator</a>, which has categories like Love, Hope, and Encouragement that age gently enough for young hearts. Looking for more hands-on play? Younger kids love sliding tiles around in <a href="/bible-tiles/" className="text-primary font-medium underline-offset-4 hover:underline">Bible Tiles</a> or assembling a colorful scene with our <a href="/bible-jigsaw-puzzle/" className="text-primary font-medium underline-offset-4 hover:underline">Bible Jigsaw Puzzle</a>.
           </p>
           <ul className="space-y-2 list-disc pl-5">
             <li>Builds memory and concentration skills</li>

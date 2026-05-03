@@ -210,7 +210,7 @@ export default function BibleWordle() {
             Bible Wordle blends the satisfaction of a word puzzle with the richness of Christian vocabulary. Words like GRACE, PEACE, FAITH, PSALM, and MANNA challenge your letter-elimination skills while keeping your mind anchored in scripture. Whether you solve it in two tries or need all six, every round is a small celebration of biblical language. Share your result with friends or your small group — no spoilers needed, just colored squares.
           </p>
           <p>
-            Enjoy more faith-based word challenges in our <Link href="/bible-word-games/" className="text-primary font-medium underline-offset-4 hover:underline">Bible Word Search</Link> or try your knowledge in <Link href="/bible-trivia/" className="text-primary font-medium underline-offset-4 hover:underline">Bible Trivia</Link>.
+            Enjoy more faith-based word challenges in our <Link href="/bible-word-games/" className="text-primary font-medium underline-offset-4 hover:underline">Bible Word Search</Link> or try your knowledge in <Link href="/bible-trivia/" className="text-primary font-medium underline-offset-4 hover:underline">Bible Trivia</Link>. Prefer something more visual? Slide the pieces in <Link href="/bible-tiles/" className="text-primary font-medium underline-offset-4 hover:underline">Bible Tiles</Link> or piece together our <Link href="/bible-jigsaw-puzzle/" className="text-primary font-medium underline-offset-4 hover:underline">Bible Jigsaw Puzzle</Link>.
           </p>
         </ContentBlock>
       </GameContent>
