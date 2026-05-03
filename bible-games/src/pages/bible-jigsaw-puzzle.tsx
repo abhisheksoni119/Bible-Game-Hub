@@ -35,6 +35,128 @@ const BOARD_W = 480;
 const BOARD_H = 320;
 const SNAP_THRESHOLD = 22;
 
+// Deterministic seeded RNG so puzzle edges stay stable across re-renders for a given scene + difficulty.
+function seededRng(seed: number) {
+  let s = seed >>> 0;
+  return () => {
+    s = (s * 1664525 + 1013904223) >>> 0;
+    return s / 0x100000000;
+  };
+}
+
+function hashSeed(sceneId: string, diff: number) {
+  let h = 2166136261 >>> 0;
+  const str = `${sceneId}:${diff}`;
+  for (let i = 0; i < str.length; i++) {
+    h ^= str.charCodeAt(i);
+    h = Math.imul(h, 16777619);
+  }
+  return h >>> 0;
+}
+
+interface EdgeMap {
+  // For each piece (r,c): top, right, bottom, left edge value: +1 tab outward, -1 blank inward, 0 flat (border)
+  edges: { top: number; right: number; bottom: number; left: number }[][];
+}
+
+function buildEdges(rows: number, cols: number, seed: number): EdgeMap {
+  const rand = seededRng(seed);
+  // Horizontal seams: hSeam[r][c] for r in 0..rows-2 — value applies to upper piece's bottom edge.
+  const hSeam: number[][] = [];
+  for (let r = 0; r < rows - 1; r++) {
+    const row: number[] = [];
+    for (let c = 0; c < cols; c++) row.push(rand() < 0.5 ? -1 : 1);
+    hSeam.push(row);
+  }
+  // Vertical seams: vSeam[r][c] for c in 0..cols-2 — value applies to left piece's right edge.
+  const vSeam: number[][] = [];
+  for (let r = 0; r < rows; r++) {
+    const row: number[] = [];
+    for (let c = 0; c < cols - 1; c++) row.push(rand() < 0.5 ? -1 : 1);
+    vSeam.push(row);
+  }
+  const edges: EdgeMap["edges"] = [];
+  for (let r = 0; r < rows; r++) {
+    const row: EdgeMap["edges"][number] = [];
+    for (let c = 0; c < cols; c++) {
+      row.push({
+        top: r === 0 ? 0 : -hSeam[r - 1][c],
+        bottom: r === rows - 1 ? 0 : hSeam[r][c],
+        left: c === 0 ? 0 : -vSeam[r][c - 1],
+        right: c === cols - 1 ? 0 : vSeam[r][c],
+      });
+    }
+    edges.push(row);
+  }
+  return { edges };
+}
+
+function piecePath(
+  pw: number,
+  ph: number,
+  tab: number,
+  e: { top: number; right: number; bottom: number; left: number }
+): string {
+  // Piece's flat rectangle sits at (tab, tab) within a (pw + 2*tab) x (ph + 2*tab) box.
+  const x0 = tab;
+  const y0 = tab;
+  const x1 = tab + pw;
+  const y1 = tab + ph;
+  const out: string[] = [];
+  out.push(`M ${x0} ${y0}`);
+
+  // TOP edge: left -> right, outward = -y
+  if (e.top === 0) {
+    out.push(`L ${x1} ${y0}`);
+  } else {
+    const mid = (x0 + x1) / 2;
+    const half = tab * 0.55;
+    const peak = y0 - e.top * tab;
+    out.push(`L ${mid - half} ${y0}`);
+    out.push(`C ${mid - tab} ${peak} ${mid + tab} ${peak} ${mid + half} ${y0}`);
+    out.push(`L ${x1} ${y0}`);
+  }
+
+  // RIGHT edge: top -> bottom, outward = +x
+  if (e.right === 0) {
+    out.push(`L ${x1} ${y1}`);
+  } else {
+    const mid = (y0 + y1) / 2;
+    const half = tab * 0.55;
+    const peak = x1 + e.right * tab;
+    out.push(`L ${x1} ${mid - half}`);
+    out.push(`C ${peak} ${mid - tab} ${peak} ${mid + tab} ${x1} ${mid + half}`);
+    out.push(`L ${x1} ${y1}`);
+  }
+
+  // BOTTOM edge: right -> left, outward = +y
+  if (e.bottom === 0) {
+    out.push(`L ${x0} ${y1}`);
+  } else {
+    const mid = (x0 + x1) / 2;
+    const half = tab * 0.55;
+    const peak = y1 + e.bottom * tab;
+    out.push(`L ${mid + half} ${y1}`);
+    out.push(`C ${mid + tab} ${peak} ${mid - tab} ${peak} ${mid - half} ${y1}`);
+    out.push(`L ${x0} ${y1}`);
+  }
+
+  // LEFT edge: bottom -> top, outward = -x
+  if (e.left === 0) {
+    out.push(`L ${x0} ${y0}`);
+  } else {
+    const mid = (y0 + y1) / 2;
+    const half = tab * 0.55;
+    const peak = x0 - e.left * tab;
+    out.push(`L ${x0} ${mid + half}`);
+    out.push(`C ${peak} ${mid + tab} ${peak} ${mid - tab} ${x0} ${mid - half}`);
+    out.push(`L ${x0} ${y0}`);
+  }
+
+  out.push("Z");
+  return out.join(" ");
+}
+
 const jigsawFaqs = [
   {
     q: "How do I move pieces?",
@@ -75,6 +197,24 @@ export default function BibleJigsawPuzzle() {
   const cfg = useMemo(() => DIFFS.find((d) => d.value === difficulty)!, [difficulty]);
   const pieceW = BOARD_W / cfg.cols;
   const pieceH = BOARD_H / cfg.rows;
+  const tabSize = Math.min(pieceW, pieceH) * 0.22;
+
+  const edgeMap = useMemo(
+    () => buildEdges(cfg.rows, cfg.cols, hashSeed(scene.id, difficulty)),
+    [cfg.rows, cfg.cols, scene.id, difficulty]
+  );
+
+  const piecePaths = useMemo(() => {
+    const paths: string[][] = [];
+    for (let r = 0; r < cfg.rows; r++) {
+      const row: string[] = [];
+      for (let c = 0; c < cfg.cols; c++) {
+        row.push(piecePath(pieceW, pieceH, tabSize, edgeMap.edges[r][c]));
+      }
+      paths.push(row);
+    }
+    return paths;
+  }, [cfg.rows, cfg.cols, pieceW, pieceH, tabSize, edgeMap]);
 
   const init = useCallback(
     (sIdx: number = sceneIdx, diff: Difficulty = difficulty) => {
@@ -429,41 +569,71 @@ export default function BibleJigsawPuzzle() {
                 </div>
 
                 {/* Pieces */}
-                {pieces.map((p) => (
-                  <div
-                    key={p.id}
-                    onPointerDown={(e) => onPointerDown(e, p)}
-                    className={`absolute overflow-hidden ${p.placed ? "cursor-default" : "cursor-grab active:cursor-grabbing"}`}
-                    style={{
-                      left: p.x + (p.placed ? 0 : 0),
-                      top: p.y + (p.placed ? 20 : 0),
-                      width: pieceW,
-                      height: pieceH,
-                      zIndex: p.placed ? 1 : drag?.id === p.id ? 100 : 10,
-                      borderRadius: 2,
-                      boxShadow: p.placed
-                        ? "none"
-                        : drag?.id === p.id
-                        ? "0 8px 20px rgba(0,0,0,0.3)"
-                        : "0 2px 6px rgba(0,0,0,0.2), inset 0 0 0 1px rgba(255,255,255,0.4)",
-                      outline: p.placed ? "none" : "1px solid rgba(0,0,0,0.15)",
-                      transition: drag?.id === p.id ? "none" : "box-shadow 0.15s",
-                    }}
-                  >
+                {pieces.map((p) => {
+                  const path = piecePaths[p.row][p.col];
+                  const boxW = pieceW + 2 * tabSize;
+                  const boxH = pieceH + 2 * tabSize;
+                  const isDragging = drag?.id === p.id;
+                  // Drop-shadow filter follows the clip-path silhouette (unlike box-shadow).
+                  const shadow = p.placed
+                    ? "none"
+                    : isDragging
+                    ? "drop-shadow(0 6px 10px rgba(0,0,0,0.35))"
+                    : "drop-shadow(0 2px 3px rgba(0,0,0,0.25))";
+                  return (
                     <div
+                      key={p.id}
+                      onPointerDown={(e) => onPointerDown(e, p)}
+                      className={`absolute ${p.placed ? "cursor-default" : "cursor-grab active:cursor-grabbing"}`}
                       style={{
-                        position: "absolute",
-                        left: -p.col * pieceW,
-                        top: -p.row * pieceH,
-                        width: BOARD_W,
-                        height: BOARD_H,
-                        pointerEvents: "none",
+                        left: p.x - tabSize,
+                        top: p.y - tabSize + (p.placed ? 20 : 0),
+                        width: boxW,
+                        height: boxH,
+                        zIndex: p.placed ? 1 : isDragging ? 100 : 10,
+                        filter: shadow,
+                        transition: isDragging ? "none" : "filter 0.15s",
                       }}
                     >
-                      <SceneSvg scene={scene} />
+                      <div
+                        style={{
+                          position: "absolute",
+                          inset: 0,
+                          clipPath: `path('${path}')`,
+                          WebkitClipPath: `path('${path}')`,
+                        }}
+                      >
+                        <div
+                          style={{
+                            position: "absolute",
+                            left: tabSize - p.col * pieceW,
+                            top: tabSize - p.row * pieceH,
+                            width: BOARD_W,
+                            height: BOARD_H,
+                            pointerEvents: "none",
+                          }}
+                        >
+                          <SceneSvg scene={scene} />
+                        </div>
+                      </div>
+                      {/* Outline stroke that follows the puzzle silhouette */}
+                      <svg
+                        className="absolute inset-0 pointer-events-none"
+                        width={boxW}
+                        height={boxH}
+                        viewBox={`0 0 ${boxW} ${boxH}`}
+                      >
+                        <path
+                          d={path}
+                          fill="none"
+                          stroke={p.placed ? "rgba(0,0,0,0.18)" : "rgba(0,0,0,0.45)"}
+                          strokeWidth={p.placed ? 0.6 : 1}
+                          strokeLinejoin="round"
+                        />
+                      </svg>
                     </div>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
             </div>
 
