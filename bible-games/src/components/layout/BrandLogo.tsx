@@ -8,16 +8,16 @@ interface BrandLogoProps {
 
 export function BrandLogo({ size = "md", asLink = true }: BrandLogoProps) {
   const text = (
-    <span className={`font-bold tracking-tight ${size === "sm" ? "text-base" : "text-xl"}`}>
+    <span className={`font-bold tracking-tight whitespace-nowrap leading-none ${size === "sm" ? "text-base" : "text-lg"}`}>
       <span className="text-secondary-foreground">Bible Games</span>
-      <span className="text-primary font-display italic ml-1">Online</span>
+      <span className="text-primary font-display italic ml-1.5">Online</span>
     </span>
   );
 
   const inner = (
-    <span className="flex items-center gap-2">
+    <span className="inline-flex items-center gap-2 whitespace-nowrap">
       <span
-        className={`inline-flex items-center justify-center rounded-md bg-primary text-primary-foreground ${
+        className={`inline-flex flex-shrink-0 items-center justify-center rounded-md bg-primary text-primary-foreground ${
           size === "sm" ? "w-6 h-6" : "w-7 h-7"
         }`}
       >

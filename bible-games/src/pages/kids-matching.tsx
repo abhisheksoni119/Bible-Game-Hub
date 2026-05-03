@@ -7,6 +7,7 @@ import { motion } from "framer-motion";
 import { GameHero } from "@/components/games/GameHero";
 import { ExploreMoreGames } from "@/components/games/ExploreMoreGames";
 import { FaqSection } from "@/components/games/FaqSection";
+import { Link } from "wouter";
 import { GameContent, ContentBlock } from "@/components/games/GameContent";
 import { exploreOthers } from "@/lib/explore-games";
 
@@ -153,6 +154,12 @@ export default function KidsMatching() {
           </ul>
           <p>
             For older kids and teens, pairing the matching game with a short discussion about Noah's obedience turns a simple activity into a meaningful group moment.
+          </p>
+        </ContentBlock>
+
+        <ContentBlock title="Other Kid-Friendly Bible Games">
+          <p>
+            Looking for more gentle, screen-friendly activities? Children love our <Link href="/bible-jigsaw-puzzle/" className="text-primary font-semibold hover:underline">Bible Jigsaw Puzzle</Link>, where they drag and drop pieces to recreate beloved Bible scenes — Noah's Ark, the Nativity, the loaves and fishes, and dozens more — with a verse appearing at the end. Older kids especially enjoy the calmer pace of <Link href="/bible-tiles/" className="text-primary font-semibold hover:underline">Bible Tiles</Link>, a Mahjong-style matching game that uses simple biblical symbols and works as a quiet quiet-time or after-Sunday-school activity.
           </p>
         </ContentBlock>
       </GameContent>

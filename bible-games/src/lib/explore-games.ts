@@ -1,6 +1,6 @@
 import {
   BookOpen, Search, Baby, Type, Trophy, RotateCw, Layout,
-  Brain, Sparkles, Grid3x3, User, CheckCircle2, Puzzle, LayoutGrid,
+  Brain, Sparkles, Grid3x3, User, CheckCircle2, Layers, Puzzle,
 } from "lucide-react";
 import { createElement } from "react";
 import type { ExploreCard } from "@/components/games/ExploreMoreGames";
@@ -106,17 +106,17 @@ export const allGames: (ExploreCard & { key: string })[] = [
     key: "tiles",
     href: "/bible-tiles/",
     title: "Bible Tiles",
-    description: "Slide and arrange tiles to reveal a hidden Bible verse.",
-    icon: createElement(LayoutGrid, { className: "w-5 h-5" }),
+    description: "Mahjong-style matching with Bible icons across stacked layers.",
+    icon: createElement(Layers, { className: "w-5 h-5" }),
     cta: "Play Tiles",
   },
   {
     key: "jigsaw",
     href: "/bible-jigsaw-puzzle/",
     title: "Bible Jigsaw Puzzle",
-    description: "Piece together beautiful biblical scenes one tile at a time.",
+    description: "Drag-and-drop jigsaw puzzles featuring beloved Bible scenes.",
     icon: createElement(Puzzle, { className: "w-5 h-5" }),
-    cta: "Solve Jigsaw",
+    cta: "Solve Puzzle",
   },
 ];
 

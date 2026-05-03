@@ -8,6 +8,7 @@ import { Badge } from "@/components/ui/badge";
 import { GameHero } from "@/components/games/GameHero";
 import { ExploreMoreGames } from "@/components/games/ExploreMoreGames";
 import { FaqSection } from "@/components/games/FaqSection";
+import { Link } from "wouter";
 import { GameContent, ContentBlock } from "@/components/games/GameContent";
 import { exploreOthers } from "@/lib/explore-games";
 
@@ -133,6 +134,11 @@ export default function BibleMemoryGames() {
         <ContentBlock title="Why This Works for Bible Learning">
           <p>
             Pairing book names with themes accelerates the kind of mental indexing that helps you locate passages quickly later. After a few rounds, you'll naturally start associating "Acts" with the spread of the early church or "John" with the famous love declaration in 3:16. It's a simple game with a deep payoff for personal study, Sunday school, or family devotional time. For more visual recall practice, try sliding the pieces in <Link href="/bible-tiles/" className="text-primary font-medium underline-offset-4 hover:underline">Bible Tiles</Link> or assembling a scene in our <Link href="/bible-jigsaw-puzzle/" className="text-primary font-medium underline-offset-4 hover:underline">Bible Jigsaw Puzzle</Link>.
+          </p>
+        </ContentBlock>
+        <ContentBlock title="More Matching-Style Bible Games">
+          <p>
+            If you enjoy the rhythm of finding pairs, try our <Link href="/bible-tiles/" className="text-primary font-semibold hover:underline">Bible Tiles</Link> game — a peaceful Mahjong-style board where you remove pairs of free tiles decorated with biblical icons until the layout is cleared. For a more visual puzzle, our <Link href="/bible-jigsaw-puzzle/" className="text-primary font-semibold hover:underline">Bible Jigsaw Puzzle</Link> lets you reassemble more than fifty illustrated scenes from scripture, from Noah's Ark to the empty tomb, with a verse waiting at the end of every completed picture.
           </p>
         </ContentBlock>
       </GameContent>

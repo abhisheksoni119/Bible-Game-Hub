@@ -118,6 +118,11 @@ export default function BibleCrossword() {
             Love puzzles? While the crossword is on its way, try our other tile-based challenges: arrange and slide pieces in <Link href="/bible-tiles/" className="text-primary font-medium underline-offset-4 hover:underline">Bible Tiles</Link>, or assemble a complete biblical scene in our <Link href="/bible-jigsaw-puzzle/" className="text-primary font-medium underline-offset-4 hover:underline">Bible Jigsaw Puzzle</Link>.
           </p>
         </ContentBlock>
+        <ContentBlock title="More Visual Bible Puzzles">
+          <p>
+            If you enjoy the patient, piece-by-piece feel of a crossword, try our <Link href="/bible-jigsaw-puzzle/" className="text-primary font-semibold hover:underline">Bible Jigsaw Puzzle</Link> — over fifty illustrated scriptural scenes broken into draggable pieces, each finished image revealing a verse. For a quieter board game, <Link href="/bible-tiles/" className="text-primary font-semibold hover:underline">Bible Tiles</Link> offers a Mahjong-style matching challenge with biblical icons stacked across multiple layers.
+          </p>
+        </ContentBlock>
       </GameContent>
 
       <ExploreMoreGames cards={exploreOthers("crossword", 4)} />

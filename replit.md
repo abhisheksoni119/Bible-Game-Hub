@@ -40,6 +40,8 @@ A modern, responsive Bible gaming website built with React + Vite + TypeScript.
 - `/bible-crossword/` — Bible crossword puzzle
 - `/bible-who-am-i/` — Guess the Bible character from clues
 - `/bible-true-false/` — True/False Bible facts quiz
+- `/bible-tiles/` — Mahjong-style Bible tile matching game (easy/medium/hard layouts)
+- `/bible-jigsaw-puzzle/` — Drag-and-drop jigsaw with 6 Bible scenes (12/24/48/96 pieces)
 - `/privacy-policy/` — Privacy policy
 - `/terms-of-service/` — Terms of service
 - `/contact/` — Contact form

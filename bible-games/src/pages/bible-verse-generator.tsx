@@ -7,6 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { GameHero } from "@/components/games/GameHero";
 import { ExploreMoreGames } from "@/components/games/ExploreMoreGames";
 import { FaqSection } from "@/components/games/FaqSection";
+import { Link } from "wouter";
 import { GameContent, ContentBlock } from "@/components/games/GameContent";
 import { exploreOthers } from "@/lib/explore-games";
 
@@ -145,6 +146,11 @@ export default function BibleVerseGenerator() {
           </p>
           <p>
             Choose a theme that matches where you are right now. Feeling weary? Try <span className="font-semibold">Strength</span>. Facing uncertainty? Pause on <span className="font-semibold">Hope</span>. Looking for direction? <span className="font-semibold">Guidance</span> verses will help. Searching for inner calm? <span className="font-semibold">Peace</span> draws from Psalms, Isaiah, and the New Testament. Struggling to forgive? The <span className="font-semibold">Forgiveness</span> category speaks directly to mercy and reconciliation.
+          </p>
+        </ContentBlock>
+        <ContentBlock title="Pair Verses with Beautiful Bible Scenes">
+          <p>
+            For a more visual way to sit with scripture, try our <Link href="/bible-jigsaw-puzzle/" className="text-primary font-semibold hover:underline">Bible Jigsaw Puzzle</Link>. Over fifty hand-drawn scenes — Creation, the Garden of Eden, Noah's Ark, the Nativity, the Last Supper, the empty tomb, Pentecost — wait to be reassembled, with the matching verse revealed when each picture is complete. It pairs naturally with a daily verse practice and works beautifully with our peaceful matching game, <Link href="/bible-tiles/" className="text-primary font-semibold hover:underline">Bible Tiles</Link>.
           </p>
         </ContentBlock>
         <ContentBlock title="Use Inspirational Bible Verses Every Day">

@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 import {
   BookOpen, Search, Type, Trophy, RotateCw, Layout, Brain,
   Sparkles, Grid3x3, User, Baby, ArrowRight, CheckCircle2, XCircle,
-  Heart, Star,
+  Heart, Star, Layers, Puzzle,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { FaqSection } from "@/components/games/FaqSection";
@@ -16,21 +16,24 @@ const heroGames = [
     title: "Bible Trivia",
     description: "Quiz across Old & New Testament, with three difficulty tiers.",
     icon: BookOpen,
-    accent: "from-amber-400/30 to-yellow-600/20",
+    canvas: "bg-amber-100",
+    iconColor: "text-amber-900",
   },
   {
     href: "/bible-word-games/",
     title: "Bible Word Search",
     description: "Hunt for hidden scripture words on a generated grid.",
     icon: Search,
-    accent: "from-emerald-400/30 to-emerald-600/20",
+    canvas: "bg-emerald-100",
+    iconColor: "text-emerald-900",
   },
   {
     href: "/kids-bible-games/",
     title: "Kids Matching",
     description: "Bright, gentle card-flip game built for young readers.",
     icon: Baby,
-    accent: "from-rose-400/30 to-rose-600/20",
+    canvas: "bg-rose-100",
+    iconColor: "text-rose-900",
   },
 ];
 
@@ -43,6 +46,8 @@ const smallGames = [
   { href: "/bible-verse-generator/", title: "Verse Gen", icon: Sparkles },
   { href: "/bible-crossword/", title: "Crossword", icon: Grid3x3 },
   { href: "/bible-who-am-i/", title: "Who Am I?", icon: User },
+  { href: "/bible-tiles/", title: "Bible Tiles", icon: Layers },
+  { href: "/bible-jigsaw-puzzle/", title: "Jigsaw", icon: Puzzle },
 ];
 
 const quickQuestions = [
@@ -192,13 +197,24 @@ export default function Home() {
               >
                 <Link
                   href={g.href}
-                  className="group block rounded-2xl border border-border bg-card shadow-card hover:shadow-card-lg transition-all hover:-translate-y-1 overflow-hidden"
+                  className="group block rounded-3xl bg-card shadow-card hover:shadow-card-lg transition-all hover:-translate-y-1 overflow-hidden"
                 >
-                  <div className={`relative h-36 bg-gradient-to-br ${g.accent} flex items-center justify-center`}>
-                    <g.icon className="w-16 h-16 text-secondary/70 group-hover:scale-110 transition-transform" />
+                  <div className={`relative h-44 ${g.canvas} flex items-center justify-center overflow-hidden`}>
+                    <div
+                      className="absolute inset-0 opacity-30 pointer-events-none"
+                      style={{
+                        backgroundImage: "radial-gradient(circle at 1px 1px, currentColor 1px, transparent 0)",
+                        backgroundSize: "20px 20px",
+                        color: "rgba(0,0,0,0.4)",
+                      }}
+                    />
+                    <g.icon
+                      strokeWidth={1.5}
+                      className={`w-24 h-24 ${g.iconColor} group-hover:scale-110 transition-transform duration-300 relative`}
+                    />
                   </div>
-                  <div className="p-5">
-                    <h3 className="font-bold text-lg mb-2">{g.title}</h3>
+                  <div className="p-6">
+                    <h3 className="font-bold text-xl mb-2">{g.title}</h3>
                     <p className="text-sm text-muted-foreground leading-relaxed">{g.description}</p>
                   </div>
                 </Link>

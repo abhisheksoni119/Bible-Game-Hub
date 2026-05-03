@@ -1,7 +1,7 @@
 import { Link } from "wouter";
 import {
   BookOpen, Search, Baby, Type, Trophy, RotateCw, Layout,
-  Brain, Sparkles, Grid3x3, User, Puzzle, LayoutGrid,
+  Brain, Sparkles, Grid3x3, User, Layers, Puzzle,
 } from "lucide-react";
 import { BrandLogo } from "./BrandLogo";
 
@@ -17,8 +17,8 @@ const games = [
   { href: "/bible-verse-generator/", label: "Verse Generator", icon: Sparkles },
   { href: "/bible-crossword/", label: "Bible Crossword", icon: Grid3x3 },
   { href: "/bible-who-am-i/", label: "Who Am I?", icon: User },
-  { href: "/bible-tiles/", label: "Bible Tiles", icon: LayoutGrid },
-  { href: "/bible-jigsaw-puzzle/", label: "Bible Jigsaw Puzzle", icon: Puzzle },
+  { href: "/bible-tiles/", label: "Bible Tiles", icon: Layers },
+  { href: "/bible-jigsaw-puzzle/", label: "Bible Jigsaw", icon: Puzzle },
 ];
 
 const info = [

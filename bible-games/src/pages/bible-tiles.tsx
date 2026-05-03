@@ -1,7 +1,6 @@
-import { useState, useCallback, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { Helmet } from "react-helmet-async";
-import { Link } from "wouter";
-import { LayoutGrid, RotateCcw, Trophy, Shuffle, Check } from "lucide-react";
+import { Layers, RotateCcw, Trophy, Lightbulb, Shuffle, Undo2, Timer as TimerIcon } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -11,256 +10,415 @@ import { FaqSection } from "@/components/games/FaqSection";
 import { GameContent, ContentBlock } from "@/components/games/GameContent";
 import { exploreOthers } from "@/lib/explore-games";
 
-const SIZE = 4;
-const TOTAL = SIZE * SIZE;
+type Difficulty = "easy" | "medium" | "hard";
 
-type Verse = {
-  ref: string;
-  words: string[];
-  palette: [string, string, string];
+const SYMBOLS = [
+  "🕊️", "🦁", "🐑", "🐟", "🐍", "🐪", "✝️", "⛵", "📜",
+  "👑", "🌟", "🍞", "🍇", "🌿", "⛰️", "🔥", "💧", "🌈",
+  "🛡️", "🗝️", "🍎", "🐝", "🌊", "🏺", "🪨", "🌳", "🐂",
+  "📖", "🕯️", "⚓", "🌙", "☀️", "🪶", "🎺",
+];
+
+interface Tile {
+  id: number;
+  x: number;
+  y: number;
+  layer: number;
+  symbol: string;
+  removed: boolean;
+}
+
+interface LayerSpec {
+  rows: number;
+  cols: number;
+  offsetX: number;
+  offsetY: number;
+}
+
+const LAYOUTS: Record<Difficulty, { tilePx: number; layers: LayerSpec[] }> = {
+  // Easy: 48 base + 24 top = 72 tiles. Top layer covers center, exposing edges + the top layer perimeter.
+  easy: {
+    tilePx: 52,
+    layers: [
+      { rows: 6, cols: 8, offsetX: 0, offsetY: 0 },
+      { rows: 4, cols: 6, offsetX: 1, offsetY: 1 },
+    ],
+  },
+  // Medium: 80 base + 24 mid = 104 tiles
+  medium: {
+    tilePx: 46,
+    layers: [
+      { rows: 8, cols: 10, offsetX: 0, offsetY: 0 },
+      { rows: 4, cols: 6, offsetX: 2, offsetY: 2 },
+    ],
+  },
+  // Hard: 96 base + 48 top = 144 tiles (classic turtle proportions)
+  hard: {
+    tilePx: 42,
+    layers: [
+      { rows: 8, cols: 12, offsetX: 0, offsetY: 0 },
+      { rows: 6, cols: 8, offsetX: 2, offsetY: 1 },
+    ],
+  },
 };
 
-const verses: Verse[] = [
+function buildTiles(diff: Difficulty): Tile[] {
+  const layout = LAYOUTS[diff];
+  const positions: Omit<Tile, "id" | "symbol" | "removed">[] = [];
+  layout.layers.forEach((spec, layer) => {
+    for (let r = 0; r < spec.rows; r++) {
+      for (let c = 0; c < spec.cols; c++) {
+        positions.push({ x: spec.offsetX + c, y: spec.offsetY + r, layer });
+      }
+    }
+  });
+  // Ensure even count
+  if (positions.length % 2 === 1) positions.pop();
+  // Build symbol pool (each appears in pairs)
+  const need = positions.length / 2;
+  const pool: string[] = [];
+  for (let i = 0; i < need; i++) pool.push(SYMBOLS[i % SYMBOLS.length]);
+  const all = [...pool, ...pool].sort(() => Math.random() - 0.5);
+  return positions.map((p, i) => ({ ...p, id: i, symbol: all[i], removed: false }));
+}
+
+function isFree(tile: Tile, tiles: Tile[]): boolean {
+  if (tile.removed) return false;
+  const blockedAbove = tiles.some(
+    (t) => !t.removed && t.layer === tile.layer + 1 && t.x === tile.x && t.y === tile.y
+  );
+  if (blockedAbove) return false;
+  const left = tiles.some(
+    (t) => !t.removed && t.layer === tile.layer && t.y === tile.y && t.x === tile.x - 1
+  );
+  const right = tiles.some(
+    (t) => !t.removed && t.layer === tile.layer && t.y === tile.y && t.x === tile.x + 1
+  );
+  return !(left && right);
+}
+
+const WIN_VERSE = {
+  text: '"I have fought the good fight, I have finished the race, I have kept the faith."',
+  ref: "— 2 Timothy 4:7",
+};
+
+const tileFaqs = [
   {
-    ref: "Psalm 23:1",
-    words: ["The", "LORD", "is", "my", "shepherd", "I", "shall", "not", "want", "He", "leads", "me", "in", "still", "waters", ""],
-    palette: ["#1e3a8a", "#3b82f6", "#a7d8ff"],
+    q: "How do I play Bible Tiles?",
+    a: "Find and remove pairs of matching free tiles. A tile is 'free' when nothing sits on top of it and at least one of its left or right edges is open.",
   },
   {
-    ref: "John 3:16",
-    words: ["For", "God", "so", "loved", "the", "world", "that", "He", "gave", "His", "only", "begotten", "Son", "to", "save", ""],
-    palette: ["#7c2d12", "#dc2626", "#fecaca"],
+    q: "What does the hint button do?",
+    a: "Hint highlights one valid pair of free, matching tiles you can remove right now. Use it when you're stuck.",
   },
   {
-    ref: "Philippians 4:13",
-    words: ["I", "can", "do", "all", "things", "through", "Christ", "who", "strengthens", "me", "every", "day", "in", "all", "ways", ""],
-    palette: ["#581c87", "#a855f7", "#e9d5ff"],
+    q: "What if no moves are left?",
+    a: "Use Shuffle to randomly redistribute the remaining symbols across the unremoved tile positions, opening up fresh matches.",
   },
   {
-    ref: "Proverbs 3:5",
-    words: ["Trust", "in", "the", "LORD", "with", "all", "your", "heart", "and", "lean", "not", "on", "your", "own", "mind", ""],
-    palette: ["#064e3b", "#10b981", "#a7f3d0"],
+    q: "Is there a time limit?",
+    a: "No — play at your own pace. The timer is just for fun and personal best tracking.",
   },
 ];
 
-function isSolvable(arr: number[]): boolean {
-  let inv = 0;
-  const flat = arr.filter((v) => v !== TOTAL - 1);
-  for (let i = 0; i < flat.length - 1; i++) {
-    for (let j = i + 1; j < flat.length; j++) {
-      if (flat[i] > flat[j]) inv++;
-    }
-  }
-  const blankRow = SIZE - Math.floor(arr.indexOf(TOTAL - 1) / SIZE);
-  return SIZE % 2 === 1 ? inv % 2 === 0 : (inv + blankRow) % 2 === 1;
-}
-
-function shuffleBoard(): number[] {
-  let arr: number[];
-  do {
-    arr = Array.from({ length: TOTAL }, (_, i) => i).sort(() => Math.random() - 0.5);
-  } while (!isSolvable(arr) || arr.every((v, i) => v === i));
-  return arr;
-}
-
-function isSolved(arr: number[]): boolean {
-  return arr.every((v, i) => v === i);
-}
-
 export default function BibleTiles() {
-  const [verseIdx, setVerseIdx] = useState(0);
-  const [board, setBoard] = useState<number[]>(shuffleBoard);
+  const [difficulty, setDifficulty] = useState<Difficulty>("easy");
+  const [tiles, setTiles] = useState<Tile[]>(() => buildTiles("easy"));
+  const [selected, setSelected] = useState<number | null>(null);
   const [moves, setMoves] = useState(0);
-  const verse = verses[verseIdx];
-  const solved = isSolved(board);
-  const inPlace = useMemo(() => board.filter((v, i) => v === i && v !== TOTAL - 1).length, [board]);
+  const [seconds, setSeconds] = useState(0);
+  const [running, setRunning] = useState(false);
+  const [history, setHistory] = useState<Tile[][]>([]);
+  const [hint, setHint] = useState<[number, number] | null>(null);
+  const [won, setWon] = useState(false);
 
-  const move = useCallback((idx: number) => {
-    if (solved) return;
-    const blank = board.indexOf(TOTAL - 1);
-    const r1 = Math.floor(idx / SIZE), c1 = idx % SIZE;
-    const r2 = Math.floor(blank / SIZE), c2 = blank % SIZE;
-    const adjacent = (Math.abs(r1 - r2) === 1 && c1 === c2) || (Math.abs(c1 - c2) === 1 && r1 === r2);
-    if (!adjacent) return;
-    const next = [...board];
-    [next[idx], next[blank]] = [next[blank], next[idx]];
-    setBoard(next);
-    setMoves((m) => m + 1);
-  }, [board, solved]);
-
-  function reset() {
-    setBoard(shuffleBoard());
-    setMoves(0);
-  }
-
-  function newVerse() {
-    setVerseIdx((i) => (i + 1) % verses.length);
-    setBoard(shuffleBoard());
-    setMoves(0);
-  }
+  const layout = LAYOUTS[difficulty];
 
   useEffect(() => {
-    function onKey(e: KeyboardEvent) {
-      if (solved) return;
-      const blank = board.indexOf(TOTAL - 1);
-      const r = Math.floor(blank / SIZE), c = blank % SIZE;
-      let target = -1;
-      if (e.key === "ArrowUp" && r < SIZE - 1) target = (r + 1) * SIZE + c;
-      else if (e.key === "ArrowDown" && r > 0) target = (r - 1) * SIZE + c;
-      else if (e.key === "ArrowLeft" && c < SIZE - 1) target = r * SIZE + (c + 1);
-      else if (e.key === "ArrowRight" && c > 0) target = r * SIZE + (c - 1);
-      if (target >= 0) {
-        e.preventDefault();
-        move(target);
+    if (!running || won) return;
+    const t = setInterval(() => setSeconds((s) => s + 1), 1000);
+    return () => clearInterval(t);
+  }, [running, won]);
+
+  useEffect(() => {
+    if (tiles.length > 0 && tiles.every((t) => t.removed)) {
+      setWon(true);
+      setRunning(false);
+    }
+  }, [tiles]);
+
+  function snapshot() {
+    setHistory((h) => [...h.slice(-19), tiles.map((t) => ({ ...t }))]);
+  }
+
+  function pick(i: number) {
+    if (won) return;
+    const tile = tiles[i];
+    if (!isFree(tile, tiles)) return;
+    if (!running) setRunning(true);
+    setHint(null);
+
+    if (selected === null) {
+      setSelected(i);
+      return;
+    }
+    if (selected === i) {
+      setSelected(null);
+      return;
+    }
+    const a = tiles[selected];
+    snapshot();
+    setMoves((m) => m + 1);
+    if (a.symbol === tile.symbol) {
+      setTiles((prev) =>
+        prev.map((t, j) => (j === i || j === selected ? { ...t, removed: true } : t))
+      );
+    }
+    setSelected(null);
+  }
+
+  function reset(diff: Difficulty = difficulty) {
+    setDifficulty(diff);
+    setTiles(buildTiles(diff));
+    setSelected(null);
+    setMoves(0);
+    setSeconds(0);
+    setRunning(false);
+    setHistory([]);
+    setHint(null);
+    setWon(false);
+  }
+
+  function undo() {
+    if (history.length === 0) return;
+    const last = history[history.length - 1];
+    setHistory((h) => h.slice(0, -1));
+    setTiles(last);
+    setSelected(null);
+  }
+
+  function findHint(): [number, number] | null {
+    const free = tiles
+      .map((t, i) => ({ t, i }))
+      .filter(({ t }) => !t.removed && isFree(t, tiles));
+    for (let a = 0; a < free.length; a++) {
+      for (let b = a + 1; b < free.length; b++) {
+        if (free[a].t.symbol === free[b].t.symbol) return [free[a].i, free[b].i];
       }
     }
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, [board, move, solved]);
+    return null;
+  }
 
-  const [c1, c2, c3] = verse.palette;
-  const boardBg = `radial-gradient(circle at 30% 20%, ${c3}22, transparent 60%), linear-gradient(135deg, ${c1} 0%, ${c2} 100%)`;
+  function showHint() {
+    const h = findHint();
+    if (h) setHint(h);
+  }
+
+  function shuffle() {
+    snapshot();
+    const remaining = tiles.filter((t) => !t.removed);
+    const symbols = remaining.map((t) => t.symbol).sort(() => Math.random() - 0.5);
+    let idx = 0;
+    setTiles((prev) =>
+      prev.map((t) => (t.removed ? t : { ...t, symbol: symbols[idx++] }))
+    );
+    setSelected(null);
+    setHint(null);
+  }
+
+  // compute board size
+  const { width, height } = useMemo(() => {
+    let maxX = 0, maxY = 0;
+    for (const spec of layout.layers) {
+      maxX = Math.max(maxX, spec.offsetX + spec.cols);
+      maxY = Math.max(maxY, spec.offsetY + spec.rows);
+    }
+    return { width: maxX * layout.tilePx, height: maxY * layout.tilePx };
+  }, [layout]);
+
+  const remaining = tiles.filter((t) => !t.removed).length;
 
   return (
     <>
       <Helmet>
-        <title>Bible Tiles – Sliding Puzzle Bible Verse Game | Bible Games Online</title>
-        <meta name="description" content="Play Bible Tiles online — slide tiles into the right order to reveal a hidden Bible verse. A scripture-themed sliding puzzle for all ages." />
+        <title>Bible Tiles – Free Mahjong-Style Bible Matching Game | Bible Games Online</title>
+        <meta
+          name="description"
+          content="Play Bible Tiles, a free Mahjong-style matching game with Bible-themed icons. Match pairs of free tiles across multiple layers — easy, medium and hard layouts."
+        />
       </Helmet>
 
       <GameHero
-        icon={<LayoutGrid className="w-6 h-6" />}
+        icon={<Layers className="w-6 h-6" />}
         title="Bible Tiles"
-        subtitle="Slide the tiles into the correct order to reveal a hidden Bible verse."
-        meta={
-          <div className="flex flex-wrap gap-2 justify-center">
-            <Badge variant="outline" className="bg-transparent border-primary/40 text-primary">{verse.ref}</Badge>
-            <Badge className="bg-primary text-primary-foreground">Moves: {moves}</Badge>
-            <Badge variant="outline" className="bg-transparent border-white/20 text-white/80">{inPlace}/15 in place</Badge>
-          </div>
-        }
+        subtitle="A peaceful Mahjong-style matching game with Bible icons. Remove pairs of free tiles to clear the board."
       />
 
-      <section className="py-12 bg-gradient-to-b from-background via-background to-muted/40">
-        <div className="container mx-auto px-4 max-w-lg">
-          <div className="rounded-3xl border border-border bg-card shadow-card-lg p-4 md:p-6 relative overflow-hidden">
-            <div className="absolute inset-0 opacity-[0.04] pointer-events-none" style={{ backgroundImage: "radial-gradient(circle, currentColor 1px, transparent 1px)", backgroundSize: "16px 16px" }} />
-
-            <div
-              className="relative grid mx-auto rounded-2xl p-3 shadow-inner"
-              style={{
-                gridTemplateColumns: `repeat(${SIZE}, minmax(0, 1fr))`,
-                gap: "8px",
-                maxWidth: "420px",
-                background: boardBg,
-              }}
-            >
-              {board.map((tileVal, idx) => {
-                const isBlank = tileVal === TOTAL - 1;
-                const word = verse.words[tileVal];
-                const correct = tileVal === idx;
-                if (isBlank) {
-                  return (
-                    <div
-                      key={idx}
-                      className="aspect-square rounded-xl border-2 border-dashed border-white/20 bg-black/10"
-                      aria-hidden
-                    />
-                  );
-                }
-                return (
-                  <motion.button
-                    key={idx}
-                    layout
-                    transition={{ type: "spring", stiffness: 600, damping: 35 }}
-                    onClick={() => move(idx)}
-                    aria-label={`Tile ${tileVal + 1}: ${word}. Position ${idx + 1} of 16.`}
-                    className={`aspect-square rounded-xl flex flex-col items-center justify-center p-1 text-center font-bold relative overflow-hidden group transition-all
-                      ${solved
-                        ? "bg-gradient-to-br from-primary to-primary/80 text-primary-foreground shadow-gold ring-2 ring-primary/40"
-                        : correct
-                          ? "bg-gradient-to-br from-primary to-amber-500 text-primary-foreground shadow-md ring-2 ring-primary/60"
-                          : "bg-gradient-to-br from-white to-slate-100 text-slate-900 shadow-md hover:shadow-xl hover:-translate-y-0.5 hover:from-amber-50 hover:to-white cursor-pointer"
-                      }`}
+      <section className="py-10 bg-background">
+        <div className="container mx-auto px-4 max-w-5xl">
+          <div className="rounded-3xl border border-border bg-card shadow-card-lg p-5 md:p-7">
+            {/* Top bar */}
+            <div className="flex flex-wrap items-center justify-between gap-3 mb-5">
+              <div className="flex items-center gap-2 flex-wrap">
+                <span className="text-xs font-semibold text-muted-foreground mr-1">DIFFICULTY:</span>
+                {(["easy", "medium", "hard"] as Difficulty[]).map((d) => (
+                  <Button
+                    key={d}
+                    size="sm"
+                    variant={difficulty === d ? "default" : "outline"}
+                    onClick={() => reset(d)}
+                    className="capitalize"
                   >
-                    <span className={`absolute top-1 left-1.5 text-[9px] font-black tracking-tight px-1.5 py-0.5 rounded-full
-                      ${correct || solved ? "bg-white/30 text-white" : "bg-primary/15 text-primary"}`}>
-                      {tileVal + 1}
-                    </span>
-                    {correct && !solved && (
-                      <Check className="absolute top-1 right-1 w-3 h-3 text-white" />
-                    )}
-                    <span className="font-serif text-base md:text-lg leading-tight px-1 break-words drop-shadow-sm">{word}</span>
-                  </motion.button>
-                );
-              })}
-            </div>
-
-            <div className="mt-4">
-              <div className="h-1.5 rounded-full bg-muted overflow-hidden">
-                <motion.div
-                  className="h-full bg-gradient-to-r from-primary to-amber-500"
-                  animate={{ width: `${(inPlace / 15) * 100}%` }}
-                  transition={{ type: "spring", stiffness: 200, damping: 25 }}
-                />
+                    {d}
+                  </Button>
+                ))}
               </div>
-              <p className="text-center text-xs text-muted-foreground mt-2">
-                Click any tile next to the empty square to slide it. Or use arrow keys.
-              </p>
+              <div className="flex items-center gap-2 flex-wrap">
+                <Badge variant="secondary" className="gap-1">
+                  <TimerIcon className="w-3.5 h-3.5" />
+                  {Math.floor(seconds / 60)}:{String(seconds % 60).padStart(2, "0")}
+                </Badge>
+                <Badge variant="secondary">Moves: {moves}</Badge>
+                <Badge className="bg-primary text-primary-foreground">
+                  Tiles: {remaining}/{tiles.length}
+                </Badge>
+              </div>
             </div>
 
+            {/* Action buttons */}
+            <div className="flex flex-wrap gap-2 mb-5">
+              <Button size="sm" variant="outline" onClick={showHint} disabled={won}>
+                <Lightbulb className="w-4 h-4 mr-1" /> Hint
+              </Button>
+              <Button size="sm" variant="outline" onClick={shuffle} disabled={won || remaining === 0}>
+                <Shuffle className="w-4 h-4 mr-1" /> Shuffle
+              </Button>
+              <Button size="sm" variant="outline" onClick={undo} disabled={history.length === 0}>
+                <Undo2 className="w-4 h-4 mr-1" /> Undo
+              </Button>
+              <Button size="sm" variant="outline" onClick={() => reset()}>
+                <RotateCcw className="w-4 h-4 mr-1" /> Restart
+              </Button>
+            </div>
+
+            {/* Win banner */}
             <AnimatePresence>
-              {solved && (
+              {won && (
                 <motion.div
-                  initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                  initial={{ opacity: 0, y: -10, scale: 0.95 }}
                   animate={{ opacity: 1, y: 0, scale: 1 }}
                   exit={{ opacity: 0 }}
-                  className="mt-5 rounded-2xl border border-primary/30 bg-gradient-to-br from-primary/15 to-amber-500/10 p-5 text-center"
+                  className="rounded-2xl border border-primary/30 bg-primary/10 p-5 text-center mb-5"
                 >
-                  <div className="inline-flex items-center justify-center w-14 h-14 rounded-full bg-gradient-to-br from-primary to-amber-500 mb-2 shadow-gold">
-                    <Trophy className="w-7 h-7 text-white" />
-                  </div>
-                  <p className="font-bold text-xl mb-1">Verse Revealed!</p>
-                  <p className="font-serif italic text-base text-foreground/90 leading-relaxed">"{verse.words.filter(Boolean).join(" ")}"</p>
-                  <p className="text-sm text-primary font-bold mt-2 mb-4">— {verse.ref} · solved in {moves} moves</p>
-                  <Button onClick={newVerse} size="lg" className="font-bold"><Shuffle className="mr-2 w-4 h-4" /> Play Next Verse</Button>
+                  <Trophy className="w-12 h-12 text-primary mx-auto mb-2" />
+                  <p className="font-bold text-xl mb-1">You Cleared the Board!</p>
+                  <p className="text-sm text-muted-foreground mb-3">
+                    Finished in {moves} moves and {Math.floor(seconds / 60)}:
+                    {String(seconds % 60).padStart(2, "0")}.
+                  </p>
+                  <blockquote className="italic text-foreground max-w-md mx-auto mb-1">
+                    {WIN_VERSE.text}
+                  </blockquote>
+                  <p className="text-primary font-semibold text-sm mb-4">{WIN_VERSE.ref}</p>
+                  <Button onClick={() => reset()}>Play Again</Button>
                 </motion.div>
               )}
             </AnimatePresence>
 
-            <div className="mt-5 flex gap-2 justify-center">
-              <Button variant="outline" size="sm" onClick={reset}>
-                <RotateCcw className="w-4 h-4 mr-1.5" /> Reshuffle
-              </Button>
-              <Button variant="ghost" size="sm" onClick={newVerse}>
-                <Shuffle className="w-4 h-4 mr-1.5" /> New Verse
-              </Button>
+            {/* Board */}
+            <div className="overflow-auto no-select rounded-2xl p-4 md:p-6"
+              style={{
+                background:
+                  "radial-gradient(ellipse at center, #064e3b 0%, #022c22 100%)",
+                boxShadow: "inset 0 0 60px rgba(0,0,0,0.45)",
+              }}
+            >
+              <div
+                className="relative mx-auto"
+                style={{ width: width + 16, height: height + 16, minWidth: width + 16 }}
+              >
+                {tiles.map((tile, i) => {
+                  if (tile.removed) return null;
+                  const free = isFree(tile, tiles);
+                  const isSelected = selected === i;
+                  const isHinted = hint && (hint[0] === i || hint[1] === i);
+                  return (
+                    <motion.button
+                      key={tile.id}
+                      initial={{ opacity: 0, scale: 0.8 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      whileTap={{ scale: 0.92 }}
+                      onClick={() => pick(i)}
+                      className={`absolute rounded-md flex items-center justify-center font-bold transition-colors
+                        ${free ? "cursor-pointer" : "cursor-not-allowed"}
+                      `}
+                      style={{
+                        width: layout.tilePx - 4,
+                        height: layout.tilePx - 4,
+                        left: tile.x * layout.tilePx + tile.layer * 4 + 8,
+                        top: tile.y * layout.tilePx - tile.layer * 4 + 8,
+                        zIndex: tile.layer * 100 + tile.y * 2 + 1,
+                        fontSize: Math.floor(layout.tilePx * 0.55),
+                        background: isSelected
+                          ? "linear-gradient(180deg, #fbbf24 0%, #f59e0b 100%)"
+                          : isHinted
+                          ? "linear-gradient(180deg, #fef3c7 0%, #fde68a 100%)"
+                          : free
+                          ? "linear-gradient(180deg, #fffbeb 0%, #fef3c7 100%)"
+                          : "linear-gradient(180deg, #d6d3d1 0%, #a8a29e 100%)",
+                        color: isSelected ? "#fff" : free ? "#1c1917" : "#44403c",
+                        opacity: free ? 1 : 0.55,
+                        boxShadow: isSelected
+                          ? "0 0 0 3px #fbbf24, 0 0 18px rgba(251,191,36,0.6), inset 0 -3px 0 rgba(0,0,0,0.2)"
+                          : isHinted
+                          ? "0 0 0 3px #fbbf24, 0 0 14px rgba(251,191,36,0.5), inset 0 -3px 0 rgba(0,0,0,0.1)"
+                          : free
+                          ? "inset 0 -4px 0 rgba(180,140,40,0.45), inset 0 1px 0 rgba(255,255,255,0.9), 0 3px 6px rgba(0,0,0,0.4), 0 0 0 1px rgba(120,80,20,0.5)"
+                          : "inset 0 -2px 0 rgba(0,0,0,0.15), 0 1px 2px rgba(0,0,0,0.3), 0 0 0 1px rgba(80,80,80,0.5)",
+                        textShadow: free ? "0 1px 0 rgba(255,255,255,0.4)" : "none",
+                      }}
+                    >
+                      <span className="leading-none">{tile.symbol}</span>
+                    </motion.button>
+                  );
+                })}
+              </div>
             </div>
+
+            <p className="text-xs text-muted-foreground text-center mt-4">
+              Tap two matching free tiles to remove them. A tile is free when nothing covers it and at least one side (left or right) is open.
+            </p>
           </div>
         </div>
       </section>
 
+      <ExploreMoreGames cards={exploreOthers("tiles", 4)} />
+
       <GameContent>
-        <ContentBlock title="How to Play Bible Tiles">
+        <ContentBlock title="A Calming Bible Matching Game">
           <p>
-            Each round scrambles a familiar Bible verse across 15 movable tiles plus one empty space. Click any tile next to the empty square — it slides into place. Your job is to rearrange the tiles in the correct order so the verse reads top to bottom, left to right. Solve it in as few moves as possible, then advance to a new verse.
-          </p>
-          <p>
-            Prefer keyboard play? Use the arrow keys: each press slides whichever tile is opposite the direction you press, just like the classic 15-puzzle. Tiles already in their correct spot light up gold with a checkmark, and a progress bar at the bottom tracks how close you are to completing the verse.
+            Bible Tiles takes the timeless mechanics of Mahjong solitaire and wraps them in scripture-themed icons — doves, lambs, scrolls, lions, crowns, and more. Find pairs of identical free tiles and remove them until the entire board is clear. It's a meditative, relaxing puzzle that pairs nicely with quiet study or evening unwinding.
           </p>
         </ContentBlock>
-        <ContentBlock title="A Sliding Puzzle With Scripture at Its Heart">
+        <ContentBlock title="How the Game Works">
           <p>
-            Bible Tiles takes the classic sliding-tile puzzle that has entertained players for over a century and gives it spiritual depth. Instead of generic numbers, you're sliding the actual words of Psalm 23, John 3:16, Philippians 4:13, and other beloved passages into place. By the time you've solved a verse, you've read it dozens of times — making this one of the most enjoyable ways to passively memorize scripture.
+            Tiles are stacked in layers. A tile is considered <strong>free</strong> only when no tile sits directly on top of it and at least one of its left or right edges is open. When two free tiles share the same symbol, you can match them and remove both. The board grows from a 72-tile flat layout on Easy to a classic 144-tile, two-layer arrangement on Hard.
           </p>
+          <ul className="list-disc pl-5 space-y-1.5">
+            <li><strong>Hint</strong> highlights a valid pair you can play right now.</li>
+            <li><strong>Shuffle</strong> redistributes the remaining symbols when you're stuck.</li>
+            <li><strong>Undo</strong> rolls back your last action.</li>
+            <li><strong>Restart</strong> deals a fresh board at the current difficulty.</li>
+          </ul>
+        </ContentBlock>
+        <ContentBlock title="Why Tile Games Help You Focus">
           <p>
-            Looking for more puzzle-based scripture games? Piece together a complete biblical scene in our <Link href="/bible-jigsaw-puzzle/" className="text-primary font-medium underline-offset-4 hover:underline">Bible Jigsaw Puzzle</Link>, hunt hidden words in <Link href="/bible-word-games/" className="text-primary font-medium underline-offset-4 hover:underline">Bible Word Search</Link>, or test your daily-puzzle skills with <Link href="/bible-wordle/" className="text-primary font-medium underline-offset-4 hover:underline">Bible Wordle</Link>.
+            Matching games gently exercise visual scanning, short-term memory, and patient observation — the same mental muscles that serve you well in scripture study. Playing a few rounds of Bible Tiles before opening your Bible can be a calming way to settle your attention. Unlike timed quiz games, there's no pressure here; the goal is simply to clear the board, one quiet pair at a time.
           </p>
         </ContentBlock>
       </GameContent>
 
-      <ExploreMoreGames cards={exploreOthers("tiles", 4)} />
-      <FaqSection />
+      <FaqSection items={tileFaqs} />
     </>
   );
 }
