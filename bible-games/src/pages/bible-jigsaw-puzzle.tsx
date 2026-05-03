@@ -1,7 +1,8 @@
 import { useState, useEffect, useRef, useMemo, useCallback, cloneElement } from "react";
 import { Helmet } from "react-helmet-async";
-import { Puzzle, RotateCcw, Trophy, Eye, EyeOff, Shuffle, Image as ImageIcon, Timer as TimerIcon } from "lucide-react";
+import { Puzzle, RotateCcw, Trophy, Eye, EyeOff, Shuffle, Image as ImageIcon, Timer as TimerIcon, Volume2, VolumeX } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import confetti from "canvas-confetti";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { GameHero } from "@/components/games/GameHero";
@@ -11,6 +12,7 @@ import { GameContent, ContentBlock } from "@/components/games/GameContent";
 import { exploreOthers } from "@/lib/explore-games";
 import { bibleScenes, type BibleScene } from "@/lib/bible-scenes";
 import { BEST_KEYS, formatTime, getBest, saveBest, type BestRecord } from "@/lib/local-bests";
+import { useSound } from "@/lib/sounds";
 
 type Difficulty = 12 | 24 | 48 | 96;
 const DIFFS: { value: Difficulty; rows: number; cols: number; label: string }[] = [
@@ -63,6 +65,8 @@ export default function BibleJigsawPuzzle() {
   const [drag, setDrag] = useState<{ id: number; offX: number; offY: number; pointerId: number } | null>(null);
   const [best, setBest] = useState<BestRecord | null>(() => getBest(BEST_KEYS.jigsaw, `${bibleScenes[0].id}:12`));
   const [newBestTime, setNewBestTime] = useState(false);
+  const { enabled: soundOn, toggle: toggleSound, play } = useSound();
+  const winFiredRef = useRef(false);
 
   const containerRef = useRef<HTMLDivElement>(null);
   const scene = bibleScenes[sceneIdx];
@@ -127,6 +131,26 @@ export default function BibleJigsawPuzzle() {
     }
   }, [pieces, won, bestSlot, seconds]);
 
+  useEffect(() => {
+    if (won && !winFiredRef.current) {
+      winFiredRef.current = true;
+      play("win");
+      const fire = (originX: number) => {
+        confetti({
+          particleCount: 90,
+          spread: 75,
+          startVelocity: 45,
+          origin: { x: originX, y: 0.6 },
+          colors: ["#fbbf24", "#f59e0b", "#10b981", "#3b82f6", "#ec4899"],
+        });
+      };
+      fire(0.25);
+      setTimeout(() => fire(0.75), 200);
+      setTimeout(() => fire(0.5), 400);
+    }
+    if (!won) winFiredRef.current = false;
+  }, [won, play]);
+
   function shuffleTray() {
     setPieces((prev) =>
       prev.map((p) =>
@@ -187,6 +211,7 @@ export default function BibleJigsawPuzzle() {
       setPieces((prev) =>
         prev.map((p) => (p.id === piece.id ? { ...p, x: targetX, y: targetY, placed: true } : p))
       );
+      play("snap");
     }
     // Pointer capture is released automatically by the browser on pointerup.
     void e;
@@ -279,6 +304,16 @@ export default function BibleJigsawPuzzle() {
               </Button>
               <Button size="sm" variant="outline" onClick={() => init()}>
                 <RotateCcw className="w-4 h-4 mr-1" /> Restart
+              </Button>
+              <Button
+                size="sm"
+                variant="outline"
+                onClick={toggleSound}
+                aria-pressed={soundOn}
+                title={soundOn ? "Mute sound" : "Unmute sound"}
+              >
+                {soundOn ? <Volume2 className="w-4 h-4 mr-1" /> : <VolumeX className="w-4 h-4 mr-1" />}
+                {soundOn ? "Sound On" : "Sound Off"}
               </Button>
             </div>
 

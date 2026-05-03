@@ -1,7 +1,8 @@
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, useRef } from "react";
 import { Helmet } from "react-helmet-async";
-import { Layers, RotateCcw, Trophy, Lightbulb, Shuffle, Undo2, Timer as TimerIcon } from "lucide-react";
+import { Layers, RotateCcw, Trophy, Lightbulb, Shuffle, Undo2, Timer as TimerIcon, Volume2, VolumeX } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import confetti from "canvas-confetti";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { GameHero } from "@/components/games/GameHero";
@@ -10,6 +11,7 @@ import { FaqSection } from "@/components/games/FaqSection";
 import { GameContent, ContentBlock } from "@/components/games/GameContent";
 import { exploreOthers } from "@/lib/explore-games";
 import { BEST_KEYS, formatTime, getBest, saveBest, type BestRecord } from "@/lib/local-bests";
+import { useSound } from "@/lib/sounds";
 
 type Difficulty = "easy" | "medium" | "hard";
 
@@ -135,6 +137,8 @@ export default function BibleTiles() {
   const [best, setBest] = useState<BestRecord | null>(() => getBest(BEST_KEYS.tiles, "easy"));
   const [newBestTime, setNewBestTime] = useState(false);
   const [newBestMoves, setNewBestMoves] = useState(false);
+  const { enabled: soundOn, toggle: toggleSound, play } = useSound();
+  const winFiredRef = useRef(false);
 
   const layout = LAYOUTS[difficulty];
 
@@ -154,6 +158,26 @@ export default function BibleTiles() {
       setNewBestMoves(result.newBestMoves);
     }
   }, [tiles, won, difficulty, seconds, moves]);
+
+  useEffect(() => {
+    if (won && !winFiredRef.current) {
+      winFiredRef.current = true;
+      play("win");
+      const fire = (originX: number) => {
+        confetti({
+          particleCount: 80,
+          spread: 70,
+          startVelocity: 45,
+          origin: { x: originX, y: 0.6 },
+          colors: ["#fbbf24", "#f59e0b", "#10b981", "#3b82f6", "#ec4899"],
+        });
+      };
+      fire(0.25);
+      setTimeout(() => fire(0.75), 200);
+      setTimeout(() => fire(0.5), 400);
+    }
+    if (!won) winFiredRef.current = false;
+  }, [won, play]);
 
   function snapshot() {
     setHistory((h) => [...h.slice(-19), tiles.map((t) => ({ ...t }))]);
@@ -181,6 +205,9 @@ export default function BibleTiles() {
       setTiles((prev) =>
         prev.map((t, j) => (j === i || j === selected ? { ...t, removed: true } : t))
       );
+      play("match");
+    } else {
+      play("mismatch");
     }
     setSelected(null);
   }
@@ -314,6 +341,16 @@ export default function BibleTiles() {
               </Button>
               <Button size="sm" variant="outline" onClick={() => reset()}>
                 <RotateCcw className="w-4 h-4 mr-1" /> Restart
+              </Button>
+              <Button
+                size="sm"
+                variant="outline"
+                onClick={toggleSound}
+                aria-pressed={soundOn}
+                title={soundOn ? "Mute sound" : "Unmute sound"}
+              >
+                {soundOn ? <Volume2 className="w-4 h-4 mr-1" /> : <VolumeX className="w-4 h-4 mr-1" />}
+                {soundOn ? "Sound On" : "Sound Off"}
               </Button>
             </div>
 
